@@ -1,5 +1,6 @@
-# telegram-chat-sync
-A simple code to sync Telegram Chats. Forward the message of one chat to another. May be used for channel sync. ( same message accross channels ); uses Telethon.
+# telegram-chat-forward
+
+A simple script to forward all the messages of one chat (private/group/channel) to another. Made using Telethon. Can be used to back up the contents of a chat to another place.
 
 ## Signing in
 
