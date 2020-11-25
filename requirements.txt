@@ -1,0 +1,9 @@
+cffi==1.14.4
+cryptg==0.2.post2
+Pillow==8.0.1
+pyaes==1.6.1
+pyasn1==0.4.8
+pycparser==2.20
+python-dotenv==0.15.0
+rsa==4.6
+Telethon==1.17.5
