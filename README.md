@@ -9,8 +9,7 @@ A simple script to forward all the messages of one chat (private/group/channel) 
 ## Signing in
 
 First of all you need to have your Telegram account's `api_id` and `api_hash`. 
-
-Learn [how to sign in](https://docs.telethon.dev/en/latest/basic/signing-in.html) using Telethon.
+Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) them.
 
 ## Installation
 
@@ -39,12 +38,11 @@ api_hash=kjfjfk9r9JOIJOIjoijf9wr0w
 
 **Replace the above values with the actual values for your telegram account.**
 
-Fill up the `config.ini` file with your forwarding configurations.
-See the existing file for example.
+After this you need to fill up the `config.ini` file with your forwarding configurations.
 
 ## Note
 
-- The `from` and `to` in the config, must be the visible names and not the user name. [Click here](https://user-images.githubusercontent.com/66209958/100173400-7252f480-2ef0-11eb-993a-0ff8a3ddaac1.png) to see the difference between the visible name and the user name of a chat.
+- The `from` and `to` in the config, must be the visible names of the chat and not the user-name. [Click here](https://user-images.githubusercontent.com/66209958/100173400-7252f480-2ef0-11eb-993a-0ff8a3ddaac1.png) to see the difference between the visible name and the user-name of a chat.
 
 - Any line starting with `;` in a `.ini` file, is treated as a comment.
 
