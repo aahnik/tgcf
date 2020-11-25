@@ -32,4 +32,4 @@ A session file called `forward_sync.session` will be generated. Please don't del
 To sync another pair of chats, copy the folder with the session file, and then just tweak the `config.ini`, 
 with a different source and destination for forwarding.
 
-**Feel free to ask your questions in the comments below or [![telegram-chat](https://img.shields.io/badge/chat-@aahnikdaw-blue?logo=telegram)](https://telegram.me/aahnikdaw)**
+**Feel free to ask your questions in [![telegram-chat](https://img.shields.io/badge/chat-@aahnikdaw-blue?logo=telegram)](https://telegram.me/aahnikdaw)**
