@@ -4,6 +4,7 @@ import asyncio
 import logging
 
 from telethon.tl.patched import MessageService
+from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
 from settings import API_ID, API_HASH, forwards, get_forward, update_offset
 
@@ -45,10 +46,13 @@ async def forward_job():
                     await client.send_message(to_chat, message)
                     last_id = str(message.id)
                     logging.info('forwarding message with id = %s', last_id)
-                except Exception as err:
+                    update_offset(forward, last_id)
+                except FloodWaitError as err:
                     logging.exception(err)
+                    quit()
+                except Exception as e:
+                    logging.exception(e)
 
-            update_offset(forward, last_id)
             logging.info('Completed working with %s', forward)
 
 
