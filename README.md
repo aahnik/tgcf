@@ -4,19 +4,28 @@ A simple script to forward all the messages of one chat (private/group/channel) 
 
 ## Signing in
 
-First of all you need to have your Account's api_id and api_hash. Read [How to sign in ?](https://docs.telethon.dev/en/latest/basic/signing-in.html)
+First of all you need to have your Telegram account's `api_id` and `api_hash`. 
+
+Learn [How to sign in ?](https://docs.telethon.dev/en/latest/basic/signing-in.html) using Telethon.
 
 ## Installation
 
-- Install the latest version of [Telethon](https://docs.telethon.dev/en/latest/basic/installation.html)
+- Install the latest version of [Telethon](https://docs.telethon.dev/en/latest/basic/installation.html).
 
-- Then clone this repo and get started.
+            pip3 install -U telethon cryptg pillow
+- You may install some optional dependancies to improve performance.
+
+            sudo apt update && sudo apt install clang lib{jpeg-turbo,webp}-dev python{,-dev} zlib-dev
+
+- Now clone this repo to get started.
+
+             git clone https://github.com/aahnik/telegram-chat-forward.git
 
 ## Setup
 
-- Fill up the `config.ini` file with the details.
+- Fill up the `config.ini` file with your details.
 
->Note: The `from` and `to` in the config, must be visibe names and not the user name.
+**Note:** The `from` and `to` in the config, must be the visible names and not the user name.
 
 What is the difference between visible name and user name ?
 
@@ -26,11 +35,11 @@ What is the difference between visible name and user name ?
 
 After setting up the `config.ini`, run the `forward.py` script.
 
+           python3 forward.py
+
 You have to login for the first time using your phone number and login code. 
 
 A session file called `forward_sync.session` will be generated. Please don't delete this and make sure to keep this file secret.
 
-To sync another pair of chats, copy the folder with the session file, and then just tweak the `config.ini`, 
-with a different source and destination for forwarding.
 
 **Feel free to ask your questions in [![telegram-chat](https://img.shields.io/badge/chat-@aahnikdaw-blue?logo=telegram)](https://telegram.me/aahnikdaw)**
