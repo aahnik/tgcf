@@ -38,7 +38,7 @@ api_hash=kjfjfk9r9JOIJOIjoijf9wr0w
 
 **Replace the above values with the actual values for your telegram account.**
 
-After this you need to fill up the `config.ini` file with your forwarding configurations.
+After this you need to create and fill up the `config.ini` file with your forwarding configurations.
 
 ## Note
 
@@ -56,6 +56,11 @@ from = whatAz
 to = testWha
 offset = 0
 ; the offset will auto-update, keep it zero initially
+[another name]
+; the name of section must be unique
+from = someone
+to = another
+offset = 0
 ```
 
 - You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
