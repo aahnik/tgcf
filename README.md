@@ -9,7 +9,7 @@ First of all you need to have your Account's api_id and api_hash. Read [How to s
 
 - Install the latest version of [Telethon](https://docs.telethon.dev/en/latest/basic/installation.html)
 
-- Then clone this gist and get started.
+- Then clone this repo and get started.
 
 ## Setup
 
