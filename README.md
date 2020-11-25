@@ -13,10 +13,10 @@ Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) th
 
 ## Installation
 
-- Clone this repo to get started.
+- Clone this repo and move into it to get started.
 
 ```shell
-git clone https://github.com/aahnik/telegram-chat-forward.git
+git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-chat-forward
 ```
 
 - Create a virtual environment and install dependencies.
