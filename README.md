@@ -25,6 +25,7 @@ git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-cha
 python3 -m venv venv && . venv/bin/activate
 pip3 install -r requirements.txt
 ```
+> Note: For Windows, the process for activating a virtual environment is different, search Google.
 
 ## Setup
 
