@@ -8,7 +8,6 @@ from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
 from settings import API_ID, API_HASH, forwards, get_forward, update_offset
 
-
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
@@ -19,22 +18,7 @@ async def forward_job():
     async with TelegramClient('forwarder', API_ID, API_HASH) as client:
         for forward in forwards:
             from_chat, to_chat, offset = get_forward(forward)
-            _from, _to = None, None
 
-            async for dialog in client.iter_dialogs():
-                if dialog.name == to_chat:
-                    _to = dialog
-                elif dialog.name == from_chat:
-                    _from = dialog
-                if (_from and _to):
-                    break
-
-            if not (_from and _to):
-                logging.warning(
-                    'Make sure to have correct `from` and `to` for %s in config.ini', forward)
-                continue
-            logging.info(
-                'Succesfully got the chat of `from` and `to` for %s', forward)
             if not offset:
                 offset = 0
 
@@ -52,6 +36,7 @@ async def forward_job():
                     quit()
                 except Exception as e:
                     logging.exception(e)
+                    quit()
 
             logging.info('Completed working with %s', forward)
 
