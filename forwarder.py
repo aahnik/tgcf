@@ -12,6 +12,13 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 
 
+def _(string):
+    try:
+        return int(string)
+    except:
+        return string
+
+
 async def forward_job():
     ''' the function that does the job 😂 '''
 
@@ -23,11 +30,11 @@ async def forward_job():
                 offset = 0
 
             last_id = 0
-            async for message in client.iter_messages(from_chat, reverse=True, offset_id=offset):
+            async for message in client.iter_messages(_(from_chat), reverse=True, offset_id=offset):
                 if isinstance(message, MessageService):
                     continue
                 try:
-                    await client.send_message(to_chat, message)
+                    await client.send_message(_(to_chat), message)
                     last_id = str(message.id)
                     logging.info('forwarding message with id = %s', last_id)
                     update_offset(forward, last_id)
