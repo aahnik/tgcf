@@ -66,6 +66,8 @@ offset = 0
 
 - You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
 
+> **Advanced** : You may use the `chat_id` instead of visible name. To get the chat id of a particular chat/group/channel run `get_chat_id.py` and then enter the user-name/phone/link of the chat.
+
 ## Execution
 
 After setting up the `config.ini`, run the `forward.py` script.
@@ -74,7 +76,7 @@ After setting up the `config.ini`, run the `forward.py` script.
 python3 forward.py
 ```
 
-You have to login for the first time using your phone number and login code.
+You have to login for the first time using your phone number (inter-national format) and login code.
 
 A session file called `forwarder.session` will be generated. Please don't delete this and make sure to keep this file secret.
 
