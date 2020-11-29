@@ -15,7 +15,7 @@ configur.read('config.ini')
 
 forwards = configur.sections()
 
-assert forwards
+
 
 
 def get_forward(forward: str) -> tuple:

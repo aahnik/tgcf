@@ -8,6 +8,8 @@ from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
 from settings import API_ID, API_HASH, forwards, get_forward, update_offset
 
+assert forwards
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
