@@ -66,7 +66,7 @@ offset = 0
 
 - You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
 
-> **Advanced** : You may use the `chat_id` instead of visible name. To get the chat id of a particular chat/group/channel run `get_chat_id.py` and then enter the user-name/phone/link of the chat.
+> **Advanced** : You may use the `chat id` instead of visible name. To get the `chat id` of a particular chat/group/channel run `get_chat_id.py` and then enter the user-name/phone/link of the chat.
 
 ## Execution
 
