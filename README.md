@@ -70,10 +70,10 @@ offset = 0
 
 ## Execution
 
-After setting up the `config.ini`, run the `forward.py` script.
+After setting up the `config.ini`, run the `forwarder.py` script.
 
 ```shell
-python3 forward.py
+python3 forwarder.py
 ```
 
 You have to login for the first time using your phone number (inter-national format) and login code.
