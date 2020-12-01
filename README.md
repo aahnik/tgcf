@@ -80,4 +80,4 @@ You have to login for the first time using your phone number (inter-national for
 
 A session file called `forwarder.session` will be generated. Please don't delete this and make sure to keep this file secret.
 
-Feel free to ask your questions in the issues section of this repo.
+Feel free to ask your questions via [Telegram chat](https://telegram.me/aahnikdaw) with me. For bugs and feature requests use the [issues](https://github.com/aahnik/telegram-chat-forward/issues/new) section of this repo.
