@@ -13,6 +13,8 @@ assert forwards
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
+SENT_VIA = f'\n__Sent via__ `{str(__file__)}`'
+
 
 def _(string):
     try:
@@ -25,6 +27,7 @@ async def forward_job():
     ''' the function that does the job 😂 '''
 
     async with TelegramClient('forwarder', API_ID, API_HASH) as client:
+
         confirm = ''' IMPORTANT 🛑
             Are you sure that your `config.ini` is correct ?
 
@@ -35,6 +38,7 @@ async def forward_job():
 
         input(confirm)
 
+        error_occured = False
         for forward in forwards:
             from_chat, to_chat, offset = get_forward(forward)
 
@@ -51,17 +55,24 @@ async def forward_job():
                     last_id = str(message.id)
                     logging.info('forwarding message with id = %s', last_id)
                     update_offset(forward, last_id)
-                except FloodWaitError as err:
-                    print('Run the script again after some time')
+                except FloodWaitError as fwe:
+                    print(f'\n{fwe}\n\nRun the script again after some time. \
+                        FloodWaitError Occured')
+                    quit()
+                except Exception as err:
                     logging.exception(err)
-                    print('Run the script again after some time')
-                    quit()
-                except Exception as e:
-                    logging.exception(e)
-
-                    quit()
+                    error_occured = True
 
             logging.info('Completed working with %s', forward)
+
+        await client.send_file('me', 'config.ini', caption='This is your config file for telegram-chat-forward.')
+
+        message = 'Your forward job has completed.' if not error_occured else 'Some errors occured. Please see the output on terminal. Contact Developer.'
+        await client.send_message('me', f'''Hi !
+        \n**{message}**
+        \n**Telegram Chat Forward** is developed by @AahnikDaw.
+        \nPlease star 🌟 on [GitHub](https://github.com/aahnik/telegram-chat-forward).
+        {SENT_VIA}''', link_preview=False)
 
 if __name__ == "__main__":
     asyncio.run(forward_job())
