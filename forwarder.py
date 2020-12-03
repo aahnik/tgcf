@@ -1,4 +1,4 @@
-''' A script to send all messages from one chat to another '''
+''' A script to send all messages from one chat to another. '''
 
 import asyncio
 import logging
