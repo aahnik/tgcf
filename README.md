@@ -25,6 +25,7 @@ git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-cha
 python3 -m venv venv && . venv/bin/activate
 pip3 install -r requirements.txt
 ```
+
 > Note: For Windows, the process for activating a virtual environment is different, search Google.
 
 ## Setup
@@ -44,9 +45,7 @@ After this you need to create and fill up the `config.ini` file with your forwar
 ## Note
 
 - The `from` and `to` in the `config.ini` has to be a username/chat_id of the chat.
-- To confirm that you are using the correct `from` and `to` run the `get_chat_info.py` script.
-
-
+- **To confirm that you are using the correct `from` and `to` run the `get_chat_info.py` script.**
 
 - You may have as many as forwarding pairs as you wish. Make sure to give a unique header to each pair. Follow the syntax shown below.
 
