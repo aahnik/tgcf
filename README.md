@@ -43,9 +43,10 @@ After this you need to create and fill up the `config.ini` file with your forwar
 
 ## Note
 
-- The `from` and `to` in the config, must be the visible names of the chat and not the user-name. [Click here](https://user-images.githubusercontent.com/66209958/100173400-7252f480-2ef0-11eb-993a-0ff8a3ddaac1.png) to see the difference between the visible name and the user-name of a chat.
+- The `from` and `to` in the `config.ini` has to be a username/chat_id of the chat.
+- To confirm that you are using the correct `from` and `to` run the `get_chat_info.py` script.
 
-- Any line starting with `;` in a `.ini` file, is treated as a comment.
+
 
 - You may have as many as forwarding pairs as you wish. Make sure to give a unique header to each pair. Follow the syntax shown below.
 
@@ -64,9 +65,9 @@ to = another
 offset = 0
 ```
 
-- You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
+> **Note**:Any line starting with `;` in a `.ini` file, is treated as a comment.
 
-> **Advanced** : You may use the `chat id` instead of visible name. To get the `chat id` of a particular chat/group/channel run `get_chat_id.py` and then enter the user-name/phone/link of the chat.
+- You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
 
 ## Execution
 
