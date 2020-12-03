@@ -5,6 +5,7 @@ from forwarder import _
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
+SENT_VIA = f'\n__Sent via__ `{str(__file__)}`'
 
 client = TelegramClient('forwarder', API_ID, API_HASH)
 
@@ -28,7 +29,7 @@ async def main():
         \nYou can send `.id` to any chat/group/channel to get its chat id.
         \nTo get full info, send `.info`.
         \nYou may first try it here 😃 
-        \n__Sent via `chat_info.py` script.__''', link_preview=False)
+        {SENT_VIA}''', link_preview=False)
 
 if __name__ == "__main__":
     client.start()
