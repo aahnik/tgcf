@@ -9,26 +9,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 client = TelegramClient('forwarder', API_ID, API_HASH)
 
 
-async def get_chat_info():
-    while True:
-        ref = input('If you cant send message to the chat\
-            \n Enter link/phone/username to get chat id. ')
-        try:
-            entity = await client.get_entity(_(ref))
-            print(type(entity))
-            print(f'id is {entity.id}')
-            print(f'\nEntity object \n{entity.stringify()}')
-        except ValueError:
-            print('Could not get')
-        except Exception as err:
-            print(f'''Something went wrong. Please contact the developer Aahnik Daw.
-                        Chat with Aahnik on Telegram, click on this 👇 link
-                        
-                        https://telegram.me/AahnikDaw 
-                        
-                        Error details: \n {err}''')
-
-
 @client.on(events.NewMessage(outgoing=True, pattern=r'\.id'))
 async def chat_id_handler(event):
     chat_id = event.chat_id
