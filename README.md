@@ -42,7 +42,7 @@ api_hash=kjfjfk9r9JOIJOIjoijf9wr0w
 
 After this you need to create and fill up the `config.ini` file with your forwarding configurations.
 
-## Note
+## Configuration
 
 - The `from` and `to` in the `config.ini` has to be a username/chat_id of the chat.
 - **To confirm that you are using the correct `from` and `to` run the `get_chat_info.py` script.**
@@ -66,7 +66,12 @@ offset = 0
 
 > **Note**:Any line starting with `;` in a `.ini` file, is treated as a comment.
 
-- You you will run the script next time,only new messages in the `from` chat will be forwarded to the `to` chat. That's why its important not to loose the value of `offset`.
+## Offset
+
+- When you run the script for the first time, keep `offset=0`.
+- When the script runs, the value of offset in `config.ini` gets updated automatically.
+- Offset is basically the id of the last message forwarded from `from` to `to`.
+- When you run the script next time, the messages in `from` having an id greater than offset (newer messages) will be forwarded to  `to`. That is why it is important not to loose the value of `offset`.
 
 ## Execution
 
