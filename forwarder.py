@@ -8,7 +8,6 @@ from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
 from settings import API_ID, API_HASH, forwards, get_forward, update_offset
 
-assert forwards
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -62,6 +61,7 @@ async def forward_job():
                 except Exception as err:
                     logging.exception(err)
                     error_occured = True
+                    continue
 
             logging.info('Completed working with %s', forward)
 
@@ -75,4 +75,5 @@ async def forward_job():
         {SENT_VIA}''', link_preview=False)
 
 if __name__ == "__main__":
+    assert forwards
     asyncio.run(forward_job())
