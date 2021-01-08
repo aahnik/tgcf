@@ -6,7 +6,8 @@ import logging
 from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
-from settings import API_ID, API_HASH, forwards, get_forward, update_offset
+from telethon.sessions import StringSession
+from settings import API_ID, API_HASH, forwards, get_forward, update_offset, STRING_SESSION
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -15,7 +16,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 SENT_VIA = f'\n__Sent via__ `{str(__file__)}`'
 
 
-def _(string):
+def intify(string):
     try:
         return int(string)
     except:
@@ -24,8 +25,12 @@ def _(string):
 
 async def forward_job():
     ''' the function that does the job 😂 '''
+    if STRING_SESSION:
+        session = StringSession(STRING_SESSION)
+    else:
+        session = 'forwarder'
 
-    async with TelegramClient('forwarder', API_ID, API_HASH) as client:
+    async with TelegramClient(session, API_ID, API_HASH) as client:
 
         confirm = ''' IMPORTANT 🛑
             Are you sure that your `config.ini` is correct ?
@@ -46,11 +51,11 @@ async def forward_job():
 
             last_id = 0
 
-            async for message in client.iter_messages(_(from_chat), reverse=True, offset_id=offset):
+            async for message in client.iter_messages(intify(from_chat), reverse=True, offset_id=offset):
                 if isinstance(message, MessageService):
                     continue
                 try:
-                    await client.send_message(_(to_chat), message)
+                    await client.send_message(intify(to_chat), message)
                     last_id = str(message.id)
                     logging.info('forwarding message with id = %s', last_id)
                     update_offset(forward, last_id)

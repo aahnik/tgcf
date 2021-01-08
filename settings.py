@@ -7,6 +7,7 @@ load_dotenv()
 
 API_ID = os.getenv('api_id')
 API_HASH = os.getenv('api_hash')
+STRING_SESSION = os.getenv('STRING_SESSION')
 
 assert API_ID and API_HASH
 
@@ -14,8 +15,6 @@ configur = ConfigParser()
 configur.read('config.ini')
 
 forwards = configur.sections()
-
-
 
 
 def get_forward(forward: str) -> tuple:

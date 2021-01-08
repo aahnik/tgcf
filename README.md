@@ -8,7 +8,7 @@ A simple script to forward all the messages of one chat (indivisual/group/channe
 
 ## Signing in
 
-First of all you need to have your Telegram account's `api_id` and `api_hash`. 
+First of all you need to have your Telegram account's `api_id` and `api_hash`.
 Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) them.
 
 ## Installation
@@ -44,23 +44,22 @@ After this you need to create and fill up the `config.ini` file with your forwar
 
 ## Configuration
 
-- The `from` and `to` in the `config.ini` has to be a username/phone/link/chat_id of the chat.
-- **To confirm that you are using the correct `from` and `to` run the `get_chat_info.py` script.**
-
+- The `from` and `to` in the `config.ini` has to be a **username/phone/link/chat_id** of the chat.
+- The chat id is the best way for configurations. It will always be accurate. To get the chat id of a chat, forward any message of the chat to [@userinfobot](https://telegram.me/userinfobot)
 - You may have as many as forwarding pairs as you wish. Make sure to give a unique header to each pair. Follow the syntax shown below.
 
 ```ini
 [name of forward1]
 ; in the above line give any name as you wish
 ; the square brackets around the name should remain
-from = whatAz
-to = testWha
+from = https://t.me/someone
+to = -1001235055711
 offset = 0
 ; the offset will auto-update, keep it zero initially
 [another name]
 ; the name of section must be unique
-from = someone
-to = another
+from = @username
+to = @anothername
 offset = 0
 ```
 
@@ -83,15 +82,7 @@ python3 forwarder.py
 
 You have to login for the first time using your phone number (inter-national format) and login code.
 
-A session file called `forwarder.session` will be generated. Please don't delete this and make sure to keep this file secret.
+A session file called `forwarder.session` will be generated. **Please don't delete this and make sure to keep this file secret.**
 
 Feel free to ask your questions in the [Discussion section](https://github.com/aahnik/telegram-chat-forward/discussions). For bugs and feature requests use the [issues](https://github.com/aahnik/telegram-chat-forward/issues/new) section of this repo.
 
-## Extra
-
-To get all information about any particular chat:
-
-- Run the script `run_chat_info.py`.
-- Open Telegram and send `.id` to any chat to get the chat id.
-- Send `.info` to any chat to get details of the chat.
-- When you are done, come back to your terminal and press <kbd>CTRL</kbd> + <kbd>C</kbd> to stop.
