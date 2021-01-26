@@ -77,7 +77,7 @@ offset = 0
 After setting up the `config.ini`, run the `forwarder.py` script.
 
 ```shell
-python3 forwarder.py
+python forwarder.py
 ```
 
 You have to login for the first time using your phone number (inter-national format) and login code.
