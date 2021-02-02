@@ -35,8 +35,8 @@ async def forward_job():
         confirm = ''' IMPORTANT 🛑
             Are you sure that your `config.ini` is correct ?
 
-            You can run the `get_chat_info.py` script to confirm the `from` and `to`.
-
+            Take help of @userinfobot for correct chat ids.
+            
             Press [ENTER] to continue:
             '''
 
@@ -60,13 +60,12 @@ async def forward_job():
                     logging.info('forwarding message with id = %s', last_id)
                     update_offset(forward, last_id)
                 except FloodWaitError as fwe:
-                    print(f'\n{fwe}\n\nRun the script again after some time. \
-                        FloodWaitError Occured')
-                    quit()
+                    print(f'{fwe}')
+                    asyncio.sleep(delay=fwe.seconds)
                 except Exception as err:
                     logging.exception(err)
                     error_occured = True
-                    continue
+                    break
 
             logging.info('Completed working with %s', forward)
 
