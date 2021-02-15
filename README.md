@@ -86,4 +86,4 @@ A session file called `forwarder.session` will be generated. **Please don't dele
 
 Feel free to ask your questions in the [Discussion section](https://github.com/aahnik/telegram-chat-forward/discussions). For bugs and feature requests use the [issues](https://github.com/aahnik/telegram-chat-forward/issues/new) section of this repo.
 
-[![promoted](https://raw.githubusercontent.com/aahnik/aahnik/master/promoted/general.gif)](https://aahnik.github.io/aahnik/promoted/general.html)
+
