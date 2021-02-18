@@ -61,6 +61,11 @@ offset = 0
 from = @username
 to = @anothername
 offset = 0
+[forward saved messages]
+; you can make a backup of your own saved messages (cloud storage)!
+from = me
+to = @anothername
+offset = 0
 ```
 
 > **Note**:Any line starting with `;` in a `.ini` file, is treated as a comment.
