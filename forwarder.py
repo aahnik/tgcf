@@ -61,7 +61,7 @@ async def forward_job():
                     update_offset(forward, last_id)
                 except FloodWaitError as fwe:
                     print(f'{fwe}')
-                    asyncio.sleep(delay=fwe.seconds)
+                    await asyncio.sleep(delay=fwe.seconds)
                 except Exception as err:
                     logging.exception(err)
                     error_occured = True
