@@ -1,6 +1,6 @@
 # telegram-chat-forward
 
-[![telegram-chat](https://img.shields.io/badge/chat-@aahnikdaw-blue?logo=telegram)](https://telegram.me/aahnikdaw)
+[![telegram-chat](https://img.shields.io/badge/chat-@aahnikdaw-blue?logo=telegram)](https://telegram.me/tg_chat_forward)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![MIT license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://aahnik.github.io/)
 
