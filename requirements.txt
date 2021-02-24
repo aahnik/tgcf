@@ -7,3 +7,4 @@ pycparser==2.20
 python-dotenv==0.15.0
 rsa==4.6
 Telethon==1.17.5
+pyyaml

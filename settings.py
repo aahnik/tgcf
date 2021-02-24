@@ -2,7 +2,7 @@ from configparser import ConfigParser
 from dotenv import load_dotenv
 import os
 import logging
-
+import yaml
 load_dotenv()
 
 API_ID = os.getenv('api_id')
@@ -38,8 +38,15 @@ def update_offset(forward: str, new_offset: str) -> None:
         logging.exception(
             'Problem occured while updating offset of %s \n\n %s', forward, str(err))
 
+if os.path.isfile('replace.yml'):
+    with open ('replace.yml') as file:
+        REPLACEMENTS = yaml.full_load(file)
+else:
+    REPLACEMENTS = {}
+
 
 if __name__ == "__main__":
     # testing
+
     for forward in forwards:
         print(forward, get_forward(forward))

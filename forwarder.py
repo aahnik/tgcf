@@ -7,7 +7,7 @@ from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon import TelegramClient
 from telethon.sessions import StringSession
-from settings import API_ID, API_HASH, forwards, get_forward, update_offset, STRING_SESSION
+from settings import API_ID, API_HASH, REPLACEMENTS, forwards, get_forward, update_offset, STRING_SESSION
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -22,6 +22,10 @@ def intify(string):
     except:
         return string
 
+def replace(message):
+    for old,new in REPLACEMENTS.items():
+        message.text = str(message.text).replace(old,new)
+    return message
 
 async def forward_job():
     ''' the function that does the job 😂 '''
@@ -36,7 +40,7 @@ async def forward_job():
             Are you sure that your `config.ini` is correct ?
 
             Take help of @userinfobot for correct chat ids.
-            
+
             Press [ENTER] to continue:
             '''
 
@@ -55,7 +59,7 @@ async def forward_job():
                 if isinstance(message, MessageService):
                     continue
                 try:
-                    await client.send_message(intify(to_chat), message)
+                    await client.send_message(intify(to_chat), replace(message))
                     last_id = str(message.id)
                     logging.info('forwarding message with id = %s', last_id)
                     update_offset(forward, last_id)
