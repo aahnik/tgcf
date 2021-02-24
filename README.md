@@ -13,20 +13,21 @@ Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) th
 
 ## Installation
 
+Make sure you have `python` 3.6 or above installed, by running `python --version`.
+
 - Clone this repo and move into it to get started.
 
 ```shell
 git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-chat-forward
 ```
 
-- Create a virtual environment and install dependencies.
+- Install dependancies.
 
 ```shell
-python3 -m venv venv && . venv/bin/activate
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-> Note: For Windows, the process for activating a virtual environment is different, search Google.
+> Note: It is recommended to use a virtual environment.
 
 ## Setup
 
