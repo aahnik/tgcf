@@ -36,15 +36,6 @@ async def forward_job():
 
     async with TelegramClient(session, API_ID, API_HASH) as client:
 
-        confirm = ''' IMPORTANT 🛑
-            Are you sure that your `config.ini` is correct ?
-
-            Take help of @userinfobot for correct chat ids.
-
-            Press [ENTER] to continue:
-            '''
-
-        input(confirm)
 
         error_occured = False
         for forward in forwards:
