@@ -28,7 +28,7 @@ git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-cha
 - Install dependancies.
 
 ```shell
-python -m venv venv && source source venv/bin/activate
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
