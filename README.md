@@ -28,8 +28,8 @@ git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-cha
 - Install dependancies.
 
 ```shell
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+python3 -m venv venv && source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 > Note: It is recommended to use a virtual environment.
@@ -88,7 +88,7 @@ offset = 0
 After setting up the `config.ini`, run the `forwarder.py` script.
 
 ```shell
-python forwarder.py
+python3 forwarder.py
 ```
 
 You have to login for the first time using your phone number (inter-national format) and login code.
