@@ -15,6 +15,10 @@ Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) th
 
 Make sure you have `python` 3.6 or above installed, by running `python --version`.
 
+**The following commands are to be executed on a Mac/Linux terminal like bash or zsh. If you are a Windows user, then I strongly recommend using [pythonanywhere](https://github.com/aahnik/telegram-chat-forward/discussions/23) or [termux](https://github.com/aahnik/telegram-chat-forward/discussions/20), unless you are familiar with using command line on Windows.**
+
+> Changes may be required to be made in the following commands to make them Windows compatible.
+
 - Clone this repo and move into it to get started.
 
 ```shell
@@ -24,6 +28,7 @@ git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-cha
 - Install dependancies.
 
 ```shell
+python -m venv venv && source source venv/bin/activate
 pip install -r requirements.txt
 ```
 
