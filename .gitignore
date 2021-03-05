@@ -1,7 +1,0 @@
-.vscode
-__pycache__
-.env
-venv
-forwarder.session
-config.ini
-replace.yml
