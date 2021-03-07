@@ -2,6 +2,8 @@
 .vscode
 *.session-journal
 config.yml
+config.json
+t.py
 
 
 

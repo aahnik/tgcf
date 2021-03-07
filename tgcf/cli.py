@@ -1,32 +1,25 @@
-import requests
 import typer
-
+import logging
+from tgcf.forwarder import forwarder
 
 app = typer.Typer()
 
 
-@app.command()
-def login():
-    ''' Generate session string after signing into your Telegram account.
-    '''
-    code_url = 'https://gist.githubusercontent.com/aahnik/da7f0545767ceb6eca1418b0e06d8719/raw/get_session_string.py'
-    code = requests.get(code_url).text
-    exec(code)
-
+logging.basicConfig(level=logging.INFO)
 
 @app.command()
 def forward():
     ''' Forward all existing messages.
     '''
-    pass
+    forwarder()
 
 
 @app.command()
 def sync():
-    ''' Start live syncing : forward when a new message comes.
+    ''' Start live syncing.
     '''
-    print('This feature is in private beta. Contact Aahnik Daw on telegram to get this. Telegram username : @aahnikdaw\
-        \nor click: https://telegram.me/aahnikdaw')
+    print('sync')
+
 
 
 if __name__ == '__main__':
