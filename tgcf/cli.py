@@ -63,7 +63,9 @@ def main(
                                 (your input will be invisible)',
                                  hide_input=True),
 
-
+    config: str = typer.Option(
+        'tgcf.config.yml',
+        help='Path of configuration file'),
         verbose: Optional[bool] = typer.Option(None,
                                                '--loud', '-l',
                                                callback=verbosity_callback,
