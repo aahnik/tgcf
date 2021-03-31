@@ -2,8 +2,7 @@
 import yaml
 from typing import List
 from pydantic import BaseModel
-
-
+from tgcf.const import CONFIG_FILE
 
 class Forward(BaseModel):
     source: int
@@ -13,8 +12,8 @@ class Forward(BaseModel):
 class Config(BaseModel):
     forwards: List[Forward]
 
-def read_config(config_file:str):
-    with open(config_file) as file:
+def read_config():
+    with open(CONFIG_FILE) as file:
         config_dict = yaml.full_load(file)
         try:
             config = Config(**config_dict)
@@ -24,7 +23,7 @@ def read_config(config_file:str):
         else:
             return config
 
-def update_config(config_file:str,config:Config):
-    with open(config_file,'w') as file:
+def update_config(config:Config):
+    with open(CONFIG_FILE,'w') as file:
         yaml.dump(config.dict(),file)
 

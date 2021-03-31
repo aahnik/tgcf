@@ -5,11 +5,15 @@ import logging
 from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
 
+from tgcf.config import Config
 
 
-async def forward_job(client: TelegramClient,config):
+async def forward_job(client: TelegramClient, config: Config):
+    await client.start()
     for forward in config.forwards:
         last_id = 0
+        print(forward.source)
+        print(forward.dest)
         async for message in client.iter_messages(forward.source,
                                                   reverse=True,
                                                   offset_id=forward.offset):
@@ -27,7 +31,4 @@ async def forward_job(client: TelegramClient,config):
             except Exception as err:
                 logging.exception(err)
                 break
-
-
-def forwarder(client):
-    asyncio.run(forward_job(client))
+    await client.disconnect()

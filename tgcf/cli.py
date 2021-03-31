@@ -2,25 +2,21 @@
 using the modern and robust `typer`.
 '''
 
-from enum import Enum
 
 from tgcf import __version__
+from tgcf.const import Mode
 from typing import Optional
 import logging
-
+from tgcf.const import Auth
 import typer
 from dotenv import load_dotenv
 
+from tgcf.main import start_past, start_live
 import os
 load_dotenv('.env')
 
 FAKE = bool(os.getenv('FAKE'))
 app = typer.Typer(add_completion=False)
-
-
-class Mode(str, Enum):
-    past = 'past'
-    live = 'live'
 
 
 def version_callback(value: bool):
@@ -39,23 +35,17 @@ def verbosity_callback(value: bool):
     logging.basicConfig(level=level)
 
 
+def session_callback(value: str or None):
+    pass
+
+
 @app.command()
 def main(
     mode: Mode = typer.Argument(...,
                                 help='Choose the mode in which you want to run tgcf.'),
-        name: str = typer.Option(...,
-                                 '--name', '-n',
-                                 help='Name of the bot/userbot you want to run.',
-                                 envvar='NAME',
-                                 prompt='Please enter the bot/userbot username'),
 
-        token: str = typer.Option(...,
-                                  '--token', '-t',
-                                  help='Bot Token or Session String',
-                                  envvar='TOKEN',
-                                  prompt='Please paste the Bot Token or Session String \
-                                (your input will be invisible)',
-                                  hide_input=True),
+
+
     API_ID: int = typer.Option(...,
                                '--API_ID',
                                help='API ID obtained from my.telegram.org',
@@ -70,10 +60,12 @@ def main(
                                  prompt='Please paste your API HASH\
                                 (your input will be invisible)',
                                  hide_input=True),
-
-    config_file: str = typer.Option(
-        'tgcf.config.yml',
-        help='Path of configuration file'),
+    session: str = typer.Option(None,
+                                '--session', '-s',
+                                help='Path to session file or Session String',
+                                envvar='SESSION',
+                                callback=session_callback,
+                                hide_input=True),
         verbose: Optional[bool] = typer.Option(None,
                                                '--loud', '-l',
                                                callback=verbosity_callback,
@@ -89,25 +81,15 @@ def main(
 ):
     ''' tgcf is a powerful tool for forwarding telegram messages from source to destination.
 
-    tgcf offers two modes of operation.
+    Don't forget to star  https://github.com/aahnik/tgcf
 
-    The "past" mode is for forwarding all existing messages. (performs the job and quits).
-
-    On the other hand the "live" mode will forward all new upcoming messages, as long as tgcf runs in the server.
-
-    You can specify the source and destination chats in the "tgcf.config.yml" file in the format specified in the documentation.
-
-    tgcf also supports filtering by whitelist/blacklist/mime-type/message author, text replacement, and many more features.
+    Telegram Channel https://telegram.me/tg_cf
     '''
 
-    if not FAKE:
-        print('Real working...')
-    else:
-        # when the env var FAKE_TELEWATER is truthy, then no real work is done
-        # this is for CLI testing purposes
-        print(f'name is {name} and token is {token}')
+    if FAKE:
         print(f'{API_ID} and {API_HASH}')
         print(f'mode = {mode}')
-        print(f'config file path = {config_file}')
+        quit(1)
+    print('normal')
 
 # AAHNIK 2021
