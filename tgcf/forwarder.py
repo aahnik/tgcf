@@ -1,14 +1,13 @@
 from telethon import TelegramClient
-from tgcf.settings import config, write_json
 import asyncio
 import logging
 
 from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
-from tgcf.utils import get_client
 
 
-async def forward_job(client: TelegramClient):
+
+async def forward_job(client: TelegramClient,config):
     for forward in config.forwards:
         last_id = 0
         async for message in client.iter_messages(forward.source,
@@ -22,7 +21,6 @@ async def forward_job(client: TelegramClient):
                 last_id = str(message.id)
                 logging.info('forwarding message with id = %s', last_id)
                 forward.offset = last_id
-                write_json(config)
             except FloodWaitError as fwe:
                 print(f'Sleeping for {fwe}')
                 await asyncio.sleep(delay=fwe.seconds)
@@ -31,6 +29,5 @@ async def forward_job(client: TelegramClient):
                 break
 
 
-def forwarder():
-    client = get_client()
+def forwarder(client):
     asyncio.run(forward_job(client))
