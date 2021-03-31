@@ -15,21 +15,16 @@ A powerful tool for forwarding telegram messages from source to destination.
 <img src="https://img.shields.io/pypi/v/tgcf" alt="PyPI">
 <a href="https://twitter.com/intent/tweet?text=Wow:&amp;url=https%3A%2F%2Fgithub.com%2Faahnik%2Ftgcf"><img src="https://img.shields.io/twitter/url?style=social&amp;url=https%3A%2F%2Fgithub.com%2Faahnik%2Ftgcf" alt="Twitter"></a></p>
 
--------
+<br>
 
-## Features
+The *key features* are:
 
-tgcf offers two modes of operation.
-
-The "past" mode is for forwarding all existing messages. (performs the job and quits).
-
-On the other hand the "live" mode will forward all new upcoming messages, as long as tgcf runs in the server.
-
-You can specify the source and destination chats in the "tgcf.config.yml" file in the format specified in the documentation.
-
-tgcf also supports filtering by whitelist/blacklist/mime-type/message author, text replacement, and many more features.
-
-Join the telegram channel [t.me/tg_cf](https://telegram.me/tg_cf) to get updates (and not ads).
+1. Two modes of operation: **past** and **live** for dealing with existing or upcoming messages.
+2. Supports both telegram **bot account** as well as **user account**.
+3. **Custom Filtering** of messages based on **whitelist/blacklist**, **mime-type** and so on.
+4. Modification of messages like **Text Replacement**, **Watermarking**, **OCR** etc.
+5. Easily extend by writing you own extension in python.
+6. Detailed **documentation** + **Video** tutorial + **Fast help** in discussion forum.
 
 ## Video Tutorial 📺
 
