@@ -45,7 +45,8 @@ def verbosity_callback(value: bool):
 @app.command()
 def main(
         mode: Mode = typer.Argument(...,
-                                    help='Choose the mode in which you want to run tgcf.'),
+                                    help='Choose the mode in which you want to run tgcf.',
+                                    envvar='TGCF_MODE'),
         verbose: Optional[bool] = typer.Option(None,
                                                '--loud', '-l',
                                                callback=verbosity_callback,
