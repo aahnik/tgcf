@@ -1,7 +1,7 @@
 # a custom config parser
 
 import os
-from typing import List
+from typing import List, Optional
 
 import yaml
 from pydantic import BaseModel
@@ -13,7 +13,7 @@ CONFIG_FILE = 'tgcf.config.yml'
 class Forward(BaseModel):
     source: int
     dest: List[int]
-    offset: int
+    offset: Optional[int] = 0
 
 
 class Config(BaseModel):
