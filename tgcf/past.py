@@ -4,10 +4,10 @@ import logging
 
 from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
-
+from tgcf.config import CONFIG, API_ID, API_HASH, SESSION
 
 async def forward_job():
-    from tgcf.config import CONFIG, API_ID, API_HASH, SESSION
+
     async with TelegramClient(SESSION, API_ID, API_HASH) as client:
 
         for forward in CONFIG.forwards:
