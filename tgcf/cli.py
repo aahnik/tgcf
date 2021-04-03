@@ -2,15 +2,17 @@
 using the modern and robust `typer`.
 '''
 
-
-from tgcf import __version__
-from typing import Optional
-import logging
-from enum import Enum
-import typer
-from dotenv import load_dotenv
 import os
 import asyncio
+from enum import Enum
+import logging
+from typing import Optional
+
+import typer
+from dotenv import load_dotenv
+
+from tgcf import __version__
+
 
 load_dotenv('.env')
 
@@ -19,6 +21,7 @@ app = typer.Typer(add_completion=False)
 
 
 class Mode(str, Enum):
+    '''tgcf works in two modes'''
     past = 'past'
     live = 'live'
 

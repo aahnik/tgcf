@@ -1,8 +1,15 @@
-from tgcf.config import CONFIG
 from telethon import events, TelegramClient
+from tgcf.config import CONFIG, API_HASH, API_ID, SESSION
 
-from tgcf.config import API_HASH, API_ID, SESSION
+
 from_to = {}
+
+KEEP_LAST_MANY = 10000
+
+existing_hashes = []
+
+_stored = {}
+
 
 for forward in CONFIG.forwards:
     from_to[forward.source] = forward.dest
@@ -24,13 +31,6 @@ class EventUid:
 
     def __hash__(self) -> int:
         return hash(self.__str__())
-
-
-KEEP_LAST_MANY = 10000
-
-existing_hashes = []
-
-_stored = {}
 
 
 async def new_message_handler(event):

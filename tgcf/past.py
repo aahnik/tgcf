@@ -1,12 +1,15 @@
-from telethon import TelegramClient
 import asyncio
 import logging
 
+from telethon import TelegramClient
 from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
+
 from tgcf.config import CONFIG, API_ID, API_HASH, SESSION
 
+
 async def forward_job():
+    ''' The function that does the job of forwarding all existing messages in the concerned chats'''
 
     async with TelegramClient(SESSION, API_ID, API_HASH) as client:
 

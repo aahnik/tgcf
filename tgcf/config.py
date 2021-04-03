@@ -1,10 +1,10 @@
 # a custom config parser
 
+import os
+from typing import List
 
 import yaml
-from typing import List
 from pydantic import BaseModel
-import os
 from telethon.sessions import StringSession
 
 CONFIG_FILE = 'tgcf.config.yml'
