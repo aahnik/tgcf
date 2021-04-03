@@ -9,8 +9,9 @@ import logging
 from enum import Enum
 import typer
 from dotenv import load_dotenv
-from tgcf.main import start_past, start_live
 import os
+import asyncio
+
 load_dotenv('.env')
 
 FAKE = bool(os.getenv('FAKE'))
@@ -20,6 +21,8 @@ app = typer.Typer(add_completion=False)
 class Mode(str, Enum):
     past = 'past'
     live = 'live'
+
+
 def version_callback(value: bool):
     if value:
         print(__version__)
@@ -34,7 +37,6 @@ def verbosity_callback(value: bool):
     else:
         level = logging.WARNING
     logging.basicConfig(level=level)
-
 
 
 @app.command()
@@ -66,9 +68,11 @@ def main(
         quit(1)
 
     if mode == mode.past:
-        start_past()
+        from tgcf.past import forward_job
+        asyncio.run(forward_job())
     else:
-        start_live()
+        from tgcf.live import start_sync
+        start_sync()
 
 
 # AAHNIK 2021
