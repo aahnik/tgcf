@@ -4,13 +4,11 @@ using the modern and robust `typer`.
 
 
 from tgcf import __version__
-from tgcf.const import Mode
 from typing import Optional
 import logging
-from tgcf.const import Auth
+from enum import Enum
 import typer
 from dotenv import load_dotenv
-
 from tgcf.main import start_past, start_live
 import os
 load_dotenv('.env')
@@ -19,6 +17,9 @@ FAKE = bool(os.getenv('FAKE'))
 app = typer.Typer(add_completion=False)
 
 
+class Mode(str, Enum):
+    past = 'past'
+    live = 'live'
 def version_callback(value: bool):
     if value:
         print(__version__)
@@ -35,37 +36,11 @@ def verbosity_callback(value: bool):
     logging.basicConfig(level=level)
 
 
-def session_callback(value: str or None):
-    pass
-
 
 @app.command()
 def main(
-    mode: Mode = typer.Argument(...,
-                                help='Choose the mode in which you want to run tgcf.'),
-
-
-
-    API_ID: int = typer.Option(...,
-                               '--API_ID',
-                               help='API ID obtained from my.telegram.org',
-                               envvar='API_ID',
-                               prompt='Please paste your API ID\
-                                (your input will be invisible)',
-                               hide_input=True),
-    API_HASH: str = typer.Option(...,
-                                 '--API_HASH',
-                                 help='API HASH obtained from my.telegram.org',
-                                 envvar='API_HASH',
-                                 prompt='Please paste your API HASH\
-                                (your input will be invisible)',
-                                 hide_input=True),
-    session: str = typer.Option(None,
-                                '--session', '-s',
-                                help='Path to session file or Session String',
-                                envvar='SESSION',
-                                callback=session_callback,
-                                hide_input=True),
+        mode: Mode = typer.Argument(...,
+                                    help='Choose the mode in which you want to run tgcf.'),
         verbose: Optional[bool] = typer.Option(None,
                                                '--loud', '-l',
                                                callback=verbosity_callback,
@@ -87,9 +62,13 @@ def main(
     '''
 
     if FAKE:
-        print(f'{API_ID} and {API_HASH}')
         print(f'mode = {mode}')
         quit(1)
-    print('normal')
+
+    if mode == mode.past:
+        start_past()
+    else:
+        start_live()
+
 
 # AAHNIK 2021
