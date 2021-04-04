@@ -2,7 +2,7 @@ import logging
 from telethon import events, TelegramClient
 from tgcf.config import CONFIG, API_HASH, API_ID, SESSION
 from tgcf.utils import send_message
-
+from tgcf.extensions import extended
 from_to = {}
 
 KEEP_LAST_MANY = 10000
@@ -60,8 +60,11 @@ async def new_message_handler(event):
         if event_uid not in _stored:
             _stored[event_uid] = []
 
+        modified_message = extended(message)
+        if not modified_message:
+            return
         for recipient in to_send_to:
-            fwded_msg = await send_message(event.client,recipient, message)
+            fwded_msg = await send_message(event.client,recipient, modified_message)
             _stored[event_uid].append(fwded_msg)
 
     existing_hashes.append(hash(message.text))
@@ -86,7 +89,7 @@ async def edited_message_handler(event):
     else:
         to_send_to = from_to.get(event.chat_id)
         for recipient in to_send_to:
-            await send_message(event.client, recipient, message)
+            await send_message(event.client, recipient, extended(message))
 
 
 async def deleted_message_handler(event):

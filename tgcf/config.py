@@ -2,7 +2,8 @@
 
 import logging
 import os
-from typing import List, Optional
+from typing import Dict, List, Optional
+from enum import Enum
 
 import yaml
 from pydantic import BaseModel
@@ -16,11 +17,20 @@ class Forward(BaseModel):
     dest: List[int]
     offset: Optional[int] = 0
 
+class TextFormat(str,Enum):
+    bold = 'bold'
+    italics = 'italic'
+    strike = 'strike'
+    code = 'code'
+
 
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
-
+    blacklist: Optional[List] = []
+    whitelist: Optional[List] = []
+    replace: Optional[Dict] = {}
+    text_format: Optional[TextFormat] = None
 
 def read_config():
     with open(CONFIG_FILE) as file:
