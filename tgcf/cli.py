@@ -34,12 +34,12 @@ def version_callback(value: bool):
 
 def verbosity_callback(value: bool):
     if value:
-        logging.info(
-            'Verbosity turned on. \nThis is suitable for debugging.\n')
         level = logging.INFO
     else:
         level = logging.WARNING
     logging.basicConfig(level=level)
+    logging.info(
+        'Verbosity turned on. \nThis is suitable for debugging.\n')
 
 
 @app.command()

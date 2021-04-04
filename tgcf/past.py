@@ -6,7 +6,7 @@ from telethon.tl.patched import MessageService
 from telethon.errors.rpcerrorlist import FloodWaitError
 
 from tgcf.config import CONFIG, API_ID, API_HASH, SESSION
-
+from tgcf.utils import send_message
 
 async def forward_job():
     ''' The function that does the job of forwarding all existing messages in the concerned chats'''
@@ -15,8 +15,7 @@ async def forward_job():
 
         for forward in CONFIG.forwards:
             last_id = 0
-            print(forward.source)
-            print(forward.dest)
+            logging.info(f'Forwarding messages from {forward.source} to {forward.dest}')
             async for message in client.iter_messages(forward.source,
                                                       reverse=True,
                                                       offset_id=forward.offset):
@@ -24,9 +23,9 @@ async def forward_job():
                     continue
                 try:
                     for destination in forward.dest:
-                        await client.send_message(destination, message)
+                        await send_message(client,destination, message)
                     last_id = str(message.id)
-                    logging.info('forwarding message with id = %s', last_id)
+                    logging.info(f'forwarding message with id = {last_id}')
                     forward.offset = last_id
                 except FloodWaitError as fwe:
                     print(f'Sleeping for {fwe}')

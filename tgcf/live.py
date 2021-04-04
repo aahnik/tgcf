@@ -1,6 +1,7 @@
+import logging
 from telethon import events, TelegramClient
 from tgcf.config import CONFIG, API_HASH, API_ID, SESSION
-
+from tgcf.utils import send_message
 
 from_to = {}
 
@@ -38,7 +39,7 @@ async def new_message_handler(event):
 
     if chat_id not in from_to:
         return
-
+    logging.info(f'New message received in {chat_id}')
     message = event.message
 
     global _stored
@@ -60,7 +61,7 @@ async def new_message_handler(event):
             _stored[event_uid] = []
 
         for recipient in to_send_to:
-            fwded_msg = await event.client.send_message(recipient, message)
+            fwded_msg = await send_message(event.client,recipient, message)
             _stored[event_uid].append(fwded_msg)
 
     existing_hashes.append(hash(message.text))
@@ -70,30 +71,38 @@ async def edited_message_handler(event):
     message = event.message
 
     chat_id = event.chat_id
-    if chat_id in from_to:
+    if chat_id not in from_to:
+        return
 
-        event_uid = EventUid(event)
+    logging.info(f'Message edited in {chat_id}')
 
-        fwded_msgs = _stored.get(event_uid)
-        if fwded_msgs:
-            for msg in fwded_msgs:
-                await msg.edit(message.text)
-            return
-        else:
-            to_send_to = from_to.get(event.chat_id)
-            for recipient in to_send_to:
-                await event.client.send_message(recipient, message)
+    event_uid = EventUid(event)
+
+    fwded_msgs = _stored.get(event_uid)
+    if fwded_msgs:
+        for msg in fwded_msgs:
+            await msg.edit(message.text)
+        return
+    else:
+        to_send_to = from_to.get(event.chat_id)
+        for recipient in to_send_to:
+            await send_message(event.client, recipient, message)
 
 
 async def deleted_message_handler(event):
     chat_id = event.chat_id
-    if chat_id in from_to:
-        event_uid = EventUid(event)
-        fwded_msgs = _stored.get(event_uid)
-        if fwded_msgs:
-            for msg in fwded_msgs:
-                await msg.delete()
-            return
+    if chat_id not in from_to:
+        return
+
+    logging.info(f'Message deleted in {chat_id}')
+
+
+    event_uid = EventUid(event)
+    fwded_msgs = _stored.get(event_uid)
+    if fwded_msgs:
+        for msg in fwded_msgs:
+            await msg.delete()
+        return
 
 
 ALL_EVENTS = {
@@ -106,7 +115,7 @@ ALL_EVENTS = {
 def start_sync():
     client = TelegramClient(SESSION, API_ID, API_HASH)
     for key, val in ALL_EVENTS.items():
-        print(f'Adding event {key}')
+        logging.info(f'Added event handler for {key}')
         client.add_event_handler(*val)
     client.start()
     client.run_until_disconnected()

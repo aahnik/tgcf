@@ -1,5 +1,6 @@
 # a custom config parser
 
+import logging
 import os
 from typing import List, Optional
 
@@ -18,6 +19,7 @@ class Forward(BaseModel):
 
 class Config(BaseModel):
     forwards: List[Forward]
+    show_forwarded_from: Optional[bool] = False
 
 
 def read_config():
@@ -29,6 +31,7 @@ def read_config():
             print(err)
             quit(1)
         else:
+            logging.info(config)
             return config
 
 
@@ -58,3 +61,5 @@ else:
     SESSION = 'tgcf'
 
 CONFIG = read_config()
+
+logging.info('config.py got executed')
