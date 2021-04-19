@@ -2,7 +2,8 @@ import logging
 from telethon import events, TelegramClient
 from tgcf.config import CONFIG, API_HASH, API_ID, SESSION
 from tgcf.utils import send_message
-from tgcf.extensions import extended
+from tgcf.plugins import extended
+
 from_to = {}
 
 KEEP_LAST_MANY = 10000
@@ -25,7 +26,7 @@ class EventUid:
             self.msg_id = event.deleted_id
 
     def __str__(self):
-        return f'chat={self.chat_id} msg={self.msg_id}'
+        return f"chat={self.chat_id} msg={self.msg_id}"
 
     def __eq__(self, other):
         return self.chat_id == other.chat_id and self.msg_id == other.msg_id
@@ -39,7 +40,7 @@ async def new_message_handler(event):
 
     if chat_id not in from_to:
         return
-    logging.info(f'New message received in {chat_id}')
+    logging.info(f"New message received in {chat_id}")
     message = event.message
 
     global _stored
@@ -64,7 +65,7 @@ async def new_message_handler(event):
         if not modified_message:
             return
         for recipient in to_send_to:
-            fwded_msg = await send_message(event.client,recipient, modified_message)
+            fwded_msg = await send_message(event.client, recipient, modified_message)
             _stored[event_uid].append(fwded_msg)
 
     existing_hashes.append(hash(message.text))
@@ -77,7 +78,7 @@ async def edited_message_handler(event):
     if chat_id not in from_to:
         return
 
-    logging.info(f'Message edited in {chat_id}')
+    logging.info(f"Message edited in {chat_id}")
 
     event_uid = EventUid(event)
 
@@ -97,8 +98,7 @@ async def deleted_message_handler(event):
     if chat_id not in from_to:
         return
 
-    logging.info(f'Message deleted in {chat_id}')
-
+    logging.info(f"Message deleted in {chat_id}")
 
     event_uid = EventUid(event)
     fwded_msgs = _stored.get(event_uid)
@@ -109,16 +109,16 @@ async def deleted_message_handler(event):
 
 
 ALL_EVENTS = {
-    'new': (new_message_handler, events.NewMessage()),
-    'edited': (edited_message_handler, events.MessageEdited()),
-    'deleted': (deleted_message_handler, events.MessageDeleted())
+    "new": (new_message_handler, events.NewMessage()),
+    "edited": (edited_message_handler, events.MessageEdited()),
+    "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
 
 
 def start_sync():
     client = TelegramClient(SESSION, API_ID, API_HASH)
     for key, val in ALL_EVENTS.items():
-        logging.info(f'Added event handler for {key}')
+        logging.info(f"Added event handler for {key}")
         client.add_event_handler(*val)
     client.start()
     client.run_until_disconnected()

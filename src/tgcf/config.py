@@ -9,7 +9,7 @@ import yaml
 from pydantic import BaseModel
 from telethon.sessions import StringSession
 
-CONFIG_FILE = 'tgcf.config.yml'
+CONFIG_FILE = "tgcf.config.yml"
 
 
 class Forward(BaseModel):
@@ -17,11 +17,12 @@ class Forward(BaseModel):
     dest: List[int]
     offset: Optional[int] = 0
 
-class TextFormat(str,Enum):
-    bold = 'bold'
-    italics = 'italic'
-    strike = 'strike'
-    code = 'code'
+
+class TextFormat(str, Enum):
+    bold = "bold"
+    italics = "italic"
+    strike = "strike"
+    code = "code"
 
 
 class Config(BaseModel):
@@ -31,6 +32,8 @@ class Config(BaseModel):
     whitelist: Optional[List] = []
     replace: Optional[Dict] = {}
     text_format: Optional[TextFormat] = None
+    plugins: Optional[Dict]
+
 
 def read_config():
     with open(CONFIG_FILE) as file:
@@ -46,7 +49,7 @@ def read_config():
 
 
 def update_config(config: Config):
-    with open(CONFIG_FILE, 'w') as file:
+    with open(CONFIG_FILE, "w") as file:
         yaml.dump(config.dict(), file)
 
 
@@ -56,20 +59,20 @@ def env_var(name: str, optional=False):
     while not var:
         if optional:
             break
-        var = input(f'Enter {name}: ')
+        var = input(f"Enter {name}: ")
     return var
 
 
-API_ID = env_var('API_ID')
-API_HASH = env_var('API_HASH')
-USERNAME = env_var('USERNAME', optional=True)
-SESSION_STRING = env_var('SESSION_STRING', optional=True)
+API_ID = env_var("API_ID")
+API_HASH = env_var("API_HASH")
+USERNAME = env_var("USERNAME", optional=True)
+SESSION_STRING = env_var("SESSION_STRING", optional=True)
 
 if SESSION_STRING:
     SESSION = StringSession(SESSION_STRING)
 else:
-    SESSION = 'tgcf'
+    SESSION = "tgcf"
 
 CONFIG = read_config()
 
-logging.info('config.py got executed')
+logging.info("config.py got executed")
