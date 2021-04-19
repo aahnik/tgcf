@@ -1,5 +1,4 @@
 *.session
-.vscode
 *.session-journal
 t.py
 tgcf.config.yml
