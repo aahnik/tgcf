@@ -12,26 +12,23 @@ from telethon.sessions import StringSession
 CONFIG_FILE = "tgcf.config.yml"
 
 
+
 class Forward(BaseModel):
     source: int
     dest: List[int]
     offset: Optional[int] = 0
 
 
-class TextFormat(str, Enum):
-    bold = "bold"
-    italics = "italic"
-    strike = "strike"
-    code = "code"
+# class TextFormat(str, Enum):
+#     bold = "bold"
+#     italics = "italic"
+#     strike = "strike"
+#     code = "code"
 
 
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
-    blacklist: Optional[List] = []
-    whitelist: Optional[List] = []
-    replace: Optional[Dict] = {}
-    text_format: Optional[TextFormat] = None
     plugins: Optional[Dict]
 
 

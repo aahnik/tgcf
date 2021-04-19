@@ -1,8 +1,17 @@
 [tool.poetry]
 name = "tgcf"
 version = "0.1.6"
-description = "Coming soon..."
+description = "The ultimate tool to automate telegram message forwarding."
 authors = ["aahnik <daw@aahnik.dev>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/aahnik/tgcf"
+documentation = "https://aahnik.github.io/tgcf"
+packages = [
+    { include = "tgcf"},
+    { include = "tgcf_filter", from = "plugins" },
+    { include = "tgcf_replacer", from = "plugins" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

@@ -5,5 +5,4 @@ async def send_message(client, *args):
     # show forwarded from
     if CONFIG.show_forwarded_from:
         return await client.forward_messages(*args)
-    else:
-        return await client.send_message(*args)
+    return await client.send_message(*args)
