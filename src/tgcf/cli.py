@@ -2,17 +2,16 @@
 using the modern and robust `typer`.
 """
 
-import os
 import asyncio
-from enum import Enum
 import logging
+import os
+from enum import Enum
 from typing import Optional
 
 import typer
 from dotenv import load_dotenv
 
 from tgcf import __version__
-
 
 load_dotenv(".env")
 

@@ -2,8 +2,8 @@
 
 import logging
 import os
-from typing import Dict, List, Optional
 from enum import Enum
+from typing import Dict, List, Optional
 
 import yaml
 from pydantic import BaseModel

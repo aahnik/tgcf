@@ -1,5 +1,7 @@
-from tgcf.config import CONFIG
 from importlib import import_module
+
+from tgcf.config import CONFIG
+
 PLUGINS = CONFIG.plugins
 
 def load_plugins():
