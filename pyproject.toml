@@ -22,6 +22,8 @@ pytest = "^5.2"
 autopep8 = "^1.5.5"
 pylint = "^2.7.4"
 typer-cli = "^0.0.11"
+black = {version = "^20.8b1", allow-prereleases = true}
+mkdocs-gen-files = "^0.3.1"
 
 
 [tool.poetry.scripts]
