@@ -2,7 +2,7 @@ this branch is not ready for use. go to the main branch https://github.com/aahni
 
 
 <p align="center">
-<a href = "https://github.com/aahnik/tgcf" > <img src = "https://user-images.githubusercontent.com/66209958/113105325-180bcc80-921f-11eb-9c09-a410a717a514.png" alt = "tgcf logo"  width=120> </a>
+<a href = "https://github.com/aahnik/tgcf" > <img src = "https://user-images.githubusercontent.com/66209958/115182625-ea1bf880-a0f7-11eb-9894-d3be09ba627c.png" alt = "tgcf logo"  width=120> </a>
 </p>
 
 <h1 align="center"> tgcf </h1>
