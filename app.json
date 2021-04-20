@@ -20,7 +20,7 @@
     "TGCF_CONFIG": {
       "description": "Put the contents of tgcf.config.yml here",
       "value": "",
-      "requiree": false
+      "required": false
     }
   }
 }
