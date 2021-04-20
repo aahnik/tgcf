@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgcf"
-version = "0.1.6"
+version = "0.1.15"
 description = "The ultimate tool to automate telegram message forwarding."
 authors = ["aahnik <daw@aahnik.dev>"]
 license = "MIT"
@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 requests = "^2.25.1"
 typer = "^0.3.2"
 python-dotenv = "^0.15.0"
