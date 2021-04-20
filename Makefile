@@ -16,7 +16,7 @@ clean:
 	@find . -type d -name '*pytest_cache*' -exec rm -rf {} +
 	@find . -type f -name "*.py[co]" -exec rm -rf {} +
 
-format: clean
+fmt: clean
 	@poetry run isort tgcf/ plugins/ tests/
 	@poetry run black tgcf/ plugins/ tests/
 
