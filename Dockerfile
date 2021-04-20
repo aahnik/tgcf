@@ -4,6 +4,10 @@ WORKDIR /app
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN pip install --upgrade pip && pip install tgcf
+RUN pip install --upgrade pip && pip install poetry
 
-CMD ["tgcf"]
+COPY . .
+
+RUN poetry install
+
+CMD ["poetry","run","tgcf"]
