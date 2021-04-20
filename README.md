@@ -34,11 +34,20 @@ You can also join the official [Telegram Channel](https://telegram.me/tg_cf), to
 
 A youtube video is coming soon. [Subscribe](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg) to get notified.
 
-## Local Installation 🔥
-
-This guide is for installing and running on your own computer (Windows/Mac/Linux/Android).
+## Run Locally 🔥
 
 > **Note:** Make sure you have Python 3.8 or above installed. Go to [python.org](https://python.org) to download python.
+
+
+
+| Platform | Supported |
+| -------- | :-------: |
+| Windows  |     ✅     |
+| Mac      |     ✅     |
+| Linux    |     ✅     |
+| [Android](https://github.com/aahnik/tgcf/wiki/Run-on-Android-using-Termux)  |     ✅     |
+
+If you are familiar with **Docker**, you may [go that way](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker) for an easier life.
 
 Open your terminal (command prompt) and run the following commands.
 
@@ -55,29 +64,33 @@ tgcf --version
 
 If you see an error, that means installation failed.
 
-
-## Supported Platforms 🌩️
-
-Deploying to a cloud server is an easier alternative if you cannot install on your own machine. Cloud servers are very reliable and great for running `tgcf` in live mode.
-
-| Platform                  | Supported Modes | How to ?                                                     | Minimum Price |
-| ------------------------- | --------------- | ------------------------------------------------------------ | ------------- |
-| Heroku                    | live            | <a href="https://heroku.com/deploy">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy"></a> | Free          |
-| GitHub Actions            | past            | ![](https://user-images.githubusercontent.com/66209958/115380652-6b56b680-a1f0-11eb-8eff-eda079b33120.png) | Free          |
-| Digital Ocean             | past + live     | <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/{repo-owner}/{repo-name}/tree/{branch-name}">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> | $5            |
-| Gitpod                    | past + live     | <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/{repo-owner}/{repo-name}/tree/{branch-name}">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Deploy to DO" width=180></a> | Free          |
-| Windows/Mac/LInux/Android | past + live     |  <img src="https://user-images.githubusercontent.com/66209958/115380909-aeb12500-a1f0-11eb-9776-5622c223dc77.png" alt="Deploy to DO" width=180></a>                                                            | Free          |
-| Docker                    | past + live     |       <img src="" alt="Deploy to DO" width=200>                             | Free          |
-| Google Cloud              | past + live     | <img src="https://deploy.cloud.run/button.svg" alt="Deploy to DO" width=200> | Free          |
-
-
-## Configuration ⚙️
+### Configuration ⚙️
 
 Configuring `tgcf` is easy. You just need two files.
 
 - [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables) : You heard it right! Just `.env`. This file is for storing your secret credentials for signing into Telegram. This file is for defining the environment variables. You can do so by other methods also.
 
 - [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F) : An `yaml` file to configure how `tgcf` behaves.
+
+
+
+## Run on cloud 🌩️
+
+Deploying to a cloud server is an easier alternative if you cannot install on your own machine. Cloud servers are very reliable and great for running `tgcf` in live mode.
+
+When you are deploying on a cloud platform, you can configure `tgcf` using [environment variables](https://github.com/aahnik/tgcf/wiki/Environment-Variables). The contents of [`tgcf.config.yml`]() can be put inside the environment variable called `TGCF_CONFIG`.
+
+
+| How to ?                                                     |
+| :------------------------------------------------------------: |
+| <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> |
+| <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> |
+| <a href="https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud"> <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" width=210></a> |
+| <a href="https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
+
+If you need to run `tgcf` in past mode periodically, then you can use [GitHub Actions](https://github.com/aahnik/tgcf/wiki/Run-tgcf-in-past-mode-periodically) to run a scheduled workflow.
+
+
 
 
 ## Getting Help 💁🏻
