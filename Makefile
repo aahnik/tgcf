@@ -17,8 +17,8 @@ clean:
 	@find . -type f -name "*.py[co]" -exec rm -rf {} +
 
 format: clean
-	@poetry run isort src/ tests/
-	@poetry run black src/ tests/
+	@poetry run isort tgcf/ plugins/ tests/
+	@poetry run black tgcf/ plugins/ tests/
 
 hard-clean: clean
 	rm -rf .venv site
