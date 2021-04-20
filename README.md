@@ -1,100 +1,142 @@
-# telegram-chat-forward
+<!-- markdownlint-disable -->
 
-[![telegram-chat](https://img.shields.io/badge/channel-@tg_cf-blue?logo=telegram)](https://telegram.me/tg_cf)
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![MIT license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://aahnik.github.io/)
+<p align="center">
+<a href = "https://github.com/aahnik/tgcf" > <img src = "https://user-images.githubusercontent.com/66209958/115183360-3fa4d500-a0f9-11eb-9c0f-c5ed03a9ae17.png" alt = "tgcf logo"  width=120> </a>
+</p>
 
-A simple script to forward all the messages of one chat (indivisual/group/channel) to another. Made using Telethon. Can be used to back up the contents of a chat to another place.
+<h1 align="center"> tgcf </h1>
 
-## Signing in
+<p align="center">
+The ultimate tool to automate telegram message forwarding.
+</p>
 
-First of all you need to have your Telegram account's `api_id` and `api_hash`.
-Learn [how to get](https://docs.telethon.dev/en/latest/basic/signing-in.html) them.
+<p align="center"><a href="https://github.com/aahnik/tgcf/blob/main/LICENSE"><img src="https://img.shields.io/github/license/aahnik/tgcf" alt="GitHub license"></a>
+<a href="https://github.com/aahnik/tgcf/stargazers"><img src="https://img.shields.io/github/stars/aahnik/tgcf?style=social" alt="GitHub stars"></a>
+<a href="https://github.com/aahnik/tgcf/issues"><img src="https://img.shields.io/github/issues/aahnik/tgcf" alt="GitHub issues"></a>
+<img src="https://img.shields.io/pypi/v/tgcf" alt="PyPI">
+<a href="https://twitter.com/intent/tweet?text=Wow:&amp;url=https%3A%2F%2Fgithub.com%2Faahnik%2Ftgcf"><img src="https://img.shields.io/twitter/url?style=social&amp;url=https%3A%2F%2Fgithub.com%2Faahnik%2Ftgcf" alt="Twitter"></a></p>
 
-## Installation
+<br>
 
-Make sure you have `python` 3.6 or above installed, by running `python --version`.
+<!-- markdownlint-enable -->
 
-**The following commands are to be executed on a Mac/Linux terminal like bash or zsh. If you are a Windows user, then I strongly recommend using [pythonanywhere](https://github.com/aahnik/telegram-chat-forward/discussions/23) or [termux](https://github.com/aahnik/telegram-chat-forward/discussions/20), unless you are familiar with using command line on Windows.**
+The *key features* are:
 
-> Changes may be required to be made in the following commands to make them Windows compatible.
+1. Two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
+are _past_ or _live_ for dealing with either existing or upcoming messages.
+2. Supports [signing in](https://github.com/aahnik/tgcf/wiki/Signing-in-with-a-bot-or-user-account)
+with both telegram _bot_ account as well as _user_ account.
+3. Custom [Filtering](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)
+of messages based on whitelist or blacklist.
+4. Modification of messages like [Text Replacement](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained),
+[Watermarking](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F),
+[OCR](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR-!) etc.
+5. Detailed **[documentation📖](https://github.com/aahnik/tgcf/wiki)** +
+Video tutorial + Fast help in [discussion forum💬](https://github.com/aahnik/tgcf/discussions).
+6. If you are a python developer, writing [plugins🔌](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)
+is like stealing candy from a baby.
 
-- Clone this repo and move into it to get started.
+What are you waiting for? Star 🌟 the repo and click Watch 🕵 to recieve updates.
 
-```shell
-git clone https://github.com/aahnik/telegram-chat-forward.git && cd telegram-chat-forward
-```
+You can also join the official [Telegram Channel](https://telegram.me/tg_cf),
+to recieve updates without any ads.
 
-- Install dependancies.
+<!-- markdownlint-disable -->
+## Video Tutorial 📺
 
-```shell
-python3 -m venv venv && source venv/bin/activate
-pip3 install -r requirements.txt
-```
+A youtube video is coming soon. [Subscribe](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg) to get notified.
 
-> Note: It is recommended to use a virtual environment.
+<!-- markdownlint-enable -->
 
-## Setup
+## Run Locally 🔥
 
-You must have the `api_id` and `api_hash` as environment variables.
-You may simply create a file named `.env` in the project directory and paste the following into it.
+> **Note:** Make sure you have Python 3.8 or above installed.
+Go to [python.org](https://python.org) to download python.
 
-```shell
-api_id=12345
-api_hash=kjfjfk9r9JOIJOIjoijf9wr0w
-```
+| Platform | Supported |
+| -------- | :-------: |
+| Windows  |     ✅     |
+| Mac      |     ✅     |
+| Linux    |     ✅     |
+| [Android](https://github.com/aahnik/tgcf/wiki/Run-on-Android-using-Termux)  |     ✅     |
 
-**Replace the above values with the actual values for your telegram account.**
+If you are familiar with **Docker**, you may [go that way](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
+for an easier life.
 
-After this you need to create and fill up the `config.ini` file with your forwarding configurations.
-
-## Configuration
-
-- The `from` and `to` in the `config.ini` has to be a **username/phone/link/chat_id** of the chat.
-- The chat id is the best way for configurations. It will always be accurate. To get the chat id of a chat, forward any message of the chat to [@userinfobot](https://telegram.me/userinfobot)
-- You may have as many as forwarding pairs as you wish. Make sure to give a unique header to each pair. Follow the syntax shown below.
-
-```ini
-[name of forward1]
-; in the above line give any name as you wish
-; the square brackets around the name should remain
-from = https://t.me/someone
-to = -1001235055711
-offset = 0
-; the offset will auto-update, keep it zero initially
-[another name]
-; the name of section must be unique
-from = @username
-to = @anothername
-offset = 0
-[forward saved messages]
-; you can make a backup of your own saved messages (cloud storage)!
-from = me
-to = @anothername
-offset = 0
-```
-
-> **Note**:Any line starting with `;` in a `.ini` file, is treated as a comment.
-
-## Offset
-
-- When you run the script for the first time, keep `offset=0`.
-- When the script runs, the value of offset in `config.ini` gets updated automatically.
-- Offset is basically the id of the last message forwarded from `from` to `to`.
-- When you run the script next time, the messages in `from` having an id greater than offset (newer messages) will be forwarded to  `to`. That is why it is important not to loose the value of `offset`.
-
-## Execution
-
-After setting up the `config.ini`, run the `forwarder.py` script.
+Open your terminal (command prompt) and run the following commands.
 
 ```shell
-python3 forwarder.py
+pip install pipx
+pipx install tgcf
 ```
 
-You have to login for the first time using your phone number (inter-national format) and login code.
+To check if the installation succeeded, run
 
-A session file called `forwarder.session` will be generated. **Please don't delete this and make sure to keep this file secret.**
+```shell
+tgcf --version
+```
 
-Feel free to ask your questions in the [Discussion section](https://github.com/aahnik/telegram-chat-forward/discussions). For bugs and feature requests use the [issues](https://github.com/aahnik/telegram-chat-forward/issues/new) section of this repo.
+If you see an error, that means installation failed.
 
+### Configuration 🛠️
 
+Configuring `tgcf` is easy. You just need two files in your present directory
+(from which tgcf is invoked).
+
+- [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables) : To
+define your environment variables easily.
+
+- [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F) :
+An `yaml` file to configure how `tgcf` behaves.
+
+### Start `tgcf` ✨
+
+In your terminal, just run `tgcf live` or `tgcf past` to start `tgcf`.
+
+For more details run `tgcf --help` or [read docs](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
+
+## Run on cloud 🌩️
+
+Deploying to a cloud server is an easier alternative if you cannot install
+on your own machine.
+Cloud servers are very reliable and great for running `tgcf` in live mode.
+
+When you are deploying on a cloud platform, you can configure `tgcf`
+using [environment variables](https://github.com/aahnik/tgcf/wiki/Environment-Variables).
+The contents of [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
+can be put inside the environment variable called `TGCF_CONFIG`.
+
+You may click on the platform name *(left coloumn)* to learn more about the
+deployment process. Clicking on the "deploy" button *(right coloumn)* will
+directly deploy the application to that platform.
+
+<!-- markdownlint-disable -->
+
+<br>
+
+| Platform                                                     |                       One click deploy                       |
+| ------------------------------------------------------------ | :----------------------------------------------------------: |
+| [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku) | <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> |
+| [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean) | <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> |
+| [Google Cloud](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud) | <a href="https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud"> <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" width=210></a> |
+| [Gitpod](https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod) | <a href="https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
+
+<br>
+<!-- markdownlint-enable -->
+
+If you need to run `tgcf` in past mode periodically, then you may set a cron job
+in your computer or  use [GitHub Actions](https://github.com/aahnik/tgcf/wiki/Run-tgcf-in-past-mode-periodically)
+to run a scheduled workflow.
+
+## Getting Help 💁🏻
+
+- First of all [read the wiki](https://github.com/aahnik/tgcf/wiki)
+and [watch](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg) the videos.
+- If you still have doubts, you can try searching your problem in discussion
+forum or the issue tracker.
+- Feel free to ask your questions in the [Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
+- For reporting bugs or requesting a feature please use the [issue tracker](https://github.com/aahnik/tgcf/issues/new)
+for this repo.
+
+Please do not send me direct messages on Telegram.
+(Exception: Sponsors can message me anytime)

@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "tgcf"
+version = "0.1.17"
+description = "The ultimate tool to automate telegram message forwarding."
+authors = ["aahnik <daw@aahnik.dev>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/aahnik/tgcf"
+documentation = "https://github.com/aahnik/tgcf/wiki"
+packages = [
+    { include = "tgcf"},
+    { include = "tgcf_filter", from = "plugins" },
+    { include = "tgcf_replace", from = "plugins" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.25.1"
+typer = "^0.3.2"
+python-dotenv = "^0.15.0"
+PyYAML = "^5.4.1"
+pydantic = "^1.8.1"
+Telethon = "^1.20"
+cryptg = "^0.2.post2"
+Pillow = "^8.1.2"
+hachoir = "^3.1.2"
+aiohttp = "^3.7.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+autopep8 = "^1.5.5"
+pylint = "^2.7.4"
+typer-cli = "^0.0.11"
+black = {version = "^20.8b1", allow-prereleases = true}
+mkdocs-gen-files = "^0.3.1"
+isort = "^5.8.0"
+
+
+[tool.poetry.scripts]
+tgcf = 'tgcf:cli.app'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
