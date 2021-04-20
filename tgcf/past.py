@@ -29,7 +29,7 @@ async def forward_job():
                         continue
 
                     for destination in forward.dest:
-                        send_message(client,destination,message)
+                        await send_message(client, destination, message)
                     last_id = str(message.id)
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id

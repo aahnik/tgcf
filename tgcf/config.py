@@ -12,7 +12,6 @@ from telethon.sessions import StringSession
 CONFIG_FILE = "tgcf.config.yml"
 
 
-
 class Forward(BaseModel):
     source: int
     dest: List[int]
@@ -29,7 +28,7 @@ class Forward(BaseModel):
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
-    plugins: Optional[Dict]
+    plugins: Optional[Dict] = {}
 
 
 def read_config():
