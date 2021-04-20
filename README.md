@@ -66,8 +66,7 @@ for an easier life.
 Open your terminal (command prompt) and run the following commands.
 
 ```shell
-pip install pipx
-pipx install tgcf
+pip install tgcf
 ```
 
 To check if the installation succeeded, run
