@@ -115,10 +115,10 @@ directly deploy the application to that platform.
 
 | Platform                                                     |                       One click deploy                       |
 | ------------------------------------------------------------ | :----------------------------------------------------------: |
-| [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku) | <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> |
-| [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean) | <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> |
-| [Google Cloud](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud) | <a href="https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud"> <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" width=210></a> |
-| [Gitpod](https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod) | <a href="https://gitpod.io/#https://github.com/aahnik/python-in-gitpod">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
+| [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku) | <a href="https://heroku.com/deploy?template=https://github.com/aahnik/tgcf">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> |
+| [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean) | <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/aahnik/tgcf/tree/main">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> |
+| [Google Cloud](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud) | <a href="https://deploy.cloud.run/?git_repo=https://github.com/aahnik/tgcf.git"> <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" width=210></a> |
+| [Gitpod](https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod) | <a href="https://gitpod.io/#https://github.com/aahnik/tgcf">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
 
 <br>
 <!-- markdownlint-enable -->

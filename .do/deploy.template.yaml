@@ -1,0 +1,26 @@
+spec:
+  name: tgcf
+  services:
+    - name: worker
+      github:
+        repo: aahnik/tgcf
+        branch: main
+        deploy_on_push: false
+      dockerfile_path: Dockerfile 
+      envs:
+        - key: API_ID
+          value: someval 
+          type: SECRET
+          scope: RUN_TIME
+        - key: API_HASH
+          value: someval
+          type: SECRET
+          scope: RUN_TIME
+        - key: SESSION_STRING
+          value: someval
+          type: SECRET
+          scope: RUN_TIME
+        - key: TGCF_CONFIG
+          value: someval
+          type: SECRET
+        
