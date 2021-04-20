@@ -10,7 +10,7 @@ documentation = "https://aahnik.github.io/tgcf"
 packages = [
     { include = "tgcf"},
     { include = "tgcf_filter", from = "plugins" },
-    { include = "tgcf_replacer", from = "plugins" },
+    { include = "tgcf_replace", from = "plugins" },
 ]
 
 [tool.poetry.dependencies]
