@@ -66,7 +66,7 @@ for an easier life.
 Open your terminal (command prompt) and run the following commands.
 
 ```shell
-pip install tgcf
+pip install --upgrade tgcf
 ```
 
 To check if the installation succeeded, run
