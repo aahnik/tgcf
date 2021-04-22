@@ -94,38 +94,38 @@ In your terminal, just run `tgcf live` or `tgcf past` to start `tgcf`.
 
 For more details run `tgcf --help` or [read docs](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
 
-## Run on cloud 🌩️
+## Run on Cloud 🌩️
 
 Deploying to a cloud server is an easier alternative if you cannot install
 on your own machine.
 Cloud servers are very reliable and great for running `tgcf` in live mode.
 
-When you are deploying on a cloud platform, you can configure `tgcf`
+If you cant edit files in your cloud environment,or your cloud provider offers
+an ephimeral file system, you may configure `tgcf` purely
 using [environment variables](https://github.com/aahnik/tgcf/wiki/Environment-Variables).
-The contents of [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
-can be put inside the environment variable called `TGCF_CONFIG`.
-
-You may click on the platform name *(left coloumn)* to learn more about the
-deployment process. Clicking on the "deploy" button *(right coloumn)* will
-directly deploy the application to that platform.
+The contents of the file [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
+  can be put inside the environment variable called `TGCF_CONFIG`.
 
 <!-- markdownlint-disable -->
 
-<br>
 
-| Platform                                                     |                       One click deploy                       |
-| ------------------------------------------------------------ | :----------------------------------------------------------: |
-| [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku) | <a href="https://heroku.com/deploy?template=https://github.com/aahnik/tgcf">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> |
-| [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean) | <a href="https://cloud.digitalocean.com/apps/new?repo=https://github.com/aahnik/tgcf/tree/main">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> |
-| [Google Cloud](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud) | <a href="https://deploy.cloud.run/?git_repo=https://github.com/aahnik/tgcf.git"> <img src="https://deploy.cloud.run/button.svg" alt="Run on Google Cloud" width=210></a> |
-| [Gitpod](https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod) | <a href="https://gitpod.io/#https://github.com/aahnik/tgcf">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
 
-<br>
+
+
+| <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku">   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku" width=155></a> | <a href="https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean">  <img src="https://www.deploytodo.com/do-btn-blue.svg" alt="Deploy to DO" width=220></a> | <a href="https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod">  <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Run on Gitpod" width=160></a> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                       Free (450 hr/mo)                       |                            $5/mo                             |                       Free (50 hr/mo)                       |
+
+
+
+**Other options**
+
+- [Python Anywhere](https://github.com/aahnik/tgcf/wiki/Run-on-PythonAnywhere)
+- [Google Cloud Run](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud)
+- [GitHub Action](https://github.com/aahnik/tgcf/wiki/Run-tgcf-in-past-mode-periodically)
+(sheduled workflows)
+
 <!-- markdownlint-enable -->
-
-If you need to run `tgcf` in past mode periodically, then you may set a cron job
-in your computer or  use [GitHub Actions](https://github.com/aahnik/tgcf/wiki/Run-tgcf-in-past-mode-periodically)
-to run a scheduled workflow.
 
 ## Getting Help 💁🏻
 
