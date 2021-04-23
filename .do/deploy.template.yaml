@@ -1,4 +1,3 @@
-name: aahnik-tgcf
 workers:
 - envs:
   - key: API_ID
