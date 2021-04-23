@@ -1,33 +1,21 @@
-spec:
-  name: tgcf
-
-  services:
-    - name: worker
-      
-      github:
-        repo: aahnik/tgcf
-        branch: main
-        deploy_on_push: false
-
-      dockerfile_path: Dockerfile
-      
-      envs:
-        - key: API_ID
-          type: SECRET
-          scope: RUN_TIME
-
-        - key: API_HASH
-          type: SECRET
-          scope: RUN_TIME
-
-        - key: SESSION_STRING
-          type: SECRET
-          scope: RUN_TIME
-
-        - key: TGCF_MODE
-          scope: RUN_TIME
-
-        - key: TGCF_CONFIG
-          type: SECRET
-          scope: RUN_TIME
-        
+name: aahnik-tgcf
+workers:
+- envs:
+  - key: API_ID
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+  - key: API_HASH
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+  - key: TGCF_MODE
+    scope: RUN_AND_BUILD_TIME
+  - key: SESSION_STRING
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+  - key: TGCF_CONFIG
+    scope: RUN_AND_BUILD_TIME
+  image:
+    registry: aahnik
+    registry_type: DOCKER_HUB
+    repository: tgcf
+    tag: latest
