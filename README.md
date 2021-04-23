@@ -24,9 +24,9 @@ The *key features* are:
 
 1. Two **[modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)**
 are _past_ or _live_ for dealing with either existing or upcoming messages.
-2. Supports **[login](https://github.com/aahnik/tgcf/wiki/Signing-in-with-a-bot-or-user-account)**
+2. Supports **[login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)**
 with both telegram _bot_ account as well as _user_ account.
-3. Custom **[filter]()  [replace]()  [watermark]()  [ocr]()** and whatever you need !
+3. Custom **[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)  [replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained)  [watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F)  [ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR-!)** and whatever you need !
 4. Detailed **[docs 📚](https://github.com/aahnik/tgcf/wiki)** +
 Video tutorial + Fast help in **[discussion forum 😎](https://github.com/aahnik/tgcf/discussions)**.
 5. If you are a python developer, writing **[plugins 🔌](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)**
