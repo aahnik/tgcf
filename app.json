@@ -23,8 +23,8 @@
       "required": false
     },
     "TGCF_MODE":{
-      "description": "The mode you want to run tgcf past/live",
-      "value": "",
+      "description": "The mode you want to run tgcf past/live. Default is live.",
+      "value": "live",
       "required": false
 
     },
