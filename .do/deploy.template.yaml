@@ -23,3 +23,4 @@ spec:
         - key: TGCF_CONFIG
           value: someval
           type: SECRET
+
