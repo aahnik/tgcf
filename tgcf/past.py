@@ -5,7 +5,7 @@ from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon.tl.patched import MessageService
 
-from tgcf.config import API_HASH, API_ID, CONFIG, SESSION
+from tgcf.config import API_HASH, API_ID, CONFIG, SESSION, update_config_file
 from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
@@ -33,6 +33,8 @@ async def forward_job():
                     last_id = str(message.id)
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id
+                    update_config_file(CONFIG)
+
                 except FloodWaitError as fwe:
                     print(f"Sleeping for {fwe}")
                     await asyncio.sleep(delay=fwe.seconds)
