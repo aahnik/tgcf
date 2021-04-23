@@ -17,7 +17,7 @@ packages = [
 python = "^3.8"
 requests = "^2.25.1"
 typer = "^0.3.2"
-python-dotenv = "^0.15.0"
+python-dotenv = "^0.17.0"
 PyYAML = "^5.4.1"
 pydantic = "^1.8.1"
 Telethon = "^1.20"
@@ -25,6 +25,7 @@ cryptg = "^0.2.post2"
 Pillow = "^8.1.2"
 hachoir = "^3.1.2"
 aiohttp = "^3.7.4"
+tg-login = "^0.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

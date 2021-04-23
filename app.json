@@ -21,6 +21,17 @@
       "description": "Put the contents of tgcf.config.yml here",
       "value": "",
       "required": false
+    },
+    "MODE":{
+      "description": "The mode you want to run tgcf past/live",
+      "value": "",
+      "required": false
+
+    },
+    "SESSION_STRING":{
+      "description": "After you login into your telegram account, put the session string.",
+      "value": "",
+      "required": false
     }
   }
 }
