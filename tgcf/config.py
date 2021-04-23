@@ -3,7 +3,6 @@
 import logging
 import os
 import sys
-from enum import Enum
 from typing import Dict, List, Optional
 
 import yaml
@@ -20,20 +19,13 @@ class Forward(BaseModel):
     offset: Optional[int] = 0
 
 
-# class TextFormat(str, Enum):
-#     bold = "bold"
-#     italics = "italic"
-#     strike = "strike"
-#     code = "code"
-
-
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
     plugins: Optional[Dict] = {}
 
 
-def detect_config_type()->int:
+def detect_config_type() -> int:
     # return 1 when tgcf.config.yml
     # 2 when env var
     # else terminate
@@ -55,9 +47,11 @@ def detect_config_type()->int:
         logging.warning(f"Configuration not found! {tutorial_link}")
         sys.exit(1)
 
+
 CONFIG_TYPE = detect_config_type()
 
-def read_config():
+
+def read_config_file():
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME) as file:
             config_dict = yaml.full_load(file)
@@ -66,8 +60,6 @@ def read_config():
         config_dict = yaml.full_load(config_env_var)
     else:
         logging.warning("This should never happen!")
-
-
 
     try:
         config = Config(**config_dict)
@@ -79,15 +71,12 @@ def read_config():
         return config
 
 
-def update_config(config: Config):
+def update_config_file(config: Config):
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME, "w") as file:
             yaml.dump(config.dict(), file)
     elif CONFIG_TYPE == 2:
         logging.warning("Could not update config! As env var is used")
-
-
-
 
 
 def get_env_var(name: str, optional=False):
@@ -110,6 +99,6 @@ if SESSION_STRING:
 else:
     SESSION = "tgcf"
 
-CONFIG = read_config()
+CONFIG = read_config_file()
 
 logging.info("config.py got executed")
