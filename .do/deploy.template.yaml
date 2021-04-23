@@ -24,7 +24,7 @@ spec:
           type: SECRET
           scope: RUN_TIME
 
-        - key: MODE
+        - key: TGCF_MODE
           scope: RUN_TIME
 
         - key: TGCF_CONFIG
