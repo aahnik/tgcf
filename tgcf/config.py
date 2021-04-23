@@ -3,7 +3,7 @@
 import logging
 import os
 import sys
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional,Union
 
 import yaml
 from pydantic import BaseModel
@@ -14,8 +14,8 @@ CONFIG_ENV_VAR_NAME = "TGCF_CONFIG"
 
 
 class Forward(BaseModel):
-    source: int
-    dest: List[int]
+    source: Union[int,str]
+    dest: List[Union[int,str]]
     offset: Optional[int] = 0
 
 
