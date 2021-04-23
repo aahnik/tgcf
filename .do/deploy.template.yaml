@@ -1,21 +1,25 @@
-name: aahnik-tgcf
-workers:
-- envs:
-  - key: API_ID
-    scope: RUN_AND_BUILD_TIME
-    type: SECRET
-  - key: API_HASH
-    scope: RUN_AND_BUILD_TIME
-    type: SECRET
-  - key: TGCF_MODE
-    scope: RUN_AND_BUILD_TIME
-  - key: SESSION_STRING
-    scope: RUN_AND_BUILD_TIME
-    type: SECRET
-  - key: TGCF_CONFIG
-    scope: RUN_AND_BUILD_TIME
-  image:
-    registry: aahnik
-    registry_type: DOCKER_HUB
-    repository: tgcf
-    tag: latest
+spec:
+  name: tgcf
+  services:
+    - name: worker
+      image:
+        registry: aahnik
+        registry_type: DOCKER_HUB
+        repository: tgcf
+        tag: latest
+        envs:
+        - key: API_ID
+          value: someval 
+          type: SECRET
+          scope: RUN_TIME
+        - key: API_HASH
+          value: someval
+          type: SECRET
+          scope: RUN_TIME
+        - key: SESSION_STRING
+          value: someval
+          type: SECRET
+          scope: RUN_TIME
+        - key: TGCF_CONFIG
+          value: someval
+          type: SECRET
