@@ -25,7 +25,7 @@ cryptg = "^0.2.post2"
 Pillow = "^8.1.2"
 hachoir = "^3.1.2"
 aiohttp = "^3.7.4"
-tg-login = "^0.0.1"
+tg-login = "^0.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
