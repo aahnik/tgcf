@@ -1,8 +1,7 @@
-blank_issues_enabled: true
 contact_links:
-  - name: Read Documentation
-    url: https://aahnik.github.io/tgcf/
-    about: Read the guides and tutorials
-  - name: Ask a Question or Discuss
-    url: https://github.com/aahnik/tgcf/discussions/new
-    about: You may ask a question, get help about errors or start a discussion.
+  - name: 📚 Read the docs
+    url: https://github.com/aahnik/tgcf/wiki
+    about: Make sure to go through the documentation first
+  - name: 🤷 Ask a question
+    url: https://github.com/aahnik/tgcf/discussions
+    about: Please ask and answer questions here
