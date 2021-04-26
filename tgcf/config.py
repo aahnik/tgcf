@@ -26,7 +26,7 @@ class LiveSettings(BaseModel):
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
-    live: Optional[LiveSettings]
+    live: Optional[LiveSettings] = LiveSettings()
 
     plugins: Optional[Dict] = {}
 

@@ -128,9 +128,9 @@ ALL_EVENTS = {
 def start_sync():
     client = TelegramClient(SESSION, API_ID, API_HASH)
     for key, val in ALL_EVENTS.items():
-        logging.info(f"Added event handler for {key}")
         if CONFIG.live.delete_sync is False and key == "deleted":
             continue
         client.add_event_handler(*val)
+        logging.info(f"Added event handler for {key}")
     client.start()
     client.run_until_disconnected()
