@@ -11,6 +11,8 @@ packages = [
     { include = "tgcf"},
     { include = "tgcf_filter", from = "plugins" },
     { include = "tgcf_replace", from = "plugins" },
+    { include = "tgcf_watermark", from = "plugins" },
+    { include = "tgcf_ocr", from = "plugins" },
 ]
 
 [tool.poetry.dependencies]
