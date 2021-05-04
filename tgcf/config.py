@@ -3,7 +3,7 @@
 import logging
 import os
 import sys
-from typing import Dict, List, Optional,Union
+from typing import Dict, List, Optional, Union
 
 import yaml
 from pydantic import BaseModel
@@ -14,14 +14,20 @@ CONFIG_ENV_VAR_NAME = "TGCF_CONFIG"
 
 
 class Forward(BaseModel):
-    source: Union[int,str]
-    dest: List[Union[int,str]]
+    source: Union[int, str]
+    dest: List[Union[int, str]]
     offset: Optional[int] = 0
+
+
+class LiveSettings(BaseModel):
+    delete_sync: Optional[bool] = False
 
 
 class Config(BaseModel):
     forwards: List[Forward]
     show_forwarded_from: Optional[bool] = False
+    live: Optional[LiveSettings] = LiveSettings()
+
     plugins: Optional[Dict] = {}
 
 
@@ -51,7 +57,7 @@ def detect_config_type() -> int:
 CONFIG_TYPE = detect_config_type()
 
 
-def read_config_file():
+def read_config_file()->Config:
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME) as file:
             config_dict = yaml.full_load(file)

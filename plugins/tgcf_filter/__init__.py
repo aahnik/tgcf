@@ -23,7 +23,7 @@ class TgcfFilter:
 
     def modify(self, message):
         msg_text = message.text
-        if not msg_text:
+        if not msg_text and self.filters.text.whitelist == []:
             return message
 
         if self.text_safe(msg_text, self.filters.text):
