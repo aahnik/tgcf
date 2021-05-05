@@ -1,4 +1,3 @@
-
 class TgcfOcr:
     id = "ocr"
 
