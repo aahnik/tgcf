@@ -1,4 +1,3 @@
-
 class TgcfWatermark:
     id = "watermark"
 

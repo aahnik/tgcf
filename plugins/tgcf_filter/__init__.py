@@ -1,11 +1,8 @@
 import logging
-from typing import List, Optional, Text
+from enum import Enum
+from typing import List, Optional
 
 from pydantic import BaseModel
-
-from enum import Enum
-
-from pydantic.errors import NotNoneError
 
 
 class FilterList(BaseModel):
@@ -79,12 +76,21 @@ class TgcfFilter:
         flist = self.filters.files
 
         def file_type(message):
-            file_types = [FileType.AUDIO, FileType.GIF,FileType.VIDEO, FileType.VIDEO_NOTE,
-                          FileType.STICKER, FileType.CONTACT, FileType.PHOTO, FileType.DOCUMENT]
+            file_types = [
+                FileType.AUDIO,
+                FileType.GIF,
+                FileType.VIDEO,
+                FileType.VIDEO_NOTE,
+                FileType.STICKER,
+                FileType.CONTACT,
+                FileType.PHOTO,
+                FileType.DOCUMENT,
+            ]
             for _type in file_types:
                 obj = getattr(message, _type)
                 if obj:
                     return _type
+
         fl_type = file_type(message)
         print(fl_type)
         if fl_type in flist.blacklist:

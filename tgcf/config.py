@@ -57,7 +57,7 @@ def detect_config_type() -> int:
 CONFIG_TYPE = detect_config_type()
 
 
-def read_config_file()->Config:
+def read_config_file() -> Config:
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME) as file:
             config_dict = yaml.full_load(file)
