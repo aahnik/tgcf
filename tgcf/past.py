@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import time
 
 from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import FloodWaitError
@@ -17,7 +18,8 @@ async def forward_job():
 
         for forward in CONFIG.forwards:
             last_id = 0
-            logging.info(f"Forwarding messages from {forward.source} to {forward.dest}")
+            logging.info(
+                f"Forwarding messages from {forward.source} to {forward.dest}")
             async for message in client.iter_messages(
                 forward.source, reverse=True, offset_id=forward.offset
             ):
@@ -34,6 +36,8 @@ async def forward_job():
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id
                     update_config_file(CONFIG)
+                    time.sleep(CONFIG.past.delay)
+                    logging.info(f"slept for {CONFIG.past.delay} seconds")
 
                 except FloodWaitError as fwe:
                     print(f"Sleeping for {fwe}")

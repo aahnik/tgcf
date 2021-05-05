@@ -6,8 +6,12 @@ import sys
 from typing import Dict, List, Optional, Union
 
 import yaml
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from telethon.sessions import StringSession
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 CONFIG_FILE_NAME = "tgcf.config.yml"
 CONFIG_ENV_VAR_NAME = "TGCF_CONFIG"
@@ -17,16 +21,32 @@ class Forward(BaseModel):
     source: Union[int, str]
     dest: List[Union[int, str]]
     offset: Optional[int] = 0
+    end: Optional[int] = None
 
 
 class LiveSettings(BaseModel):
-    delete_sync: Optional[bool] = False
+    delete_sync: bool = False
+
+
+class PastSettings(BaseModel):
+    delay: Optional[int] = 0
+
+    @validator('delay')
+    def validate_delay(cls, val):
+        if val not in range(0, 101):
+            logging.warning("delay must be within 0 to 100 seconds")
+            if val > 100:
+                val = 100
+            if val < 0:
+                val = 0
+        return val
 
 
 class Config(BaseModel):
     forwards: List[Forward]
-    show_forwarded_from: Optional[bool] = False
-    live: Optional[LiveSettings] = LiveSettings()
+    show_forwarded_from: bool = False
+    live: LiveSettings = LiveSettings()
+    past: PastSettings = PastSettings()
 
     plugins: Optional[Dict] = {}
 
