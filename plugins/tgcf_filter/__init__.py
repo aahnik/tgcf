@@ -19,6 +19,7 @@ class FileType(str, Enum):
     CONTACT = "contact"
     PHOTO = "photo"
     DOCUMENT = "document"
+    NOFILE = "nofile"
 
 
 class FilesFilterList(BaseModel):
@@ -92,6 +93,8 @@ class TgcfFilter:
                     return _type
 
         fl_type = file_type(message)
+        if not fl_type:
+            fl_type = FileType.NOFILE
         print(fl_type)
         if fl_type in flist.blacklist:
             return False
