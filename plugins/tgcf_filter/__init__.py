@@ -1,17 +1,37 @@
 import logging
-from typing import List, Optional
+from typing import List, Optional, Text
 
 from pydantic import BaseModel
 
+from enum import Enum
+
+from pydantic.errors import NotNoneError
+
 
 class FilterList(BaseModel):
-    blacklist: Optional[List[str or int]] = []
-    whitelist: Optional[List[str or int]] = []
+    blacklist: Optional[List[str]] = []
+    whitelist: Optional[List[str]] = []
+
+
+class FileType(str, Enum):
+    AUDIO = "audio"
+    GIF = "gif"
+    VIDEO = "video"
+    VIDEO_NOTE = "video_note"
+    STICKER = "sticker"
+    CONTACT = "contact"
+    PHOTO = "photo"
+    DOCUMENT = "document"
+
+
+class FilesFilterList(BaseModel):
+    blacklist: Optional[List[FileType]] = []
+    whitelist: Optional[List[FileType]] = []
 
 
 class Filters(BaseModel):
     users: Optional[FilterList] = FilterList()
-    files: Optional[FilterList] = FilterList()
+    files: Optional[FilesFilterList] = FilesFilterList()
     text: Optional[FilterList] = FilterList()
 
 
@@ -57,4 +77,19 @@ class TgcfFilter:
 
     def files_safe(self, message):
         flist = self.filters.files
-        return True
+
+        def file_type(message):
+            file_types = [FileType.AUDIO, FileType.GIF,FileType.VIDEO, FileType.VIDEO_NOTE,
+                          FileType.STICKER, FileType.CONTACT, FileType.PHOTO, FileType.DOCUMENT]
+            for _type in file_types:
+                obj = getattr(message, _type)
+                if obj:
+                    return _type
+        fl_type = file_type(message)
+        print(fl_type)
+        if fl_type in flist.blacklist:
+            return False
+        if not flist.whitelist:
+            return True
+        if fl_type in flist.whitelist:
+            return True
