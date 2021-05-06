@@ -29,7 +29,7 @@ class LiveSettings(BaseModel):
 
 
 class PastSettings(BaseModel):
-    delay: Optional[int] = 0
+    delay: Optional[float] = 0
 
     @validator('delay')
     def validate_delay(cls, val):
