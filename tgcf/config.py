@@ -26,6 +26,7 @@ class Forward(BaseModel):
 
 class LiveSettings(BaseModel):
     delete_sync: bool = False
+    delete_on_edit: Optional[str] = None
 
 
 class PastSettings(BaseModel):

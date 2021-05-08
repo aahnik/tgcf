@@ -94,7 +94,11 @@ async def edited_message_handler(event):
 
     if fwded_msgs:
         for msg in fwded_msgs:
-            await msg.edit(message.text)
+            if CONFIG.live.delete_on_edit == message.text:
+                await msg.delete()
+                await message.delete()
+            else:
+                await msg.edit(message.text)
         return
 
     to_send_to = from_to.get(event.chat_id)
