@@ -26,11 +26,13 @@ class FilesFilterList(BaseModel):
     blacklist: Optional[List[FileType]] = []
     whitelist: Optional[List[FileType]] = []
 
+class TextFilter(FilterList):
+    case_sensitive: Optional[bool] = False
 
 class Filters(BaseModel):
     users: Optional[FilterList] = FilterList()
     files: Optional[FilesFilterList] = FilesFilterList()
-    text: Optional[FilterList] = FilterList()
+    text: Optional[TextFilter] = TextFilter()
 
 
 class TgcfFilter:
@@ -39,7 +41,15 @@ class TgcfFilter:
     def __init__(self, data):
         print("tgcf filter data loaded")
         self.filters = Filters(**data)
+        self.case_correct()
         logging.info(self.filters)
+
+    def case_correct(self):
+        textf:TextFilter = self.filters.text
+
+        if textf.case_sensitive is False:
+            textf.blacklist = [item.lower() for item in textf.blacklist]
+            textf.whitelist = [item.lower() for item in textf.whitelist]
 
     def modify(self, message):
 
@@ -50,9 +60,15 @@ class TgcfFilter:
 
     def text_safe(self, message):
         flist = self.filters.text
+
+
         text = message.text
+        if not flist.case_sensitive:
+            text = text.lower()
         if not text and flist.whitelist == []:
             return True
+
+
         for forbidden in flist.blacklist:
             if forbidden in text:
                 return False
