@@ -44,4 +44,4 @@ async def forward_job():
                     await asyncio.sleep(delay=fwe.seconds)
                 except Exception as err:
                     logging.exception(err)
-                    break
+                    
