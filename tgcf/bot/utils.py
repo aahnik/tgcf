@@ -1,7 +1,9 @@
 from typing import List
+
 from telethon import events
-from tgcf.config import Forward
+
 from tgcf import config
+from tgcf.config import Forward
 
 
 def admin_protect(org_func):
@@ -13,6 +15,7 @@ def admin_protect(org_func):
             await event.respond("You are not authorized.")
             raise events.StopPropagation
         return await org_func(event)
+
     return wrapper_func
 
 

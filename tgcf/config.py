@@ -107,7 +107,7 @@ def update_config_file(config: Config):
 
 
 def get_env_var(name: str, optional=False):
-    var = os.getenv(name,"")
+    var = os.getenv(name, "")
 
     while not var:
         if optional:
@@ -120,7 +120,6 @@ API_ID = get_env_var("API_ID")
 API_HASH = get_env_var("API_HASH")
 USERNAME = get_env_var("USERNAME", optional=True)
 SESSION_STRING = get_env_var("SESSION_STRING", optional=True)
-
 
 
 if SESSION_STRING:
@@ -141,4 +140,3 @@ def load_from_to(forwards: List[Forward]):
 from_to = load_from_to(CONFIG.forwards)
 
 logging.info("config.py got executed")
-

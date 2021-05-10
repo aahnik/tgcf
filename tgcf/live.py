@@ -136,7 +136,7 @@ COMMANDS = {
     "start": "Check whether I am alive",
     "forward": "Set a new forward",
     "remove": "Remove an existing forward",
-    "help": "Learn usage"
+    "help": "Learn usage",
 }
 
 

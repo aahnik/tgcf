@@ -3,7 +3,8 @@ from telethon import events
 
 from tgcf import config
 
-from .utils import display_forwards, get_args, remove_source,admin_protect
+from .utils import admin_protect, display_forwards, get_args, remove_source
+
 
 @admin_protect
 async def forward_command_handler(event):
@@ -41,6 +42,7 @@ async def forward_command_handler(event):
 
     finally:
         raise events.StopPropagation
+
 
 @admin_protect
 async def remove_command_handler(event):
