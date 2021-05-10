@@ -34,6 +34,7 @@ async def forward_command_handler(event):
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
         await event.respond("Success")
+        config.update_config_file(config.CONFIG)
     except ValueError as err:
         print(err)
         await event.respond(str(err))
@@ -66,6 +67,7 @@ async def remove_command_handler(event):
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
         await event.respond("Success")
+        config.update_config_file(config.CONFIG)
     except ValueError as err:
         print(err)
         await event.respond(str(err))
