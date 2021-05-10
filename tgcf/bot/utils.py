@@ -1,6 +1,19 @@
 from typing import List
-
+from telethon import events
 from tgcf.config import Forward
+from tgcf import config
+
+
+def admin_protect(org_func):
+    if config.CONFIG.admins == []:
+        return org_func
+
+    async def wrapper_func(event):
+        if event.sender_id not in config.CONFIG.admins:
+            await event.respond("You are not authorized.")
+            raise events.StopPropagation
+        return await org_func(event)
+    return wrapper_func
 
 
 def get_args(text: str):
@@ -22,7 +35,7 @@ def display_forwards(forwards: List[Forward]):
     for forward in forwards:
         forward_str = (
             forward_str
-            + f"\n\n```\nsource: {forward.source}\ndest: {forward.dest}\n```\n------------"
+            + f"\n\n```\nsource: {forward.source}\ndest: {forward.dest}\n```\n"
         )
 
     return forward_str

@@ -1,6 +1,6 @@
 import logging
 
-from telethon import TelegramClient, events
+from telethon import events
 
 from tgcf import config
 from tgcf.bot import (
@@ -123,22 +123,46 @@ async def deleted_message_handler(event):
 
 
 ALL_EVENTS = {
-    "start": (start_command_handler, events.NewMessage(pattern="/start")),
-    "forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
-    "remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
-    "help": (help_command_handler, events.NewMessage(pattern="/help")),
+    "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
+    "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
+    "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
+    "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
     "new": (new_message_handler, events.NewMessage()),
     "edited": (edited_message_handler, events.MessageEdited()),
     "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
 
+COMMANDS = {
+    "start": "Check whether I am alive",
+    "forward": "Set a new forward",
+    "remove": "Remove an existing forward",
+    "help": "Learn usage"
+}
+
 
 def start_sync():
+    from telethon.sync import TelegramClient, functions, types
+
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
+    client.start()
+    is_bot = client.is_bot()
     for key, val in ALL_EVENTS.items():
+        if key.startswith("bot"):
+            if not is_bot:
+                continue
         if config.CONFIG.live.delete_sync is False and key == "deleted":
             continue
         client.add_event_handler(*val)
         logging.info(f"Added event handler for {key}")
-    client.start()
+    if is_bot:
+
+        client(
+            functions.bots.SetBotCommandsRequest(
+                commands=[
+                    types.BotCommand(command=key, description=value)
+                    for key, value in COMMANDS.items()
+                ]
+            )
+        )
+
     client.run_until_disconnected()

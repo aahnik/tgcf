@@ -3,9 +3,9 @@ from telethon import events
 
 from tgcf import config
 
-from .utils import display_forwards, get_args, remove_source
+from .utils import display_forwards, get_args, remove_source,admin_protect
 
-
+@admin_protect
 async def forward_command_handler(event):
     notes = """The `/forward` command allows you to add a new forward.
     Example: suppose you want to forward from a to (b and c)
@@ -41,7 +41,7 @@ async def forward_command_handler(event):
     finally:
         raise events.StopPropagation
 
-
+@admin_protect
 async def remove_command_handler(event):
     notes = """The `/remove` command allows you to remove a source from forwarding.
     Example: Suppose you want to remove the channel with id -100, then run
