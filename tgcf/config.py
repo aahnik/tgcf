@@ -6,10 +6,9 @@ import sys
 from typing import Dict, List, Optional, Union
 
 import yaml
+from dotenv import load_dotenv
 from pydantic import BaseModel, validator
 from telethon.sessions import StringSession
-
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -32,7 +31,7 @@ class LiveSettings(BaseModel):
 class PastSettings(BaseModel):
     delay: Optional[float] = 0
 
-    @validator('delay')
+    @validator("delay")
     def validate_delay(cls, val):
         if val not in range(0, 101):
             logging.warning("delay must be within 0 to 100 seconds")
@@ -48,6 +47,7 @@ class Config(BaseModel):
     show_forwarded_from: bool = False
     live: LiveSettings = LiveSettings()
     past: PastSettings = PastSettings()
+    admins: List[int] = []
 
     plugins: Optional[Dict] = {}
 
@@ -107,11 +107,11 @@ def update_config_file(config: Config):
 
 
 def get_env_var(name: str, optional=False):
-    var = os.getenv(name)
+    var = os.getenv(name, "")
 
     while not var:
         if optional:
-            break
+            return ""
         var = input(f"Enter {name}: ")
     return var
 
@@ -121,11 +121,22 @@ API_HASH = get_env_var("API_HASH")
 USERNAME = get_env_var("USERNAME", optional=True)
 SESSION_STRING = get_env_var("SESSION_STRING", optional=True)
 
+
 if SESSION_STRING:
     SESSION = StringSession(SESSION_STRING)
 else:
     SESSION = "tgcf"
 
 CONFIG = read_config_file()
+
+
+def load_from_to(forwards: List[Forward]):
+    from_to_dict = {}
+    for forward in forwards:
+        from_to_dict[forward.source] = forward.dest
+    return from_to_dict
+
+
+from_to = load_from_to(CONFIG.forwards)
 
 logging.info("config.py got executed")

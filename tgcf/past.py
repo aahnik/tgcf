@@ -18,8 +18,7 @@ async def forward_job():
 
         for forward in CONFIG.forwards:
             last_id = 0
-            logging.info(
-                f"Forwarding messages from {forward.source} to {forward.dest}")
+            logging.info(f"Forwarding messages from {forward.source} to {forward.dest}")
             async for message in client.iter_messages(
                 forward.source, reverse=True, offset_id=forward.offset
             ):

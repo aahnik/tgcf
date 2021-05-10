@@ -1,22 +1,22 @@
 import logging
 
-from telethon import TelegramClient, events
+from telethon import events
 
-from tgcf.config import API_HASH, API_ID, CONFIG, SESSION
+from tgcf import config
+from tgcf.bot import (
+    forward_command_handler,
+    help_command_handler,
+    remove_command_handler,
+    start_command_handler,
+)
 from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
-
-from_to = {}
 
 KEEP_LAST_MANY = 10000
 
 existing_hashes = []
 
 _stored = {}
-
-
-for forward in CONFIG.forwards:
-    from_to[forward.source] = forward.dest
 
 
 class EventUid:
@@ -40,7 +40,7 @@ class EventUid:
 async def new_message_handler(event):
     chat_id = event.chat_id
 
-    if chat_id not in from_to:
+    if chat_id not in config.from_to:
         return
     logging.info(f"New message received in {chat_id}")
     message = event.message
@@ -57,7 +57,7 @@ async def new_message_handler(event):
             del _stored[key]
             break
 
-    to_send_to = from_to.get(chat_id)
+    to_send_to = config.from_to.get(chat_id)
 
     if to_send_to:
         if event_uid not in _stored:
@@ -78,7 +78,7 @@ async def edited_message_handler(event):
 
     chat_id = event.chat_id
 
-    if chat_id not in from_to:
+    if chat_id not in config.from_to:
         return
 
     logging.info(f"Message edited in {chat_id}")
@@ -94,14 +94,14 @@ async def edited_message_handler(event):
 
     if fwded_msgs:
         for msg in fwded_msgs:
-            if CONFIG.live.delete_on_edit == message.text:
+            if config.CONFIG.live.delete_on_edit == message.text:
                 await msg.delete()
                 await message.delete()
             else:
                 await msg.edit(message.text)
         return
 
-    to_send_to = from_to.get(event.chat_id)
+    to_send_to = config.from_to.get(event.chat_id)
 
     for recipient in to_send_to:
         await send_message(event.client, recipient, message)
@@ -109,7 +109,7 @@ async def edited_message_handler(event):
 
 async def deleted_message_handler(event):
     chat_id = event.chat_id
-    if chat_id not in from_to:
+    if chat_id not in config.from_to:
         return
 
     logging.info(f"Message deleted in {chat_id}")
@@ -123,18 +123,46 @@ async def deleted_message_handler(event):
 
 
 ALL_EVENTS = {
+    "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
+    "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
+    "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
+    "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
     "new": (new_message_handler, events.NewMessage()),
     "edited": (edited_message_handler, events.MessageEdited()),
     "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
 
+COMMANDS = {
+    "start": "Check whether I am alive",
+    "forward": "Set a new forward",
+    "remove": "Remove an existing forward",
+    "help": "Learn usage",
+}
+
 
 def start_sync():
-    client = TelegramClient(SESSION, API_ID, API_HASH)
+    from telethon.sync import TelegramClient, functions, types
+
+    client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
+    client.start()
+    is_bot = client.is_bot()
     for key, val in ALL_EVENTS.items():
-        if CONFIG.live.delete_sync is False and key == "deleted":
+        if key.startswith("bot"):
+            if not is_bot:
+                continue
+        if config.CONFIG.live.delete_sync is False and key == "deleted":
             continue
         client.add_event_handler(*val)
         logging.info(f"Added event handler for {key}")
-    client.start()
+    if is_bot:
+
+        client(
+            functions.bots.SetBotCommandsRequest(
+                commands=[
+                    types.BotCommand(command=key, description=value)
+                    for key, value in COMMANDS.items()
+                ]
+            )
+        )
+
     client.run_until_disconnected()

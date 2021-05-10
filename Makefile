@@ -17,15 +17,12 @@ clean:
 	@find . -type f -name "*.py[co]" -exec rm -rf {} +
 
 fmt: clean
-	@poetry run isort tgcf/ plugins/ tests/
-	@poetry run black tgcf/ plugins/ tests/
+	@poetry run isort .
+	@poetry run black .
 
 hard-clean: clean
 	rm -rf .venv site
 
-mkdocs:
-	@poetry run mkdocs build
-	@poetry run mkdocs serve
-
-release-docs:
-	@poetry run mkdocs gh-deploy
+docker:
+	docker build -t tgcf .
+	
