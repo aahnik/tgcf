@@ -73,7 +73,7 @@ def main(
         print(f"mode = {mode}")
         sys.exit(1)
 
-    if mode == mode.PAST:
+    if mode == Mode.PAST:
         from tgcf.past import forward_job  # pylint: disable=import-outside-toplevel
 
         asyncio.run(forward_job())
