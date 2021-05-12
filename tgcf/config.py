@@ -114,7 +114,7 @@ def read_config() -> Config:
 
 def update_config_file(config: Config):
     """Write changes in config back to file."""
-    if CONFIG_TYPE == 1:
+    if CONFIG_TYPE == 1 or CONFIG_TYPE == 0:
         with open(CONFIG_FILE_NAME, "w") as file:
             yaml.dump(config.dict(), file)
     elif CONFIG_TYPE == 2:
@@ -136,7 +136,7 @@ API_ID = get_env_var("API_ID")
 API_HASH = get_env_var("API_HASH")
 USERNAME = get_env_var("USERNAME", optional=True)
 SESSION_STRING = get_env_var("SESSION_STRING", optional=True)
-BOT_TOKEN= get_env_var("BOT_TOKEN",optional=True)
+BOT_TOKEN = get_env_var("BOT_TOKEN", optional=True)
 
 if SESSION_STRING:
     SESSION = StringSession(SESSION_STRING)
