@@ -1,4 +1,4 @@
-# a custom config parser
+"""Load all user defined config and env vars."""
 
 import logging
 import os
@@ -7,16 +7,18 @@ from typing import Dict, List, Optional, Union
 
 import yaml
 from dotenv import load_dotenv
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator  # pylint: disable=no-name-in-module
 from telethon.sessions import StringSession
+
+from tgcf.const import CONFIG_ENV_VAR_NAME, CONFIG_FILE_NAME
 
 load_dotenv()
 
-CONFIG_FILE_NAME = "tgcf.config.yml"
-CONFIG_ENV_VAR_NAME = "TGCF_CONFIG"
-
 
 class Forward(BaseModel):
+    """Blueprint for the forward object."""
+
+    # pylint: disable=too-few-public-methods
     source: Union[int, str]
     dest: List[Union[int, str]]
     offset: Optional[int] = 0
@@ -24,15 +26,22 @@ class Forward(BaseModel):
 
 
 class LiveSettings(BaseModel):
+    """Settings to configure how tgcf operates in live mode."""
+
+    # pylint: disable=too-few-public-methods
     delete_sync: bool = False
     delete_on_edit: Optional[str] = None
 
 
 class PastSettings(BaseModel):
+    """Configuration for past mode."""
+
+    # pylint: disable=too-few-public-methods
     delay: Optional[float] = 0
 
     @validator("delay")
-    def validate_delay(cls, val):
+    def validate_delay(cls, val):  # pylint: disable=no-self-use,no-self-argument
+        """Check if the delay used by user is values. If not, use closest logical values."""
         if val not in range(0, 101):
             logging.warning("delay must be within 0 to 100 seconds")
             if val > 100:
@@ -43,6 +52,9 @@ class PastSettings(BaseModel):
 
 
 class Config(BaseModel):
+    """The blueprint for tgcf's whole config."""
+
+    # pylint: disable=too-few-public-methods
     forwards: List[Forward]
     show_forwarded_from: bool = False
     live: LiveSettings = LiveSettings()
@@ -53,23 +65,22 @@ class Config(BaseModel):
 
 
 def detect_config_type() -> int:
-    # return 1 when tgcf.config.yml
-    # 2 when env var
-    # else terminate
+    """Return 1 when tgcf.config.yml, 2 when env var, else terminate."""
     tutorial_link = "Learn more http://bit.ly/configure-tgcf"
 
     if CONFIG_FILE_NAME in os.listdir():
         logging.info(f"{CONFIG_FILE_NAME} detected.")
         return 1
-    elif os.getenv("TGCF_CONFIG"):
+    if os.getenv("TGCF_CONFIG"):
         logging.info(f"env var {CONFIG_ENV_VAR_NAME} detected.")
         if not ".env" in os.listdir():
             return 2
-        else:
-            logging.warning(
-                f"If you can create files in your system, you should use tgcf.config.yml and not .env to define configuration. {tutorial_link}"
-            )
-            sys.exit(1)
+
+        logging.warning(
+            f"If you can create files in your system,\
+            you should use tgcf.config.yml and not .env to define configuration. {tutorial_link}"
+        )
+        sys.exit(1)
     else:
         logging.warning(f"Configuration not found! {tutorial_link}")
         sys.exit(1)
@@ -78,7 +89,8 @@ def detect_config_type() -> int:
 CONFIG_TYPE = detect_config_type()
 
 
-def read_config_file() -> Config:
+def read_config() -> Config:
+    """Load the configuration defined by user."""
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME) as file:
             config_dict = yaml.full_load(file)
@@ -99,6 +111,7 @@ def read_config_file() -> Config:
 
 
 def update_config_file(config: Config):
+    """Write changes in config back to file."""
     if CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME, "w") as file:
             yaml.dump(config.dict(), file)
@@ -107,6 +120,7 @@ def update_config_file(config: Config):
 
 
 def get_env_var(name: str, optional=False):
+    """Fetch an env var."""
     var = os.getenv(name, "")
 
     while not var:
@@ -127,10 +141,11 @@ if SESSION_STRING:
 else:
     SESSION = "tgcf"
 
-CONFIG = read_config_file()
+CONFIG = read_config()
 
 
 def load_from_to(forwards: List[Forward]):
+    """Load a from -> to mapping."""
     from_to_dict = {}
     for forward in forwards:
         from_to_dict[forward.source] = forward.dest

@@ -1,13 +1,15 @@
+"""A bot to controll settings for tgcf live mode."""
+
 import yaml
 from telethon import events
 
-from tgcf import config
-
-from .utils import admin_protect, display_forwards, get_args, remove_source
+from tgcf import config, const
+from tgcf.bot.utils import admin_protect, display_forwards, get_args, remove_source
 
 
 @admin_protect
 async def forward_command_handler(event):
+    """Handle the `/forward` command."""
     notes = """The `/forward` command allows you to add a new forward.
     Example: suppose you want to forward from a to (b and c)
 
@@ -46,6 +48,7 @@ async def forward_command_handler(event):
 
 @admin_protect
 async def remove_command_handler(event):
+    """Handle the /remove command."""
     notes = """The `/remove` command allows you to remove a source from forwarding.
     Example: Suppose you want to remove the channel with id -100, then run
 
@@ -79,10 +82,10 @@ async def remove_command_handler(event):
 
 
 async def start_command_handler(event):
-    await event.respond("I am alive!")
+    """Handle the /start command."""
+    await event.respond(const.BotMessages.start)
 
 
 async def help_command_handler(event):
-    await event.respond(
-        "Please read the documentation at https://github.com/aahnik/tgcf"
-    )
+    """Handle the /help command."""
+    await event.respond(const.BotMessages.bot_help)

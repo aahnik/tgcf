@@ -1,8 +1,9 @@
+"""The module responsible for operating tgcf in live mode."""
 import logging
 
 from telethon import events
 
-from tgcf import config
+from tgcf import config, const
 from tgcf.bot import (
     forward_command_handler,
     help_command_handler,
@@ -12,19 +13,19 @@ from tgcf.bot import (
 from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
-KEEP_LAST_MANY = 10000
-
 existing_hashes = []
 
 _stored = {}
 
 
 class EventUid:
+    """The objects of this class uniquely identifies an event."""
+
     def __init__(self, event):
         self.chat_id = event.chat_id
         try:
             self.msg_id = event.id
-        except:
+        except:  # pylint: disable=bare-except
             self.msg_id = event.deleted_id
 
     def __str__(self):
@@ -38,6 +39,7 @@ class EventUid:
 
 
 async def new_message_handler(event):
+    """Process new incoming messages."""
     chat_id = event.chat_id
 
     if chat_id not in config.from_to:
@@ -45,12 +47,12 @@ async def new_message_handler(event):
     logging.info(f"New message received in {chat_id}")
     message = event.message
 
-    global _stored
+    global _stored  # pylint: disable=global-statement,invalid-name
 
     event_uid = EventUid(event)
 
     length = len(_stored)
-    exceeding = length - KEEP_LAST_MANY
+    exceeding = length - const.KEEP_LAST_MANY
 
     if exceeding > 0:
         for key in _stored:
@@ -74,6 +76,7 @@ async def new_message_handler(event):
 
 
 async def edited_message_handler(event):
+    """Handle message edits."""
     message = event.message
 
     chat_id = event.chat_id
@@ -108,6 +111,7 @@ async def edited_message_handler(event):
 
 
 async def deleted_message_handler(event):
+    """Handle message deletes."""
     chat_id = event.chat_id
     if chat_id not in config.from_to:
         return
@@ -132,15 +136,10 @@ ALL_EVENTS = {
     "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
 
-COMMANDS = {
-    "start": "Check whether I am alive",
-    "forward": "Set a new forward",
-    "remove": "Remove an existing forward",
-    "help": "Learn usage",
-}
-
 
 def start_sync():
+    """Start tgcf live sync."""
+    # pylint: disable= import-outside-toplevel
     from telethon.sync import TelegramClient, functions, types
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
@@ -160,7 +159,7 @@ def start_sync():
             functions.bots.SetBotCommandsRequest(
                 commands=[
                     types.BotCommand(command=key, description=value)
-                    for key, value in COMMANDS.items()
+                    for key, value in const.COMMANDS.items()
                 ]
             )
         )

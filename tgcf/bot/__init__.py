@@ -1,3 +1,5 @@
+"""The subpackage for interative bot for tgcf."""
+
 from .live_bot import (
     forward_command_handler,
     help_command_handler,

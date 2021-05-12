@@ -1,10 +1,9 @@
-""" This module implements the command line interface for tgcf,
-using the modern and robust `typer`.
-"""
+"""This module implements the command line interface for tgcf."""
 
 import asyncio
 import logging
 import os
+import sys
 from enum import Enum
 from typing import Optional
 
@@ -20,19 +19,21 @@ app = typer.Typer(add_completion=False)
 
 
 class Mode(str, Enum):
-    """tgcf works in two modes"""
+    """tgcf works in two modes."""
 
-    past = "past"
-    live = "live"
+    PAST = "past"
+    LIVE = "live"
 
 
 def version_callback(value: bool):
+    """Show current version and exit."""
     if value:
         print(__version__)
         raise typer.Exit()
 
 
 def verbosity_callback(value: bool):
+    """Set logging level."""
     if value:
         level = logging.INFO
     else:
@@ -46,7 +47,7 @@ def main(
     mode: Mode = typer.Argument(
         ..., help="Choose the mode in which you want to run tgcf.", envvar="TGCF_MODE"
     ),
-    verbose: Optional[bool] = typer.Option(
+    verbose: Optional[bool] = typer.Option(  # pylint: disable=unused-argument
         None,
         "--loud",
         "-l",
@@ -54,7 +55,7 @@ def main(
         envvar="LOUD",
         help="Increase output verbosity.",
     ),
-    version: Optional[bool] = typer.Option(
+    version: Optional[bool] = typer.Option(  # pylint: disable=unused-argument
         None,
         "--version",
         "-v",
@@ -62,23 +63,22 @@ def main(
         help="Show version and exit.",
     ),
 ):
-    """tgcf is a powerful tool for forwarding telegram messages from source to destination.
+    """Tgcf is a powerful tool for forwarding telegram messages from source to destination.
 
     Don't forget to star  https://github.com/aahnik/tgcf
 
     Telegram Channel https://telegram.me/tg_cf
     """
-
     if FAKE:
         print(f"mode = {mode}")
-        quit(1)
+        sys.exit(1)
 
-    if mode == mode.past:
-        from tgcf.past import forward_job
+    if mode == mode.PAST:
+        from tgcf.past import forward_job  # pylint: disable=import-outside-toplevel
 
         asyncio.run(forward_job())
     else:
-        from tgcf.live import start_sync
+        from tgcf.live import start_sync  # pylint: disable=import-outside-toplevel
 
         start_sync()
 

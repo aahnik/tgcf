@@ -1,3 +1,9 @@
+"""The module for running tgcf in past mode.
+
+- past mode can only operate with a user account.
+- past mode deals with all existing messages.
+"""
+
 import asyncio
 import logging
 import time
@@ -12,10 +18,8 @@ from tgcf.utils import send_message
 
 
 async def forward_job():
-    """ The function that does the job of forwarding all existing messages in the concerned chats"""
-
+    """Forward all existing messages in the concerned chats."""
     async with TelegramClient(SESSION, API_ID, API_HASH) as client:
-
         for forward in CONFIG.forwards:
             last_id = 0
             logging.info(f"Forwarding messages from {forward.source} to {forward.dest}")
@@ -43,4 +47,3 @@ async def forward_job():
                     await asyncio.sleep(delay=fwe.seconds)
                 except Exception as err:
                     logging.exception(err)
-                    
