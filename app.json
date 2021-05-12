@@ -1,11 +1,18 @@
 {
   "name": "tgcf",
+
   "stack": "container",
+
   "description": "The ultimate tool to automate telegram message forwarding. To learn more visit https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku",
+
   "keywords": ["telegram", "forwarding", "automation"],
+
   "website": "https://aahnik.dev",
+
   "repository": "https://github.com/aahnik/tgcf",
+
   "logo": "https://user-images.githubusercontent.com/66209958/115183360-3fa4d500-a0f9-11eb-9c0f-c5ed03a9ae17.png",
+
   "env": {
     "API_ID": {
       "description": "Put the API ID obtained from my.telegram.org",
@@ -17,19 +24,24 @@
       "value": "",
       "required": true
     },
+    "TGCF_MODE": {
+      "description": "The mode you want to run tgcf past/live. Default is live.",
+      "value": "live",
+      "required": true
+    },
     "TGCF_CONFIG": {
-      "description": "Put the contents of tgcf.config.yml here",
+      "description": "(Optional) Put the contents of tgcf.config.yml here.",
       "value": "",
       "required": false
     },
-    "TGCF_MODE":{
-      "description": "The mode you want to run tgcf past/live. Default is live.",
-      "value": "live",
-      "required": false
 
+    "BOT_TOKEN": {
+      "description": "(Optional) Put your bot token only if you are running tgcf live with a bot account. To create a new bot, go to @BotFather in Telegram.",
+      "value": "",
+      "required": false
     },
-    "SESSION_STRING":{
-      "description": "After you login into your telegram account, put the session string.",
+    "SESSION_STRING": {
+      "description": "(Optional) Put this, only if you are using your user account. Generate your session string from here https://replit.com/@aahnik/tg-login",
       "value": "",
       "required": false
     }
