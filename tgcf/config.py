@@ -134,12 +134,14 @@ API_ID = get_env_var("API_ID")
 API_HASH = get_env_var("API_HASH")
 USERNAME = get_env_var("USERNAME", optional=True)
 SESSION_STRING = get_env_var("SESSION_STRING", optional=True)
-
+BOT_TOKEN= get_env_var("BOT_TOKEN")
 
 if SESSION_STRING:
     SESSION = StringSession(SESSION_STRING)
+elif BOT_TOKEN:
+    SESSION = "tgcf_bot"
 else:
-    SESSION = "tgcf"
+    SESSION = "tgcf_user"
 
 CONFIG = read_config()
 

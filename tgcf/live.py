@@ -143,8 +143,9 @@ def start_sync():
     from telethon.sync import TelegramClient, functions, types
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
-    client.start()
+    client.start(bot_token=config.BOT_TOKEN)
     is_bot = client.is_bot()
+
     for key, val in ALL_EVENTS.items():
         if key.startswith("bot"):
             if not is_bot:
@@ -153,8 +154,8 @@ def start_sync():
             continue
         client.add_event_handler(*val)
         logging.info(f"Added event handler for {key}")
-    if is_bot:
 
+    if is_bot and const.REGISTER_COMMANDS:
         client(
             functions.bots.SetBotCommandsRequest(
                 commands=[
