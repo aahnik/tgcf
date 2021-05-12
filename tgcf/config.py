@@ -65,7 +65,7 @@ class Config(BaseModel):
 
 
 def detect_config_type() -> int:
-    """Return 1 when tgcf.config.yml, 2 when env var, else terminate."""
+    """Return 0 when no config found, 1 when tgcf.config.yml, 2 when env var, else terminate."""
     tutorial_link = "Learn more http://bit.ly/configure-tgcf"
 
     if CONFIG_FILE_NAME in os.listdir():
@@ -82,8 +82,7 @@ def detect_config_type() -> int:
         )
         sys.exit(1)
     else:
-        logging.warning(f"Configuration not found! {tutorial_link}")
-        sys.exit(1)
+        return 0
 
 
 CONFIG_TYPE = detect_config_type()
@@ -98,10 +97,13 @@ def read_config() -> Config:
         config_env_var = os.getenv("TGCF_CONFIG")
         config_dict = yaml.full_load(config_env_var)
     else:
-        logging.warning("This should never happen!")
+        return Config()
 
     try:
-        config = Config(**config_dict)
+        if config_dict:
+            config = Config(**config_dict)
+        else:
+            config = Config()
     except Exception as err:
         print(err)
         sys.exit(1)
@@ -134,7 +136,7 @@ API_ID = get_env_var("API_ID")
 API_HASH = get_env_var("API_HASH")
 USERNAME = get_env_var("USERNAME", optional=True)
 SESSION_STRING = get_env_var("SESSION_STRING", optional=True)
-BOT_TOKEN= get_env_var("BOT_TOKEN")
+BOT_TOKEN= get_env_var("BOT_TOKEN",optional=True)
 
 if SESSION_STRING:
     SESSION = StringSession(SESSION_STRING)
