@@ -144,7 +144,8 @@ disable=print-statement,
         deprecated-sys-function,
         exception-escape,
         comprehension-escape,
-        logging-fstring-interpolation
+        logging-fstring-interpolation,
+        broad-except,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -344,7 +345,7 @@ callbacks=cb_,
 
 # A regular expression matching the name of dummy variables (i.e. expected to
 # not be used).
-dummy-variables-rgx=_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
+dummy-variables-rgx=_+$|(_[a -zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
 
 # Argument names that match this expression will be ignored. Default to name
 # with leading underscore.
