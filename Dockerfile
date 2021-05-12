@@ -4,10 +4,12 @@ WORKDIR /app
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip wheel setuptools poetry
 
-RUN pip install --upgrade tgcf
+ENV POETRY_VIRTUALENVS_IN_PROJECT true
 
-RUN tgcf --version && tg-login --version
+COPY . .
 
-CMD ["tgcf"]
+RUN poetry install
+
+CMD poetry run tgcf
