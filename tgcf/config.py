@@ -55,7 +55,7 @@ class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
     # pylint: disable=too-few-public-methods
-    forwards: List[Forward]
+    forwards: List[Forward] = []
     show_forwarded_from: bool = False
     live: LiveSettings = LiveSettings()
     past: PastSettings = PastSettings()
