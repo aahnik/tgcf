@@ -5,7 +5,7 @@ from telethon import events
 
 from tgcf import config, const
 from tgcf.bot import BOT_EVENTS
-from tgcf.plugins import apply_plugins
+from tgcf.plugins import apply_plugins, plugins
 from tgcf.utils import send_message
 
 existing_hashes = []
@@ -129,10 +129,18 @@ ALL_EVENTS = {
 
 ALL_EVENTS.update(BOT_EVENTS)
 
+for _, plugin in plugins.items():
+    try:
+        event_handlers = getattr(plugin, "event_handlers")
+        if event_handlers:
+            ALL_EVENTS.update(event_handlers)
+    except AttributeError:
+        pass
+
 
 def start_sync():
     """Start tgcf live sync."""
-    # pylint: disable= import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
     from telethon.sync import TelegramClient, functions, types
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
