@@ -1,9 +1,0 @@
-name: tgcf past
-
-description: Forward Telegram messages from source to destination using tgcf periodically.
-
-runs:
-  using: docker
-  image: Dockerfile
-  env:
-    TGCF_MODE: past
