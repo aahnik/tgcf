@@ -8,6 +8,8 @@ list:
 # required for list
 no_targets__:
 
+VERSION=$$(poetry version -s)
+
 clean:
 	@rm -rf build dist .eggs *.egg-info
 	@rm -rf .benchmarks .coverage coverage.xml htmlcov report.xml .tox
@@ -21,8 +23,18 @@ fmt: clean
 	@poetry run black .
 
 hard-clean: clean
-	rm -rf .venv site
+	@rm -rf .venv
+
+ver:
+	@echo tgcf $(VERSION)
+
+pypi:
+	@poetry build && poetry publish
 
 docker:
-	docker build -t tgcf .
-	
+	@docker build -t tgcf .
+	@docker tag tgcf aahnik/tgcf:latest
+	@docker tag tgcf aahnik/tgcf:$(VERSION)
+	@docker push -a aahnik/tgcf
+
+release: pypi docker
