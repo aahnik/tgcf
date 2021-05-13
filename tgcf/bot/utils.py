@@ -27,7 +27,9 @@ def get_args(text: str):
     splitted = text.split(" ", 1)
 
     if not len(splitted) == 2:
-        return ""
+        splitted = text.split("\n",1)
+        if not len(splitted) == 2:
+            return ""
 
     prefix, args = splitted
     print(prefix)
