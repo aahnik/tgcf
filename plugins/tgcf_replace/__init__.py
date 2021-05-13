@@ -9,7 +9,7 @@ class Replace(BaseModel):
 
 
 class TgcfReplace:
-    id = "replace"
+    id_ = "replace"
 
     def __init__(self, data):
         self.replace = Replace(**data)

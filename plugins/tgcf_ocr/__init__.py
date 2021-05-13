@@ -1,5 +1,5 @@
 class TgcfOcr:
-    id = "ocr"
+    id_ = "ocr"
 
     def __init__(self, data) -> None:
         pass

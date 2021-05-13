@@ -38,7 +38,7 @@ class Filters(BaseModel):
 
 
 class TgcfFilter:
-    id = "filter"
+    id_ = "filter"
 
     def __init__(self, data):
         print("tgcf filter data loaded")

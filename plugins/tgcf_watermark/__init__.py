@@ -1,5 +1,5 @@
 class TgcfWatermark:
-    id = "watermark"
+    id_ = "watermark"
 
     def __init__(self, data) -> None:
         pass
