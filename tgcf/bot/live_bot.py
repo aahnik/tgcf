@@ -3,7 +3,7 @@
 import yaml
 from telethon import events
 
-from tgcf import config, const
+from tgcf import config, const, plugins
 from tgcf.bot.utils import admin_protect, display_forwards, get_args, remove_source
 
 
@@ -34,7 +34,7 @@ async def forward_command_handler(event):
         print(parsed_args)
         forward = config.Forward(**parsed_args)
         print(forward)
-        remove_source(forward.source,config.CONFIG.forwards)
+        remove_source(forward.source, config.CONFIG.forwards)
         config.CONFIG.forwards.append(forward)
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
@@ -85,9 +85,36 @@ async def remove_command_handler(event):
         raise events.StopPropagation
 
 
-async def set_command_handler(event):
-    pass
-    # TODO: allow changing the configuration values
+@admin_protect
+async def style_command_handler(event):
+    """Handle the /style command"""
+    notes = """This command is used to set the style of the messages to be forwarded.
+
+    Example: `/style bold`
+
+    Options are preserve,normal,bold,italics,code, strike
+
+    """.replace("    ", "")
+
+    try:
+        args = get_args(event.message.text)
+        if not args:
+            raise ValueError(
+                f"{notes}\n")
+        _valid = ["bold", "italics", "normal", "strike", "preserve"]
+        if args not in _valid:
+            raise ValueError(f"Invalid style. Choose from {_valid}")
+        config.CONFIG.plugins.update({"format": {"style": args}})
+        plugins.plugins = plugins.load_plugins()
+        await event.respond("Success")
+
+        config.update_config_file(config.CONFIG)
+    except ValueError as err:
+        print(err)
+        await event.respond(str(err))
+
+    finally:
+        raise events.StopPropagation
 
 
 async def start_command_handler(event):
@@ -104,5 +131,6 @@ BOT_EVENTS = {
     "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
     "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
     "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
+    "bot_style": (style_command_handler, events.NewMessage(pattern="/style")),
     "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
 }
