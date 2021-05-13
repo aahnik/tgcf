@@ -10,24 +10,28 @@ class Style(str, Enum):
     ITALICS = "italics"
     CODE = "code"
     STRIKE = "strike"
-    NORMAL = "normal"
+    PLAIN = "plain"
+    PRESERVE = "preserve"
 
 
 class Format(BaseModel):
-    style: Style = Style.NORMAL
+    style: Style = Style.PRESERVE
 
 
-STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "normal": ""}
+STYLE_CODES = {"bold": "**", "italics": "__",
+               "code": "`", "strike": "~~", "normal": ""}
 
 
 class TgcfFormat:
-    id = "format"
+    id_ = "format"
 
     def __init__(self, data):
         self.format = Format(**data)
         logging.info(self.format)
 
     def modify(self, message):
+        if self.format.style is Style.PRESERVE:
+            return message
         msg_text: str = message.raw_text
         if not msg_text:
             return message
