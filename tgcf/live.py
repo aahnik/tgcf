@@ -4,12 +4,7 @@ import logging
 from telethon import events
 
 from tgcf import config, const
-from tgcf.bot import (
-    forward_command_handler,
-    help_command_handler,
-    remove_command_handler,
-    start_command_handler,
-)
+from tgcf.bot import BOT_EVENTS
 from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
@@ -127,14 +122,12 @@ async def deleted_message_handler(event):
 
 
 ALL_EVENTS = {
-    "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
-    "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
-    "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
-    "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
     "new": (new_message_handler, events.NewMessage()),
     "edited": (edited_message_handler, events.MessageEdited()),
     "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
+
+ALL_EVENTS.update(BOT_EVENTS)
 
 
 def start_sync():

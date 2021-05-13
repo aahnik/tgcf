@@ -27,12 +27,14 @@ async def forward_command_handler(event):
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(
+                f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         print(parsed_args)
         forward = config.Forward(**parsed_args)
         print(forward)
+        remove_source(forward.source,config.CONFIG.forwards)
         config.CONFIG.forwards.append(forward)
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
@@ -61,13 +63,15 @@ async def remove_command_handler(event):
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(
+                f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         print(parsed_args)
         source_to_remove = parsed_args.get("source")
         print(source_to_remove)
-        config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
+        config.CONFIG.forwards = remove_source(
+            source_to_remove, config.CONFIG.forwards)
         print(config.CONFIG.forwards)
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
@@ -81,6 +85,11 @@ async def remove_command_handler(event):
         raise events.StopPropagation
 
 
+async def set_command_handler(event):
+    pass
+    # TODO: allow changing the configuration values
+
+
 async def start_command_handler(event):
     """Handle the /start command."""
     await event.respond(const.BotMessages.start)
@@ -89,3 +98,11 @@ async def start_command_handler(event):
 async def help_command_handler(event):
     """Handle the /help command."""
     await event.respond(const.BotMessages.bot_help)
+
+
+BOT_EVENTS = {
+    "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
+    "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
+    "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
+    "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
+}
