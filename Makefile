@@ -35,6 +35,9 @@ docker:
 	@docker build -t tgcf .
 	@docker tag tgcf aahnik/tgcf:latest
 	@docker tag tgcf aahnik/tgcf:$(VERSION)
+	@docker build -t tgcf-min . -f Dockerfile.minimal
+	@docker tag tgcf-min aahnik/tgcf:minimal
+	@docker tag tgcf-min aahnik/tgcf:minimal-$(VERSION)
 	@docker push -a aahnik/tgcf
 
 release: pypi docker
