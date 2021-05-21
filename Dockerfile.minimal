@@ -1,0 +1,36 @@
+FROM python:3.9-alpine as base
+
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
+
+ENV VENV_PATH="/venv"
+
+ENV PATH="$VENV_PATH/bin:$PATH"
+
+WORKDIR /app
+
+FROM base as builder
+
+ENV PIP_DEFAULT_TIMEOUT=100 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    POETRY_VERSION=1.0.5
+
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev postgresql-dev musl-dev zlib zlib-dev jpeg-dev
+RUN pip install "poetry==$POETRY_VERSION"
+RUN python -m venv /venv
+
+COPY pyproject.toml poetry.lock ./
+
+COPY . .
+
+RUN poetry build && /venv/bin/pip install dist/*.whl
+
+############################################################################
+FROM base as final
+
+RUN apk add --no-cache libffi libpq
+COPY --from=builder /venv /venv
+ENTRYPOINT ["tgcf", "-l"]
