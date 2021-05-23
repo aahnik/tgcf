@@ -6,7 +6,9 @@ tgcf.config.yml
 t.py
 *.session
 *.session-journal
-
+foo.py
+bar.py
+foo.bar
 
 
 
