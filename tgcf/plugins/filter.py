@@ -93,24 +93,14 @@ class TgcfFilter:
         flist = self.filters.files
 
         def file_type(message):
-            file_types = [
-                FileType.AUDIO,
-                FileType.GIF,
-                FileType.VIDEO,
-                FileType.VIDEO_NOTE,
-                FileType.STICKER,
-                FileType.CONTACT,
-                FileType.PHOTO,
-                FileType.DOCUMENT,
-            ]
-            for _type in file_types:
-                obj = getattr(message, _type)
+            for i in FileType:
+                if i == FileType.NOFILE:
+                    return i
+                obj = getattr(message, i.value)
                 if obj:
-                    return _type
+                    return i
 
         fl_type = file_type(message)
-        if not fl_type:
-            fl_type = FileType.NOFILE
         print(fl_type)
         if fl_type in flist.blacklist:
             return False
