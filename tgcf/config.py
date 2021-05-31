@@ -112,11 +112,11 @@ def read_config() -> Config:
         return config
 
 
-def update_config_file(config: Config):
+def write_config(config: Config):
     """Write changes in config back to file."""
     if CONFIG_TYPE == 1 or CONFIG_TYPE == 0:
         with open(CONFIG_FILE_NAME, "w") as file:
-            yaml.dump(config.dict(), file,sort_keys=False,default_flow_style=None)
+            yaml.dump(config.dict(), file, sort_keys=False, default_flow_style=None)
     elif CONFIG_TYPE == 2:
         logging.warning("Could not update config! As env var is used")
 

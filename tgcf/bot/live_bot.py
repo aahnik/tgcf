@@ -27,8 +27,7 @@ async def forward_command_handler(event):
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(
-                f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         print(parsed_args)
@@ -42,7 +41,7 @@ async def forward_command_handler(event):
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
         await event.respond("Success")
-        config.update_config_file(config.CONFIG)
+        config.write_config(config.CONFIG)
     except ValueError as err:
         print(err)
         await event.respond(str(err))
@@ -66,20 +65,18 @@ async def remove_command_handler(event):
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(
-                f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         print(parsed_args)
         source_to_remove = parsed_args.get("source")
         print(source_to_remove)
-        config.CONFIG.forwards = remove_source(
-            source_to_remove, config.CONFIG.forwards)
+        config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
         print(config.CONFIG.forwards)
         config.from_to = config.load_from_to(config.CONFIG.forwards)
 
         await event.respond("Success")
-        config.update_config_file(config.CONFIG)
+        config.write_config(config.CONFIG)
     except ValueError as err:
         print(err)
         await event.respond(str(err))
@@ -97,13 +94,14 @@ async def style_command_handler(event):
 
     Options are preserve,normal,bold,italics,code, strike
 
-    """.replace("    ", "")
+    """.replace(
+        "    ", ""
+    )
 
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(
-                f"{notes}\n")
+            raise ValueError(f"{notes}\n")
         _valid = ["bold", "italics", "normal", "strike", "preserve"]
         if args not in _valid:
             raise ValueError(f"Invalid style. Choose from {_valid}")
@@ -111,7 +109,7 @@ async def style_command_handler(event):
         plugins.plugins = plugins.load_plugins()
         await event.respond("Success")
 
-        config.update_config_file(config.CONFIG)
+        config.write_config(config.CONFIG)
     except ValueError as err:
         print(err)
         await event.respond(str(err))
