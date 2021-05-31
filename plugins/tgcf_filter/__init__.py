@@ -2,7 +2,7 @@ import logging
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 
 class FilterList(BaseModel):

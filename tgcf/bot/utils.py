@@ -27,7 +27,7 @@ def get_args(text: str):
     splitted = text.split(" ", 1)
 
     if not len(splitted) == 2:
-        splitted = text.split("\n",1)
+        splitted = text.split("\n", 1)
         if not len(splitted) == 2:
             return ""
 

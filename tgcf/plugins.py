@@ -33,7 +33,7 @@ def load_plugins():
 
 def apply_plugins(message) -> List:
     """Apply all loaded plugins to a message."""
-    for _id,plugin in plugins.items():
+    for _id, plugin in plugins.items():
         message = plugin.modify(message)
         logging.info(f"Applied plugin {_id}")
         if not message:

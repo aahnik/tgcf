@@ -12,7 +12,7 @@ from telethon import TelegramClient
 from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon.tl.patched import MessageService
 
-from tgcf.config import API_HASH, API_ID, CONFIG, SESSION, update_config_file
+from tgcf.config import API_HASH, API_ID, CONFIG, SESSION, write_config
 from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
@@ -38,7 +38,7 @@ async def forward_job():
                     last_id = str(message.id)
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id
-                    update_config_file(CONFIG)
+                    write_config(CONFIG)
                     time.sleep(CONFIG.past.delay)
                     logging.info(f"slept for {CONFIG.past.delay} seconds")
 

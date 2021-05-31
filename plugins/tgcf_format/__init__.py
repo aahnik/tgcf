@@ -2,7 +2,7 @@ import logging
 from enum import Enum
 from typing import Dict, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 
 class Style(str, Enum):
@@ -18,8 +18,7 @@ class Format(BaseModel):
     style: Style = Style.PRESERVE
 
 
-STYLE_CODES = {"bold": "**", "italics": "__",
-               "code": "`", "strike": "~~", "normal": ""}
+STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "normal": ""}
 
 
 class TgcfFormat:
