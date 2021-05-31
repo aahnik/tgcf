@@ -36,7 +36,7 @@ def load_plugins():
                 continue
             else:
                 logging.info(
-                    f"Plugin {plugin_id} is successfully loaded from third party pluguins"
+                    f"Plugin {plugin_id} is successfully loaded from third party plugins"
                 )
         else:
             logging.info(f"First party plugin {plugin_id} loaded!")
