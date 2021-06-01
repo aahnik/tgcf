@@ -7,7 +7,7 @@ Contains all the first-party tgcf plugins.
 import logging
 from importlib import import_module
 from typing import List
-
+import inspect
 from tgcf.config import CONFIG
 
 PLUGINS = CONFIG.plugins
@@ -52,10 +52,13 @@ def load_plugins():
     return _plugins
 
 
-def apply_plugins(message) -> List:
+async def apply_plugins(message) -> List:
     """Apply all loaded plugins to a message."""
     for _id, plugin in plugins.items():
-        message = plugin.modify(message)
+        if inspect.iscoroutinefunction(plugin.modify):
+            message = await plugin.modify(message)
+        else:
+            message = plugin.modify(message)
         logging.info(f"Applied plugin {_id}")
         if not message:
             return None
