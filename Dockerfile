@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y --no-install-recommends apt-utils && \
     apt-get upgrade -y && \
-    apt-get install ffmpeg -y && \
+    apt-get install ffmpeg tesseract-ocr -y && \
     apt-get autoclean
 RUN pip install --upgrade poetry
 RUN python -m venv /venv
