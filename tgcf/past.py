@@ -29,7 +29,7 @@ async def forward_job():
                 if isinstance(message, MessageService):
                     continue
                 try:
-                    message = apply_plugins(message)
+                    message = await apply_plugins(message)
                     if not message:
                         continue
 
