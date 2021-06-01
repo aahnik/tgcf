@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgcf"
-version = "0.2.0"
+version = "0.2.0.post0"
 description = "The ultimate tool to automate custom telegram message forwarding."
 authors = ["aahnik <daw@aahnik.dev>"]
 license = "MIT"
