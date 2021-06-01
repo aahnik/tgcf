@@ -8,7 +8,7 @@ from tgcf.plugins import TgcfMessage, TgcfPlugin
 
 
 class Style(str, Enum):
-    BOLD = ("bold",)
+    BOLD = "bold"
     ITALICS = "italics"
     CODE = "code"
     STRIKE = "strike"
