@@ -17,7 +17,7 @@ from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
 
-async def forward_job():
+async def forward_job() -> None:
     """Forward all existing messages in the concerned chats."""
     async with TelegramClient(SESSION, API_ID, API_HASH) as client:
         for forward in CONFIG.forwards:

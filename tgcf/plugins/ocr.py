@@ -11,7 +11,7 @@ class TgcfOcr(TgcfPlugin):
     def __init__(self, data) -> None:
         pass
 
-    async def modify(self, tm: TgcfMessage):
+    async def modify(self, tm: TgcfMessage) -> TgcfMessage:
 
         if not tm.file_type in ["photo"]:
             return tm

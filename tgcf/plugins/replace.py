@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Optional
+from typing import Any, Dict
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
@@ -7,17 +7,17 @@ from tgcf.plugins import TgcfMessage, TgcfPlugin
 
 
 class Replace(BaseModel):
-    text: Optional[Dict[str, str]] = {}
+    text: Dict[str, str] = {}
 
 
 class TgcfReplace(TgcfPlugin):
     id_ = "replace"
 
-    def __init__(self, data):
+    def __init__(self, data: Dict[str, str]):
         self.replace = Replace(**data)
         logging.info(self.replace)
 
-    def modify(self, tm: TgcfMessage):
+    def modify(self, tm: TgcfMessage) -> TgcfMessage:
         msg_text: str = tm.text
         if not msg_text:
             return tm

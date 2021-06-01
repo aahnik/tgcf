@@ -1,5 +1,7 @@
 """The module responsible for operating tgcf in live mode."""
+
 import logging
+from typing import Dict, List
 
 from telethon import events
 from telethon.tl.custom.message import Message
@@ -9,25 +11,21 @@ from tgcf.bot import BOT_EVENTS
 from tgcf.plugins import apply_plugins, plugins
 from tgcf.utils import send_message
 
-existing_hashes = []
-
-from typing import Dict, List
-
 
 class EventUid:
     """The objects of this class uniquely identifies an event."""
 
-    def __init__(self, event):
+    def __init__(self, event) -> None:
         self.chat_id = event.chat_id
         try:
             self.msg_id = event.id
         except:  # pylint: disable=bare-except
             self.msg_id = event.deleted_id
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"chat={self.chat_id} msg={self.msg_id}"
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.chat_id == other.chat_id and self.msg_id == other.msg_id
 
     def __hash__(self) -> int:
@@ -37,7 +35,7 @@ class EventUid:
 _stored: Dict[EventUid, List[Message]] = {}
 
 
-async def new_message_handler(event):
+async def new_message_handler(event) -> None:
     """Process new incoming messages."""
     chat_id = event.chat_id
 
@@ -71,10 +69,9 @@ async def new_message_handler(event):
             fwded_msg = await send_message(recipient, tm)
             _stored[event_uid].append(fwded_msg)
         tm.clear()
-    existing_hashes.append(hash(message.text))
 
 
-async def edited_message_handler(event):
+async def edited_message_handler(event) -> None:
     """Handle message edits."""
     message = event.message
 
@@ -143,7 +140,7 @@ for _, plugin in plugins.items():
         pass
 
 
-def start_sync():
+def start_sync() -> None:
     """Start tgcf live sync."""
     # pylint: disable=import-outside-toplevel
     from telethon.sync import TelegramClient, functions, types
