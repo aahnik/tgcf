@@ -1,25 +1,14 @@
 import logging
-from enum import Enum
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
+
+from tgcf.plugins import FileType, TgcfMessage, TgcfPlugin
 
 
 class FilterList(BaseModel):
     blacklist: Optional[List[str]] = []
     whitelist: Optional[List[str]] = []
-
-
-class FileType(str, Enum):
-    AUDIO = "audio"
-    GIF = "gif"
-    VIDEO = "video"
-    VIDEO_NOTE = "video_note"
-    STICKER = "sticker"
-    CONTACT = "contact"
-    PHOTO = "photo"
-    DOCUMENT = "document"
-    NOFILE = "nofile"
 
 
 class FilesFilterList(BaseModel):
@@ -37,10 +26,10 @@ class Filters(BaseModel):
     text: Optional[TextFilter] = TextFilter()
 
 
-class TgcfFilter:
+class TgcfFilter(TgcfPlugin):
     id_ = "filter"
 
-    def __init__(self, data):
+    def __init__(self, data: Dict[str, Any]):
         print("tgcf filter data loaded")
         self.filters = Filters(**data)
         self.case_correct()
@@ -53,17 +42,17 @@ class TgcfFilter:
             textf.blacklist = [item.lower() for item in textf.blacklist]
             textf.whitelist = [item.lower() for item in textf.whitelist]
 
-    def modify(self, message):
+    def modify(self, tm: TgcfMessage):
 
-        if self.users_safe(message):
-            if self.files_safe(message):
-                if self.text_safe(message):
-                    return message
+        if self.users_safe(tm):
+            if self.files_safe(tm):
+                if self.text_safe(tm):
+                    return tm
 
-    def text_safe(self, message):
+    def text_safe(self, tm: TgcfMessage):
         flist = self.filters.text
 
-        text = message.text
+        text = tm.text
         if not flist.case_sensitive:
             text = text.lower()
         if not text and flist.whitelist == []:
@@ -78,9 +67,9 @@ class TgcfFilter:
             if allowed in text:
                 return True
 
-    def users_safe(self, message):
+    def users_safe(self, tm: TgcfMessage):
         flist = self.filters.users
-        sender = str(message.sender_id)
+        sender = str(tm.sender_id)
         logging.info(f"M message from sender id {sender}")
         if sender in flist.blacklist:
             return False
@@ -89,18 +78,9 @@ class TgcfFilter:
         if sender in flist.whitelist:
             return True
 
-    def files_safe(self, message):
+    def files_safe(self, tm: TgcfMessage):
         flist = self.filters.files
-
-        def file_type(message):
-            for i in FileType:
-                if i == FileType.NOFILE:
-                    return i
-                obj = getattr(message, i.value)
-                if obj:
-                    return i
-
-        fl_type = file_type(message)
+        fl_type = tm.file_type
         print(fl_type)
         if fl_type in flist.blacklist:
             return False
