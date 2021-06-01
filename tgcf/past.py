@@ -29,12 +29,13 @@ async def forward_job():
                 if isinstance(message, MessageService):
                     continue
                 try:
-                    message = apply_plugins(message)
-                    if not message:
+                    tm = await apply_plugins(message)
+                    if not tm:
                         continue
 
                     for destination in forward.dest:
-                        await send_message(client, destination, message)
+                        await send_message(destination, tm)
+                    tm.clear()
                     last_id = str(message.id)
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id

@@ -1,19 +1,12 @@
 [tool.poetry]
 name = "tgcf"
-version = "0.1.35"
+version = "0.2.0"
 description = "The ultimate tool to automate custom telegram message forwarding."
 authors = ["aahnik <daw@aahnik.dev>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/aahnik/tgcf"
 documentation = "https://github.com/aahnik/tgcf/wiki"
-packages = [
-    { include = "tgcf"},
-    { include = "tgcf_filter", from = "plugins" },
-    { include = "tgcf_replace", from = "plugins" },
-    { include = "tgcf_watermark", from = "plugins" },
-    { include = "tgcf_ocr", from = "plugins" },
-]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -28,6 +21,8 @@ Pillow = "^8.1.2"
 hachoir = "^3.1.2"
 aiohttp = "^3.7.4"
 tg-login = "^0.0.2"
+"watermark.py" = "^0.0.3"
+pytesseract = "^0.3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
