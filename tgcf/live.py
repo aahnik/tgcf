@@ -2,6 +2,7 @@
 import logging
 
 from telethon import events
+from telethon.tl.custom.message import Message
 
 from tgcf import config, const
 from tgcf.bot import BOT_EVENTS
@@ -10,7 +11,7 @@ from tgcf.utils import send_message
 
 existing_hashes = []
 
-_stored = {}
+from typing import Dict, List
 
 
 class EventUid:
@@ -31,6 +32,9 @@ class EventUid:
 
     def __hash__(self) -> int:
         return hash(self.__str__())
+
+
+_stored: Dict[EventUid, List[Message]] = {}
 
 
 async def new_message_handler(event):
@@ -60,13 +64,13 @@ async def new_message_handler(event):
         if event_uid not in _stored:
             _stored[event_uid] = []
 
-        message = await apply_plugins(message)
-        if not message:
+        tm = await apply_plugins(message)
+        if not tm:
             return
         for recipient in to_send_to:
-            fwded_msg = await send_message(event.client, recipient, message)
+            fwded_msg = await send_message(recipient, tm)
             _stored[event_uid].append(fwded_msg)
-
+        tm.clear()
     existing_hashes.append(hash(message.text))
 
 
@@ -83,9 +87,9 @@ async def edited_message_handler(event):
 
     event_uid = EventUid(event)
 
-    message = await apply_plugins(message)
+    tm = await apply_plugins(message)
 
-    if not message:
+    if not tm:
         return
 
     fwded_msgs = _stored.get(event_uid)
@@ -96,13 +100,14 @@ async def edited_message_handler(event):
                 await msg.delete()
                 await message.delete()
             else:
-                await msg.edit(message.text)
+                await msg.edit(tm.text)
         return
 
     to_send_to = config.from_to.get(event.chat_id)
 
     for recipient in to_send_to:
-        await send_message(event.client, recipient, message)
+        await send_message(recipient, tm)
+    tm.clear()
 
 
 async def deleted_message_handler(event):
