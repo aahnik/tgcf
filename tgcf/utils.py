@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from telethon.client import TelegramClient
 from telethon.hints import EntityLike
+from telethon.tl.custom.message import Message
 
 from tgcf.config import CONFIG
 
@@ -15,7 +16,7 @@ if TYPE_CHECKING:
     from tgcf.plugins import TgcfMessage
 
 
-async def send_message(recipient: EntityLike, tm: "TgcfMessage"):
+async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Message:
     """Forward or send a copy, depending on config."""
     client: TelegramClient = tm.message.client
     if CONFIG.show_forwarded_from:
@@ -27,7 +28,7 @@ async def send_message(recipient: EntityLike, tm: "TgcfMessage"):
     return await client.send_message(recipient, tm.message)
 
 
-def cleanup(*files):
+def cleanup(*files: str) -> None:
     """Delete the file names passed as args."""
     for file in files:
         try:
@@ -36,7 +37,7 @@ def cleanup(*files):
             logging.info(f"File {file} does not exist, so cant delete it.")
 
 
-def stamp(file: str, user: str):
+def stamp(file: str, user: str) -> str:
     """Stamp the filename with the datetime, and user info."""
     now = str(datetime.now())
     outf = safe_name(f"{user} {now} {file}")
@@ -47,7 +48,7 @@ def stamp(file: str, user: str):
         logging.warning(f"Stamping file name failed for {file} to {outf}. \n {err}")
 
 
-def safe_name(string: str):
+def safe_name(string: str) -> str:
     """Return safe file name.
 
     Certain characters in the file name can cause potential problems in rare scenarios.

@@ -21,7 +21,7 @@ class Forward(BaseModel):
     # pylint: disable=too-few-public-methods
     source: Union[int, str]
     dest: List[Union[int, str]]
-    offset: Optional[int] = 0
+    offset: int = 0
     end: Optional[int] = None
 
 
@@ -37,7 +37,7 @@ class PastSettings(BaseModel):
     """Configuration for past mode."""
 
     # pylint: disable=too-few-public-methods
-    delay: Optional[float] = 0
+    delay: float = 0
 
     @validator("delay")
     def validate_delay(cls, val):  # pylint: disable=no-self-use,no-self-argument
@@ -61,7 +61,7 @@ class Config(BaseModel):
     past: PastSettings = PastSettings()
     admins: List[int] = []
 
-    plugins: Optional[Dict] = {}
+    plugins: Dict = {}
 
 
 def detect_config_type() -> int:
@@ -121,7 +121,7 @@ def write_config(config: Config):
         logging.warning("Could not update config! As env var is used")
 
 
-def get_env_var(name: str, optional=False):
+def get_env_var(name: str, optional: bool = False) -> str:
     """Fetch an env var."""
     var = os.getenv(name, "")
 
@@ -148,7 +148,7 @@ else:
 CONFIG = read_config()
 
 
-def load_from_to(forwards: List[Forward]):
+def load_from_to(forwards: List[Forward]) -> Dict:
     """Load a from -> to mapping."""
     from_to_dict = {}
     for forward in forwards:

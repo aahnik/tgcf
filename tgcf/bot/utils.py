@@ -22,7 +22,7 @@ def admin_protect(org_func):
     return wrapper_func
 
 
-def get_args(text: str):
+def get_args(text: str) -> str:
     """Return the part of message following the command."""
     splitted = text.split(" ", 1)
 
@@ -38,7 +38,7 @@ def get_args(text: str):
     return args
 
 
-def display_forwards(forwards: List[Forward]):
+def display_forwards(forwards: List[Forward]) -> str:
     """Return a string that beautifully displays all current forwards."""
     if len(forwards) == 0:
         return "Currently no forwards are set"
@@ -52,7 +52,7 @@ def display_forwards(forwards: List[Forward]):
     return forward_str
 
 
-def remove_source(source, forwards: List[Forward]):
+def remove_source(source, forwards: List[Forward]) -> List[Forward]:
     """Remove a source from forwards."""
     for i, forward in enumerate(forwards):
         print(forward)

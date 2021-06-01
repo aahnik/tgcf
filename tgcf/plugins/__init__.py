@@ -31,7 +31,7 @@ class FileType(str, Enum):
 
 
 class TgcfMessage:
-    def __init__(self, message: Message):
+    def __init__(self, message: Message) -> None:
         self.message = message
         self.text = self.message.text
         self.raw_text = self.message.raw_text
@@ -40,12 +40,14 @@ class TgcfMessage:
         self.new_file = None
         self.cleanup = False
 
-    async def get_file(self):
+    async def get_file(self) -> str:
         """Downloads the file in the message and returns the path where its saved."""
+        if self.file_type == FileType.NOFILE:
+            raise FileNotFoundError("No file exists in this message.")
         self.file = stamp(await self.message.download_media(""), self.sender_id)
         return self.file
 
-    def guess_file_type(self):
+    def guess_file_type(self) -> FileType:
         for i in FileType:
             if i == FileType.NOFILE:
                 return i
@@ -53,7 +55,7 @@ class TgcfMessage:
             if obj:
                 return i
 
-    def clear(self):
+    def clear(self) -> None:
         if self.new_file and self.cleanup:
             cleanup(self.new_file)
             self.new_file = None
@@ -62,10 +64,10 @@ class TgcfMessage:
 class TgcfPlugin:
     id_ = "plugin"
 
-    def __init__(self, data: Dict[Any, Any]):
+    def __init__(self, data: Dict[str, Any]) -> None:
         self.data = data
 
-    def modify(self, tm: TgcfMessage):
+    def modify(self, tm: TgcfMessage) -> TgcfMessage:
         """Modify the message here."""
         return tm
 

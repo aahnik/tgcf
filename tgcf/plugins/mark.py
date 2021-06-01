@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from watermark import File, Position, Watermark, apply_watermark
 
@@ -14,10 +16,10 @@ class MarkConfig(BaseModel):
 class TgcfMark(TgcfPlugin):
     id_ = "mark"
 
-    def __init__(self, data) -> None:
+    def __init__(self, data: Dict[str, Any]) -> None:
         self.data = MarkConfig(**data)
 
-    async def modify(self, tm: TgcfMessage):
+    async def modify(self, tm: TgcfMessage) -> TgcfMessage:
         if not tm.file_type in ["gif", "video", "photo"]:
             return tm
         downloaded_file = await tm.get_file()

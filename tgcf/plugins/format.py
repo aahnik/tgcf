@@ -1,6 +1,6 @@
 import logging
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
@@ -26,11 +26,11 @@ STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "norm
 class TgcfFormat(TgcfPlugin):
     id_ = "format"
 
-    def __init__(self, data: Dict[str, Any]):
+    def __init__(self, data: Dict[str, Any]) -> None:
         self.format = Format(**data)
         logging.info(self.format)
 
-    def modify(self, tm: TgcfMessage):
+    def modify(self, tm: TgcfMessage) -> TgcfMessage:
         if self.format.style is Style.PRESERVE:
             return tm
         msg_text: str = tm.raw_text
