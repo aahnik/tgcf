@@ -22,10 +22,12 @@ async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Message:
     if CONFIG.show_forwarded_from:
         return await client.forward_messages(recipient, tm.message)
     if tm.new_file:
-        message = await client.send_file(recipient, tm.new_file, caption=tm.text)
+        message = await client.send_file(
+            recipient, tm.new_file, caption=tm.text, reply_to=tm.reply_to
+        )
         return message
     tm.message.text = tm.text
-    return await client.send_message(recipient, tm.message)
+    return await client.send_message(recipient, tm.message, reply_to=tm.reply_to)
 
 
 def cleanup(*files: str) -> None:
