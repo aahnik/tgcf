@@ -26,6 +26,8 @@ async def forward_job() -> None:
             async for message in client.iter_messages(
                 forward.source, reverse=True, offset_id=forward.offset
             ):
+                if forward.end and last_id > forward.end:
+                    continue
                 if isinstance(message, MessageService):
                     continue
                 try:
@@ -36,7 +38,7 @@ async def forward_job() -> None:
                     for destination in forward.dest:
                         await send_message(destination, tm)
                     tm.clear()
-                    last_id = str(message.id)
+                    last_id = message.id
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id
                     write_config(CONFIG)
