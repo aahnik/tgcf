@@ -1,41 +1,19 @@
 """The module responsible for operating tgcf in live mode."""
 
 import logging
-from typing import Dict, List
+from typing import Union
 
 from telethon import events
 from telethon.tl.custom.message import Message
 
 from tgcf import config, const
+from tgcf import storage as st
 from tgcf.bot import BOT_EVENTS
 from tgcf.plugins import apply_plugins, plugins
 from tgcf.utils import send_message
 
 
-class EventUid:
-    """The objects of this class uniquely identifies an event."""
-
-    def __init__(self, event) -> None:
-        self.chat_id = event.chat_id
-        try:
-            self.msg_id = event.id
-        except:  # pylint: disable=bare-except
-            self.msg_id = event.deleted_id
-
-    def __str__(self) -> str:
-        return f"chat={self.chat_id} msg={self.msg_id}"
-
-    def __eq__(self, other) -> bool:
-        return self.chat_id == other.chat_id and self.msg_id == other.msg_id
-
-    def __hash__(self) -> int:
-        return hash(self.__str__())
-
-
-_stored: Dict[EventUid, List[Message]] = {}
-
-
-async def new_message_handler(event) -> None:
+async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
     """Process new incoming messages."""
     chat_id = event.chat_id
 
@@ -44,30 +22,34 @@ async def new_message_handler(event) -> None:
     logging.info(f"New message received in {chat_id}")
     message = event.message
 
-    global _stored  # pylint: disable=global-statement,invalid-name
+    event_uid = st.EventUid(event)
 
-    event_uid = EventUid(event)
-
-    length = len(_stored)
+    length = len(st.stored)
     exceeding = length - const.KEEP_LAST_MANY
 
     if exceeding > 0:
-        for key in _stored:
-            del _stored[key]
+        for key in st.stored:
+            del st.stored[key]
             break
 
     to_send_to = config.from_to.get(chat_id)
 
     if to_send_to:
-        if event_uid not in _stored:
-            _stored[event_uid] = []
 
         tm = await apply_plugins(message)
         if not tm:
             return
+
+        if event.is_reply:
+            r_event = st.DummyEvent(chat_id, event.reply_to_msg_id)
+            r_event_uid = st.EventUid(r_event)
+
+        st.stored[event_uid] = {}
         for recipient in to_send_to:
+            if event.is_reply and r_event_uid in st.stored:
+                tm.reply_to = st.stored.get(r_event_uid).get(recipient)
             fwded_msg = await send_message(recipient, tm)
-            _stored[event_uid].append(fwded_msg)
+            st.stored[event_uid].update({recipient: fwded_msg})
         tm.clear()
 
 
@@ -82,17 +64,17 @@ async def edited_message_handler(event) -> None:
 
     logging.info(f"Message edited in {chat_id}")
 
-    event_uid = EventUid(event)
+    event_uid = st.EventUid(event)
 
     tm = await apply_plugins(message)
 
     if not tm:
         return
 
-    fwded_msgs = _stored.get(event_uid)
+    fwded_msgs = st.stored.get(event_uid)
 
     if fwded_msgs:
-        for msg in fwded_msgs:
+        for _, msg in fwded_msgs.items():
             if config.CONFIG.live.delete_on_edit == message.text:
                 await msg.delete()
                 await message.delete()
@@ -115,8 +97,8 @@ async def deleted_message_handler(event):
 
     logging.info(f"Message deleted in {chat_id}")
 
-    event_uid = EventUid(event)
-    fwded_msgs = _stored.get(event_uid)
+    event_uid = st.EventUid(event)
+    fwded_msgs = st.stored.get(event_uid)
     if fwded_msgs:
         for msg in fwded_msgs:
             await msg.delete()
