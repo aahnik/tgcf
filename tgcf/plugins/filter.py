@@ -18,6 +18,7 @@ class FilesFilterList(BaseModel):
 
 class TextFilter(FilterList):
     case_sensitive: bool = False
+    regex: bool = False
 
 
 class Filters(BaseModel):

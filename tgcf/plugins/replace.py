@@ -8,6 +8,7 @@ from tgcf.plugins import TgcfMessage, TgcfPlugin
 
 class Replace(BaseModel):
     text: Dict[str, str] = {}
+    regex: bool = False
 
 
 class TgcfReplace(TgcfPlugin):
