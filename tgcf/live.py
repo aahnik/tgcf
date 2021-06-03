@@ -122,14 +122,14 @@ for _, plugin in plugins.items():
         pass
 
 
-def start_sync() -> None:
+async def start_sync() -> None:
     """Start tgcf live sync."""
     # pylint: disable=import-outside-toplevel
     from telethon.sync import TelegramClient, functions, types
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
-    client.start(bot_token=config.BOT_TOKEN)
-    is_bot = client.is_bot()
+    await client.start(bot_token=config.BOT_TOKEN)
+    is_bot = await client.is_bot()
 
     for key, val in ALL_EVENTS.items():
         if key.startswith("bot"):
@@ -141,7 +141,7 @@ def start_sync() -> None:
         logging.info(f"Added event handler for {key}")
 
     if is_bot and const.REGISTER_COMMANDS:
-        client(
+        await client(
             functions.bots.SetBotCommandsRequest(
                 commands=[
                     types.BotCommand(command=key, description=value)
@@ -149,5 +149,5 @@ def start_sync() -> None:
                 ]
             )
         )
-
-    client.run_until_disconnected()
+    config.from_to = await config.load_from_to(client, config.CONFIG.forwards)
+    await client.run_until_disconnected()
