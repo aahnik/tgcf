@@ -13,6 +13,7 @@ from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon.tl.custom.message import Message
 from telethon.tl.patched import MessageService
 
+from tgcf import config
 from tgcf import storage as st
 from tgcf.config import API_HASH, API_ID, CONFIG, SESSION, write_config
 from tgcf.plugins import apply_plugins
@@ -22,12 +23,15 @@ from tgcf.utils import send_message
 async def forward_job() -> None:
     """Forward all existing messages in the concerned chats."""
     async with TelegramClient(SESSION, API_ID, API_HASH) as client:
+        config.from_to = await config.load_from_to(client, config.CONFIG.forwards)
         client: TelegramClient
-        for forward in CONFIG.forwards:
+        for from_to, forward in zip(config.from_to.items(), config.CONFIG.forwards):
+            src, dest = from_to
             last_id = 0
-            logging.info(f"Forwarding messages from {forward.source} to {forward.dest}")
+            forward: config.Forward
+            logging.info(f"Forwarding messages from {src} to {dest}")
             async for message in client.iter_messages(
-                forward.source, reverse=True, offset_id=forward.offset
+                src, reverse=True, offset_id=forward.offset
             ):
                 message: Message
                 event = st.DummyEvent(message.chat_id, message.id)
@@ -48,11 +52,11 @@ async def forward_job() -> None:
                             message.chat_id, message.reply_to_msg_id
                         )
                         r_event_uid = st.EventUid(r_event)
-                    for destination in forward.dest:
+                    for d in dest:
                         if message.is_reply and r_event_uid in st.stored:
-                            tm.reply_to = st.stored.get(r_event_uid).get(destination)
-                        fwded_msg = await send_message(destination, tm)
-                        st.stored[event_uid].update({fwded_msg.chat_id: fwded_msg.id})
+                            tm.reply_to = st.stored.get(r_event_uid).get(d)
+                        fwded_msg = await send_message(d, tm)
+                        st.stored[event_uid].update({d: fwded_msg.id})
                     tm.clear()
                     last_id = message.id
                     logging.info(f"forwarding message with id = {last_id}")

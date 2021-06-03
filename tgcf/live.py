@@ -3,7 +3,7 @@
 import logging
 from typing import Union
 
-from telethon import events
+from telethon import TelegramClient, events, functions, types
 from telethon.tl.custom.message import Message
 
 from tgcf import config, const
@@ -32,25 +32,23 @@ async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
             del st.stored[key]
             break
 
-    to_send_to = config.from_to.get(chat_id)
+    dest = config.from_to.get(chat_id)
 
-    if to_send_to:
+    tm = await apply_plugins(message)
+    if not tm:
+        return
 
-        tm = await apply_plugins(message)
-        if not tm:
-            return
+    if event.is_reply:
+        r_event = st.DummyEvent(chat_id, event.reply_to_msg_id)
+        r_event_uid = st.EventUid(r_event)
 
-        if event.is_reply:
-            r_event = st.DummyEvent(chat_id, event.reply_to_msg_id)
-            r_event_uid = st.EventUid(r_event)
-
-        st.stored[event_uid] = {}
-        for recipient in to_send_to:
-            if event.is_reply and r_event_uid in st.stored:
-                tm.reply_to = st.stored.get(r_event_uid).get(recipient)
-            fwded_msg = await send_message(recipient, tm)
-            st.stored[event_uid].update({recipient: fwded_msg})
-        tm.clear()
+    st.stored[event_uid] = {}
+    for d in dest:
+        if event.is_reply and r_event_uid in st.stored:
+            tm.reply_to = st.stored.get(r_event_uid).get(d)
+        fwded_msg = await send_message(d, tm)
+        st.stored[event_uid].update({d: fwded_msg})
+    tm.clear()
 
 
 async def edited_message_handler(event) -> None:
@@ -82,10 +80,10 @@ async def edited_message_handler(event) -> None:
                 await msg.edit(tm.text)
         return
 
-    to_send_to = config.from_to.get(event.chat_id)
+    dest = config.from_to.get(chat_id)
 
-    for recipient in to_send_to:
-        await send_message(recipient, tm)
+    for d in dest:
+        await send_message(d, tm)
     tm.clear()
 
 
@@ -100,7 +98,7 @@ async def deleted_message_handler(event):
     event_uid = st.EventUid(event)
     fwded_msgs = st.stored.get(event_uid)
     if fwded_msgs:
-        for msg in fwded_msgs:
+        for _, msg in fwded_msgs.items():
             await msg.delete()
         return
 
@@ -124,8 +122,6 @@ for _, plugin in plugins.items():
 
 async def start_sync() -> None:
     """Start tgcf live sync."""
-    # pylint: disable=import-outside-toplevel
-    from telethon.sync import TelegramClient, functions, types
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
     await client.start(bot_token=config.BOT_TOKEN)
