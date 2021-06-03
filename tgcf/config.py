@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Union
 import yaml
 from dotenv import load_dotenv
 from pydantic import BaseModel, validator  # pylint: disable=no-name-in-module
+from telethon import TelegramClient
 from telethon.sessions import StringSession
 
 from tgcf.const import CONFIG_ENV_VAR_NAME, CONFIG_FILE_NAME
@@ -20,7 +21,7 @@ class Forward(BaseModel):
 
     # pylint: disable=too-few-public-methods
     source: Union[int, str]
-    dest: List[Union[int, str]]
+    dest: List[Union[int, str]] = []
     offset: int = 0
     end: Optional[int] = None
 
@@ -148,14 +149,37 @@ else:
 CONFIG = read_config()
 
 
-def load_from_to(forwards: List[Forward]) -> Dict:
-    """Load a from -> to mapping."""
+async def load_from_to(
+    client: TelegramClient, forwards: List[Forward]
+) -> Dict[int, List[int]]:
+    """Convert a list of Forward objects to a mapping.
+
+    Args:
+        client: Instance of Telegram client (logged in)
+        forwards: List of Forward objects
+
+    Returns:
+        Dict: key = chat id of source
+                value = List of chat ids of destinations
+
+    Notes:
+    -> The Forward objects may contain username/phn no/links
+    -> But this mapping strictly contains signed integer chat ids
+    -> Chat ids are essential for how storage is implemented
+    -> Storage is essential for edit, delete and reply syncs
+    """
     from_to_dict = {}
+
+    async def _(peer):
+        return await client.get_peer_id(peer)
+
     for forward in forwards:
-        from_to_dict[forward.source] = forward.dest
+        src = await _(forward.source)
+        from_to_dict[src] = [await _(dest) for dest in forward.dest]
+    logging.info(f"From to dict is {from_to_dict}")
     return from_to_dict
 
 
-from_to = load_from_to(CONFIG.forwards)
+from_to = {}
 
 logging.info("config.py got executed")
