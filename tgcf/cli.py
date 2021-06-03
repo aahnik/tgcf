@@ -80,7 +80,7 @@ def main(
     else:
         from tgcf.live import start_sync  # pylint: disable=import-outside-toplevel
 
-        start_sync()
+        asyncio.run(start_sync())
 
 
 # AAHNIK 2021
