@@ -4,6 +4,7 @@ from typing import Any, Dict
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from tgcf.plugins import TgcfMessage, TgcfPlugin
+from tgcf.utils import replace
 
 
 class Replace(BaseModel):
@@ -23,6 +24,6 @@ class TgcfReplace(TgcfPlugin):
         if not msg_text:
             return tm
         for original, new in self.replace.text.items():
-            msg_text = msg_text.replace(original, new)
+            msg_text = replace(original, new, msg_text, self.replace.regex)
         tm.text = msg_text
         return tm
