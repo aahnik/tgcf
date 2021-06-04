@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
 from tgcf.plugins import FileType, TgcfMessage, TgcfPlugin
+from tgcf.utils import match
 
 
 class FilterList(BaseModel):
@@ -18,6 +19,7 @@ class FilesFilterList(BaseModel):
 
 class TextFilter(FilterList):
     case_sensitive: bool = False
+    regex: bool = False
 
 
 class Filters(BaseModel):
@@ -58,14 +60,18 @@ class TgcfFilter(TgcfPlugin):
         if not text and flist.whitelist == []:
             return True
 
+        # first check if any blacklisted pattern is present
         for forbidden in flist.blacklist:
-            if forbidden in text:
-                return False
+            if match(forbidden, text, self.filters.text.regex):
+                return False  # when a forbidden pattern is found
+
         if not flist.whitelist:
-            return True
+            return True  # if no whitelist is present
+
+        # if whitelist is present
         for allowed in flist.whitelist:
-            if allowed in text:
-                return True
+            if match(allowed, text, self.filters.text.regex):
+                return True  # only when atleast one whitelisted pattern is found
 
     def users_safe(self, tm: TgcfMessage) -> bool:
         flist = self.filters.users

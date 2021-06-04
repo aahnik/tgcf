@@ -56,3 +56,16 @@ def safe_name(string: str) -> str:
     Certain characters in the file name can cause potential problems in rare scenarios.
     """
     return re.sub(pattern=r"[-!@#$%^&*()\s]", repl="_", string=string)
+
+
+def match(pattern: str, string: str, regex: bool) -> bool:
+    if regex:
+        return bool(re.match(pattern, string))
+    return pattern in string
+
+
+def replace(pattern: str, new: str, string: str, regex: bool) -> str:
+    if regex:
+        return re.sub(pattern, new, string)
+    else:
+        return string.replace(pattern, new)
