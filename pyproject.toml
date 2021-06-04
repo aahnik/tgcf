@@ -25,14 +25,10 @@ tg-login = "^0.0.2"
 pytesseract = "^0.3.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
-autopep8 = "^1.5.5"
-pylint = "^2.7.4"
 typer-cli = "^0.0.11"
 black = {version = "^20.8b1", allow-prereleases = true}
-mkdocs-gen-files = "^0.3.1"
 isort = "^5.8.0"
-pydocstyle = "^6.0.0"
+pre-commit = "^2.13.0"
 
 
 [tool.poetry.scripts]
