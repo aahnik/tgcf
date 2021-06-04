@@ -63,15 +63,15 @@ class TgcfFilter(TgcfPlugin):
         # first check if any blacklisted pattern is present
         for forbidden in flist.blacklist:
             if match(forbidden, text, self.filters.text.regex):
-                return False # when a forbidden pattern is found
+                return False  # when a forbidden pattern is found
 
         if not flist.whitelist:
-            return True # if no whitelist is present
+            return True  # if no whitelist is present
 
         # if whitelist is present
         for allowed in flist.whitelist:
             if match(allowed, text, self.filters.text.regex):
-                return True # only when atleast one whitelisted pattern is found
+                return True  # only when atleast one whitelisted pattern is found
 
     def users_safe(self, tm: TgcfMessage) -> bool:
         flist = self.filters.users
