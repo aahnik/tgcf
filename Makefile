@@ -29,7 +29,7 @@ ver:
 	@echo tgcf $(VERSION)
 
 pypi:
-	@poetry build && poetry publish
+	@poetry publish --build
 
 docker:
 	@docker build -t tgcf .
@@ -38,6 +38,8 @@ docker:
 	@docker build -t tgcf-min . -f Dockerfile.min
 	@docker tag tgcf-min aahnik/tgcf:minimal
 	@docker tag tgcf-min aahnik/tgcf:minimal-$(VERSION)
+
+docker-release: docker
 	@docker push -a aahnik/tgcf
 
-release: pypi docker
+release: pypi docker-release
