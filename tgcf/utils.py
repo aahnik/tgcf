@@ -60,7 +60,7 @@ def safe_name(string: str) -> str:
 
 def match(pattern: str, string: str, regex: bool) -> bool:
     if regex:
-        return bool(re.match(pattern, string))
+        return bool(re.findall(pattern, string))
     return pattern in string
 
 
