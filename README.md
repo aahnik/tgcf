@@ -27,8 +27,8 @@ send a copy of the messages from source to destination chats.
 
     > A chat can be anything: a group, channel, person or even another bot.
 
-2. Supports two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
-_past_ or _live_.
+2. Supports two [modes](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
+of operation _past_ or _live_.
 
     > The past mode deals with all existing messages,
     > while the live mode is for upcoming ones.
