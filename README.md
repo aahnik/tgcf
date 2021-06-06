@@ -27,17 +27,23 @@ send a copy of the messages from source to destination chats.
 
     > A chat can be anything, a group, channel, person or even another bot.
 
-2. Two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
-are _past_ or _live_ for dealing with either existing or upcoming messages.
+2. Supports two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
+_past_ or _live_.
+
+    > The past mode deals with all existing messages,
+    > while the live mode is for upcoming ones.
 
 3. You may [login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)
 with a _bot_ or an _user_ account.
 
+    > Telegram imposes certain limitations on bot accounts.
+    You may use an user account to perform the forwards if you wish.
+
 4. Perform custom manipulation on messages. You can
-[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)
-[format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination)
-[replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained)
-[watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F)
+[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F),
+[format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination),
+[replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained),
+[watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F),
 [ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)
 and whatever else you need !
 
