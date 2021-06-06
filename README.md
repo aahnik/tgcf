@@ -54,7 +54,7 @@ Video tutorial + Help from community in the [discussion forum](https://github.co
 
 6. If you are a python developer, writing
 [plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)
-is like stealing candy from a baby.
+for tgcf is like stealing candy from a baby.
 
 What are you waiting for? Star the repo and click Watch to recieve updates.
 
