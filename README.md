@@ -22,21 +22,30 @@ The ultimate tool to automate custom telegram message forwarding.
 
 The *key features* are:
 
-1. Two **[modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)**
-are _past_ or _live_ for dealing with either existing or upcoming messages.
-2. Supports **[login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)**
-with both telegram _bot_ account as well as _user_ account.
+1. Forward messages as "forwarded" or
+send a copy of the messages from source to destination chats.
 
-3. Custom
-**[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)
+    > A chat can be anything, a group, channel, person or even another bot.
+
+2. Two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
+are _past_ or _live_ for dealing with either existing or upcoming messages.
+
+3. You may [login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)
+with a _bot_ or an _user_ account.
+
+4. Perform custom manipulation on messages. You can
+[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)
+[format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination)
 [replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained)
 [watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F)
-[ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)**
-and whatever you need !
+[ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)
+and whatever else you need !
 
-4. Detailed **[docs](https://github.com/aahnik/tgcf/wiki)** +
-Video tutorial + Help from community in **[discussion forum](https://github.com/aahnik/tgcf/discussions)**.
-5. If you are a python developer, writing **[plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)**
+5. Detailed [wiki](https://github.com/aahnik/tgcf/wiki) +
+Video tutorial + Help from community in the [discussion forum](https://github.com/aahnik/tgcf/discussions).
+
+6. If you are a python developer, writing
+[plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)
 is like stealing candy from a baby.
 
 What are you waiting for? Star the repo and click Watch to recieve updates.
@@ -50,51 +59,53 @@ A youtube video is coming soon. [Subscribe](https://www.youtube.com/channel/UCcE
 
 ## Installation
 
-If you are an Windows user, who is not familiar with the command line, the Windows guide will be helpful.
+- If you are an Windows user, who is not familiar with the command line, the
+[Windows guide](https://github.com/aahnik/tgcf/wiki/Run-tgcf-on-Windows)
+is for you.
 
-If you want to install tgcf on termux Android, read the guide for android.
+- To install tgcf on Android (Termux), there exists an installer script,
+that allows you to install all dependencies by running just a single line command.
+Read the
+[guide for android](https://github.com/aahnik/tgcf/wiki/Run-on-Android-using-Termux)
+to learn.
 
-If you are familiar with **Docker**, you may read the [docker guide](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
+- If you are familiar with **Docker**, you may read the
+[docker guide](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
+for an isolated installation.
 
+- Otherwise for Linux/Mac, you may install `tgcf` via python's package manager `pip`.
 
-Otherwise you may install `tgcf` via python's package manager `pip`.
+    > **Note:** Make sure you have Python 3.8 or above installed.
+    Go to [python.org](https://python.org) to download python.
 
-> **Note:** Make sure you have Python 3.8 or above installed.
-Go to [python.org](https://python.org) to download python.
+    Open your terminal and run the following commands.
 
-Open your terminal and run the following commands.
+    ```shell
+    pip install --upgrade tgcf
+    ```
 
-```shell
-pip install --upgrade tgcf
-```
+    To check if the installation succeeded, run
 
-To check if the installation succeeded, run
-
-```shell
-tgcf --version
-```
+    ```shell
+    tgcf --version
+    ```
 
 ## Usage
-
-### Configuration
 
 Configuring `tgcf` is easy. You just need two files in your present directory
 (from which tgcf is invoked).
 
-- [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables) : To
-define your environment variables easily.
+- [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables)
+: To define your environment variables easily.
 
 - [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
-:
-An `yaml` file to configure how `tgcf` behaves.
-
-### Starting `tgcf`
+: An `yaml` file to configure how `tgcf` behaves.
 
 In your terminal, just run `tgcf live` or `tgcf past` to start `tgcf`.
 It will prompt you to enter your phone no. or bot token, when you run it
 for the first time.
 
-For more details run `tgcf --help` or [read docs](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
+For more details run `tgcf --help` or [read wiki](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
 
 ## Deploy to Cloud
 
@@ -102,6 +113,8 @@ Deploying to a cloud server is an easier alternative if you cannot install
 on your own machine.
 Cloud servers are very reliable and great for running `tgcf` in live mode
 for a long time.
+
+You can enjoy smooth one-click deploys to the major cloud providers.
 
 - [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku)
 - [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean)
@@ -115,15 +128,23 @@ for a long time.
 - First of all [read the wiki](https://github.com/aahnik/tgcf/wiki)
 and [watch the videos](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg)
 to get started.
-- Search your problem everywhere !
-- Feel free to ask your questions in the [Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
-- For reporting bugs or requesting a feature please use the [issue tracker](https://github.com/aahnik/tgcf/issues/new)
-for this repo.
 
+- Type your question in GitHub's Search bar on the top left of this page,
+and click "In this repository".
+Go through the issues, discussions and wiki pages that appear in the result.
+Try re-wording your query a few times before you give up.
+
+- If your question does not already exist,
+feel free to ask your questions in the
+[Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
+Please avoid duplicates.
+
+- For reporting bugs or requesting a new feature please use the [issue tracker](https://github.com/aahnik/tgcf/issues/new)
+of the repo.
 
 ## Contributing
 
-PRs most welcome! Read the [contributing guidelines](/.github/CONTRIBUTING.md)
+PRs are most welcome! Read the [contributing guidelines](/.github/CONTRIBUTING.md)
 to get started.
 
 If you are not a developer, you may also contribute financially to
