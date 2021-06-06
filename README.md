@@ -25,7 +25,7 @@ The *key features* are:
 1. Forward messages as "forwarded" or
 send a copy of the messages from source to destination chats.
 
-    > A chat can be anything, a group, channel, person or even another bot.
+    > A chat can be anything: a group, channel, person or even another bot.
 
 2. Supports two [modes of operation](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
 _past_ or _live_.
@@ -36,7 +36,9 @@ _past_ or _live_.
 3. You may [login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)
 with a _bot_ or an _user_ account.
 
-    > Telegram imposes certain limitations on bot accounts.
+    > Telegram imposes certain
+    [limitations](https://github.com/aahnik/tgcf/wiki/Using-bot-accounts#limitations)
+    on bot accounts.
     You may use an user account to perform the forwards if you wish.
 
 4. Perform custom manipulation on messages.
@@ -50,11 +52,13 @@ with a _bot_ or an _user_ account.
     and do whatever else you need !
 
 5. Detailed [wiki](https://github.com/aahnik/tgcf/wiki) +
-Video tutorial + Help from community in the [discussion forum](https://github.com/aahnik/tgcf/discussions).
+Video tutorial.
+    > You can also [get help](#getting-help) from the community.
 
 6. If you are a python developer, writing
 [plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)
 for tgcf is like stealing candy from a baby.
+    > Plugins modify the message before they are sent to the destination chat.
 
 What are you waiting for? Star the repo and click Watch to recieve updates.
 
@@ -81,7 +85,8 @@ to learn.
 [docker guide](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
 for an isolated installation.
 
-- Otherwise for **Linux/Mac**, you may install `tgcf` via python's package manager `pip`.
+- Otherwise for **Linux/Mac**,
+    you may install `tgcf` via python's package manager `pip`.
 
     > **Note:** Make sure you have Python 3.8 or above installed.
     Go to [python.org](https://python.org) to download python.
