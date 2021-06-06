@@ -26,12 +26,14 @@ The *key features* are:
 are _past_ or _live_ for dealing with either existing or upcoming messages.
 2. Supports **[login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)**
 with both telegram _bot_ account as well as _user_ account.
+
 3. Custom
 **[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F)
 [replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained)
 [watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F)
 [ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)**
 and whatever you need !
+
 4. Detailed **[docs](https://github.com/aahnik/tgcf/wiki)** +
 Video tutorial + Help from community in **[discussion forum](https://github.com/aahnik/tgcf/discussions)**.
 5. If you are a python developer, writing **[plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)**
@@ -82,7 +84,8 @@ Configuring `tgcf` is easy. You just need two files in your present directory
 - [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables) : To
 define your environment variables easily.
 
-- [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F) :
+- [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
+:
 An `yaml` file to configure how `tgcf` behaves.
 
 ### Starting `tgcf`
@@ -116,6 +119,7 @@ to get started.
 - Feel free to ask your questions in the [Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
 - For reporting bugs or requesting a feature please use the [issue tracker](https://github.com/aahnik/tgcf/issues/new)
 for this repo.
+
 
 ## Contributing
 
