@@ -527,7 +527,11 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 name = "verlat"
 version = "0.1.0.post1"
 description = "Get info about the latest release of a package on PyPI."
+<<<<<<< HEAD
 category = "main"
+=======
+category = "dev"
+>>>>>>> 25deacd... update
 optional = false
 python-versions = ">=3.8,<4.0"
 
@@ -588,7 +592,11 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
+<<<<<<< HEAD
 content-hash = "baa9414957d9423a3b8c7fb1c27f8de153c0963ee393cc99b63f8bdc897e43e3"
+=======
+content-hash = "7a7a3f6470feaa2382d44a7863339c034aedb8ec93044574e04bdd5fb3a90e3c"
+>>>>>>> 25deacd... update
 
 [metadata.files]
 aiohttp = [
