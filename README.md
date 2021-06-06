@@ -39,13 +39,15 @@ with a _bot_ or an _user_ account.
     > Telegram imposes certain limitations on bot accounts.
     You may use an user account to perform the forwards if you wish.
 
-4. Perform custom manipulation on messages. You can
-[filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F),
-[format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination),
-[replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained),
-[watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F),
-[ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)
-and whatever else you need !
+4. Perform custom manipulation on messages.
+
+    > You can
+    [filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F),
+    [format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination),
+    [replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained),
+    [watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F),
+    [ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)
+    and do whatever else you need !
 
 5. Detailed [wiki](https://github.com/aahnik/tgcf/wiki) +
 Video tutorial + Help from community in the [discussion forum](https://github.com/aahnik/tgcf/discussions).
