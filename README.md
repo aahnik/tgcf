@@ -67,11 +67,11 @@ A youtube video is coming soon. [Subscribe](https://www.youtube.com/channel/UCcE
 
 ## Installation
 
-- If you are an Windows user, who is not familiar with the command line, the
+- If you are an **Windows** user, who is not familiar with the command line, the
 [Windows guide](https://github.com/aahnik/tgcf/wiki/Run-tgcf-on-Windows)
 is for you.
 
-- To install tgcf on Android (Termux), there exists an installer script,
+- To install tgcf on **Android** (Termux), there exists an installer script,
 that allows you to install all dependencies by running just a single line command.
 Read the
 [guide for android](https://github.com/aahnik/tgcf/wiki/Run-on-Android-using-Termux)
@@ -81,7 +81,7 @@ to learn.
 [docker guide](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
 for an isolated installation.
 
-- Otherwise for Linux/Mac, you may install `tgcf` via python's package manager `pip`.
+- Otherwise for **Linux/Mac**, you may install `tgcf` via python's package manager `pip`.
 
     > **Note:** Make sure you have Python 3.8 or above installed.
     Go to [python.org](https://python.org) to download python.
