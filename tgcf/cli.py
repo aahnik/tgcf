@@ -3,6 +3,7 @@
 import asyncio
 import logging
 import os
+import platform
 import sys
 from enum import Enum
 from typing import Optional
@@ -69,6 +70,17 @@ def main(
 
     Telegram Channel https://telegram.me/tg_cf
     """
+    nl = "\n"
+    logging.info(
+        f""" Runing tgcf {__version__}
+    ** System Info **
+    Python {sys.version.replace(nl,"")}
+    OS {os.name}
+    Platform {platform.system()} {platform.release()}
+    {platform.architecture()} {platform.processor()}
+    """
+    )
+
     if FAKE:
         print(f"mode = {mode}")
         sys.exit(1)
