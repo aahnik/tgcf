@@ -10,6 +10,10 @@ from typing import Optional
 
 import typer
 from dotenv import load_dotenv
+from pyfiglet import Figlet
+from rich import print, traceback
+from rich.logging import RichHandler
+from verlat import latest_release
 
 from tgcf import __version__
 
@@ -19,6 +23,13 @@ FAKE = bool(os.getenv("FAKE"))
 app = typer.Typer(add_completion=False)
 
 
+def topper():
+    fig = Figlet(font="speed")
+    print(fig.renderText("tgcf"))
+    version_check()
+    print("\n\n")
+
+
 class Mode(str, Enum):
     """tgcf works in two modes."""
 
@@ -26,21 +37,50 @@ class Mode(str, Enum):
     LIVE = "live"
 
 
+def verbosity_callback(value: bool):
+    """Set logging level."""
+    traceback.install()
+    if value:
+        level = logging.INFO
+    else:
+        level = logging.WARNING
+    logging.basicConfig(
+        level=level,
+        format="%(message)s",
+        handlers=[
+            RichHandler(
+                rich_tracebacks=True,
+                markup=True,
+            )
+        ],
+    )
+    topper()
+    logging.info("Verbosity turned on! This is suitable for debugging")
+    nl = "\n"
+    logging.info(
+        f"""Running tgcf {__version__}\
+    \nPython {sys.version.replace(nl,"")}\
+    \nOS {os.name}\
+    \nPlatform {platform.system()} {platform.release()}\
+    \n{platform.architecture()} {platform.processor()}"""
+    )
+
+
 def version_callback(value: bool):
     """Show current version and exit."""
+
     if value:
         print(__version__)
         raise typer.Exit()
 
 
-def verbosity_callback(value: bool):
-    """Set logging level."""
-    if value:
-        level = logging.INFO
-    else:
-        level = logging.WARNING
-    logging.basicConfig(level=level)
-    logging.info("Verbosity turned on. \nThis is suitable for debugging.\n")
+def version_check():
+    latver = latest_release("tgcf").version
+    if __version__ != latver:
+        print(
+            f"tgcf has a newer release {latver} availaible!\
+            \nVisit http://bit.ly/update-tgcf"
+        )
 
 
 @app.command()
@@ -64,23 +104,12 @@ def main(
         help="Show version and exit.",
     ),
 ):
-    """Tgcf is a powerful tool for forwarding telegram messages from source to destination.
+    """The ultimate tool to automate custom telegram message forwarding.
 
-    Don't forget to star  https://github.com/aahnik/tgcf
+    Source Code: https://github.com/aahnik/tgcf
 
-    Telegram Channel https://telegram.me/tg_cf
+    For updates join telegram channel @aahniks_code
     """
-    nl = "\n"
-    logging.info(
-        f""" Runing tgcf {__version__}
-    ** System Info **
-    Python {sys.version.replace(nl,"")}
-    OS {os.name}
-    Platform {platform.system()} {platform.release()}
-    {platform.architecture()} {platform.processor()}
-    """
-    )
-
     if FAKE:
         print(f"mode = {mode}")
         sys.exit(1)
