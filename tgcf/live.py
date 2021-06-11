@@ -8,8 +8,8 @@ from telethon.tl.custom.message import Message
 
 from tgcf import config, const
 from tgcf import storage as st
-from tgcf.bot import BOT_EVENTS
-from tgcf.plugins import apply_plugins, plugins
+from tgcf.bot import get_events
+from tgcf.plugins import apply_plugins
 from tgcf.utils import send_message
 
 
@@ -109,34 +109,25 @@ ALL_EVENTS = {
     "deleted": (deleted_message_handler, events.MessageDeleted()),
 }
 
-ALL_EVENTS.update(BOT_EVENTS)
-
-for _, plugin in plugins.items():
-    try:
-        event_handlers = getattr(plugin, "event_handlers")
-        if event_handlers:
-            ALL_EVENTS.update(event_handlers)
-    except AttributeError:
-        pass
-
 
 async def start_sync() -> None:
     """Start tgcf live sync."""
 
     client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
     await client.start(bot_token=config.BOT_TOKEN)
-    is_bot = await client.is_bot()
+    config.is_bot = await client.is_bot()
+    logging.info(f"config.is_bot={config.is_bot}")
+    command_events = get_events()
+
+    ALL_EVENTS.update(command_events)
 
     for key, val in ALL_EVENTS.items():
-        if key.startswith("bot"):
-            if not is_bot:
-                continue
         if config.CONFIG.live.delete_sync is False and key == "deleted":
             continue
         client.add_event_handler(*val)
         logging.info(f"Added event handler for {key}")
 
-    if is_bot and const.REGISTER_COMMANDS:
+    if config.is_bot and const.REGISTER_COMMANDS:
         await client(
             functions.bots.SetBotCommandsRequest(
                 commands=[
