@@ -40,7 +40,7 @@ class TgcfFilter(TgcfPlugin):
     def case_correct(self) -> None:
         textf: TextFilter = self.filters.text
 
-        if textf.case_sensitive is False:
+        if textf.case_sensitive is False and textf.regex is False:
             textf.blacklist = [item.lower() for item in textf.blacklist]
             textf.whitelist = [item.lower() for item in textf.whitelist]
 
