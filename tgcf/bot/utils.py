@@ -1,4 +1,5 @@
 """helper functions for the bot."""
+import logging
 from typing import List
 
 from telethon import events
@@ -32,9 +33,8 @@ def get_args(text: str) -> str:
             return ""
 
     prefix, args = splitted
-    print(prefix)
     args = args.strip()
-    print(args)
+    logging.info(f"Got command {prefix} with args {args}")
     return args
 
 
@@ -55,10 +55,13 @@ def display_forwards(forwards: List[Forward]) -> str:
 def remove_source(source, forwards: List[Forward]) -> List[Forward]:
     """Remove a source from forwards."""
     for i, forward in enumerate(forwards):
-        print(forward)
-        print(type(forward.source))
-        print(type(source))
         if forward.source == source:
             del forwards[i]
             return forwards
     raise ValueError("The source does not exist")
+
+
+def get_command_prefix():
+    if config.is_bot is None:
+        raise ValueError("config.is_bot is not set!")
+    return "/" if config.is_bot else "."
