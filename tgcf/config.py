@@ -23,7 +23,7 @@ class Forward(BaseModel):
     source: Union[int, str]
     dest: List[Union[int, str]] = []
     offset: int = 0
-    end: Optional[int] = None
+    end: Optional[int] = 0
 
 
 class LiveSettings(BaseModel):
@@ -56,11 +56,11 @@ class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
     # pylint: disable=too-few-public-methods
+    admins: List[int] = []
     forwards: List[Forward] = []
     show_forwarded_from: bool = False
     live: LiveSettings = LiveSettings()
     past: PastSettings = PastSettings()
-    admins: List[int] = []
 
     plugins: Dict = {}
 
@@ -70,16 +70,16 @@ def detect_config_type() -> int:
     tutorial_link = "Learn more http://bit.ly/configure-tgcf"
 
     if CONFIG_FILE_NAME in os.listdir():
-        logging.info(f"{CONFIG_FILE_NAME} detected.")
+        logging.info(f"{CONFIG_FILE_NAME} detected")
         return 1
     if os.getenv("TGCF_CONFIG"):
-        logging.info(f"env var {CONFIG_ENV_VAR_NAME} detected.")
+        logging.info(f"env var {CONFIG_ENV_VAR_NAME} detected")
         if not ".env" in os.listdir():
             return 2
 
         logging.warning(
             f"If you can create files in your system,\
-            you should use tgcf.config.yml and not .env to define configuration. {tutorial_link}"
+            you should use tgcf.config.yml and not .env to define configuration {tutorial_link}"
         )
         sys.exit(1)
     else:
@@ -106,7 +106,7 @@ def read_config() -> Config:
         else:
             config = Config()
     except Exception as err:
-        print(err)
+        logging.exception(err)
         sys.exit(1)
     else:
         logging.info(config)
@@ -181,5 +181,5 @@ async def load_from_to(
 
 
 from_to = {}
-
+is_bot: Optional[bool] = None
 logging.info("config.py got executed")

@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 from typing import Any, Dict
@@ -18,21 +19,21 @@ class MarkConfig(BaseModel):
 
 def download_image(url: str, filename: str = "image.png") -> bool:
     if filename in os.listdir():
-        print("Image exists")
+        logging.info("Image for watermarking already exists.")
         return True
     try:
-        print("Downloading image ... ")
+        logging.info(f"Downloading image {url}")
         response = requests.get(url, stream=True)
         if response.status_code == 200:
-            print("Got file response")
+            logging.info("Got Response 200")
             with open(filename, "wb") as file:
                 response.raw.decode_content = True
                 shutil.copyfileobj(response.raw, file)
     except Exception as err:
-        print(err)
+        logging.error(err)
         return False
     else:
-        print("File created image")
+        logging.info("File created image")
         return True
 
 

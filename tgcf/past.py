@@ -66,7 +66,7 @@ async def forward_job() -> None:
                     logging.info(f"slept for {CONFIG.past.delay} seconds")
 
                 except FloodWaitError as fwe:
-                    print(f"Sleeping for {fwe}")
+                    logging.info(f"Sleeping for {fwe}")
                     await asyncio.sleep(delay=fwe.seconds)
                 except Exception as err:
                     logging.exception(err)

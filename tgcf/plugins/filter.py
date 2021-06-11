@@ -32,7 +32,6 @@ class TgcfFilter(TgcfPlugin):
     id_ = "filter"
 
     def __init__(self, data: Dict[str, Any]) -> None:
-        print("tgcf filter data loaded")
         self.filters = Filters(**data)
         self.case_correct()
         logging.info(self.filters)
@@ -40,15 +39,18 @@ class TgcfFilter(TgcfPlugin):
     def case_correct(self) -> None:
         textf: TextFilter = self.filters.text
 
-        if textf.case_sensitive is False:
+        if textf.case_sensitive is False and textf.regex is False:
             textf.blacklist = [item.lower() for item in textf.blacklist]
             textf.whitelist = [item.lower() for item in textf.whitelist]
 
     def modify(self, tm: TgcfMessage) -> TgcfMessage:
 
         if self.users_safe(tm):
+            logging.info("Message passed users filter")
             if self.files_safe(tm):
+                logging.info("Message passed files filter")
                 if self.text_safe(tm):
+                    logging.info("Message passed text filter")
                     return tm
 
     def text_safe(self, tm: TgcfMessage) -> bool:
@@ -76,7 +78,6 @@ class TgcfFilter(TgcfPlugin):
     def users_safe(self, tm: TgcfMessage) -> bool:
         flist = self.filters.users
         sender = str(tm.sender_id)
-        logging.info(f"M message from sender id {sender}")
         if sender in flist.blacklist:
             return False
         if not flist.whitelist:
@@ -87,7 +88,6 @@ class TgcfFilter(TgcfPlugin):
     def files_safe(self, tm: TgcfMessage) -> bool:
         flist = self.filters.files
         fl_type = tm.file_type
-        print(fl_type)
         if fl_type in flist.blacklist:
             return False
         if not flist.whitelist:

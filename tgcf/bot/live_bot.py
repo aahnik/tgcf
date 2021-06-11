@@ -1,10 +1,18 @@
 """A bot to controll settings for tgcf live mode."""
 
+import logging
+
 import yaml
 from telethon import events
 
 from tgcf import config, const, plugins
-from tgcf.bot.utils import admin_protect, display_forwards, get_args, remove_source
+from tgcf.bot.utils import (
+    admin_protect,
+    display_forwards,
+    get_args,
+    get_command_prefix,
+    remove_source,
+)
 
 
 @admin_protect
@@ -30,9 +38,7 @@ async def forward_command_handler(event):
             raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
-        print(parsed_args)
         forward = config.Forward(**parsed_args)
-        print(forward)
         try:
             remove_source(forward.source, config.CONFIG.forwards)
         except:
@@ -43,7 +49,7 @@ async def forward_command_handler(event):
         await event.respond("Success")
         config.write_config(config.CONFIG)
     except ValueError as err:
-        print(err)
+        logging.error(err)
         await event.respond(str(err))
 
     finally:
@@ -68,17 +74,14 @@ async def remove_command_handler(event):
             raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
-        print(parsed_args)
         source_to_remove = parsed_args.get("source")
-        print(source_to_remove)
         config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
-        print(config.CONFIG.forwards)
         config.from_to = config.load_from_to(event.client, config.CONFIG.forwards)
 
         await event.respond("Success")
         config.write_config(config.CONFIG)
     except ValueError as err:
-        print(err)
+        logging.error(err)
         await event.respond(str(err))
 
     finally:
@@ -111,7 +114,7 @@ async def style_command_handler(event):
 
         config.write_config(config.CONFIG)
     except ValueError as err:
-        print(err)
+        logging.error(err)
         await event.respond(str(err))
 
     finally:
@@ -128,10 +131,15 @@ async def help_command_handler(event):
     await event.respond(const.BotMessages.bot_help)
 
 
-BOT_EVENTS = {
-    "bot_start": (start_command_handler, events.NewMessage(pattern="/start")),
-    "bot_forward": (forward_command_handler, events.NewMessage(pattern="/forward")),
-    "bot_remove": (remove_command_handler, events.NewMessage(pattern="/remove")),
-    "bot_style": (style_command_handler, events.NewMessage(pattern="/style")),
-    "bot_help": (help_command_handler, events.NewMessage(pattern="/help")),
-}
+def get_events():
+    _ = get_command_prefix()
+
+    command_events = {
+        "start": (start_command_handler, events.NewMessage(pattern=f"{_}start")),
+        "forward": (forward_command_handler, events.NewMessage(pattern=f"{_}forward")),
+        "remove": (remove_command_handler, events.NewMessage(pattern=f"{_}remove")),
+        "style": (style_command_handler, events.NewMessage(pattern=f"{_}style")),
+        "help": (help_command_handler, events.NewMessage(pattern=f"{_}help")),
+    }
+
+    return command_events
