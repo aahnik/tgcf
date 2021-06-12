@@ -119,6 +119,8 @@ async def start_sync() -> None:
     logging.info(f"config.is_bot={config.is_bot}")
     command_events = get_events()
 
+    await config.load_admins(client)
+
     ALL_EVENTS.update(command_events)
 
     for key, val in ALL_EVENTS.items():
