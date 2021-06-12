@@ -5,13 +5,14 @@ import logging
 import os
 import platform
 import sys
+import time
 from enum import Enum
 from typing import Optional
 
 import typer
 from dotenv import load_dotenv
 from pyfiglet import Figlet
-from rich import print, traceback
+from rich import console, traceback
 from rich.logging import RichHandler
 from verlat import latest_release
 
@@ -22,12 +23,25 @@ load_dotenv(".env")
 FAKE = bool(os.getenv("FAKE"))
 app = typer.Typer(add_completion=False)
 
+con = console.Console()
+
 
 def topper():
     fig = Figlet(font="speed")
-    print(fig.renderText("tgcf"))
+    rendered = fig.renderText("tgcf")
+    time_passed = 0
+
+    while time_passed < 5:
+        cmd = "clear" if os.name == "posix" else "cls"
+        os.system(cmd)
+        if time_passed % 2 == 0:
+            print(rendered)
+        else:
+            con.print(rendered)
+        time.sleep(0.5)
+        time_passed += 1
     version_check()
-    print("\n\n")
+    print("\n")
 
 
 class Mode(str, Enum):
@@ -70,16 +84,17 @@ def version_callback(value: bool):
     """Show current version and exit."""
 
     if value:
-        print(__version__)
+        con.print(__version__)
         raise typer.Exit()
 
 
 def version_check():
     latver = latest_release("tgcf").version
     if __version__ != latver:
-        print(
+        con.print(
             f"tgcf has a newer release {latver} availaible!\
-            \nVisit http://bit.ly/update-tgcf"
+            \nVisit http://bit.ly/update-tgcf",
+            style="bold yellow",
         )
 
 
@@ -111,7 +126,7 @@ def main(
     For updates join telegram channel @aahniks_code
     """
     if FAKE:
-        print(f"mode = {mode}")
+        logging.critical(f"You are running fake with {mode} mode")
         sys.exit(1)
 
     if mode == Mode.PAST:
