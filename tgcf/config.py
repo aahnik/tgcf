@@ -56,7 +56,7 @@ class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
     # pylint: disable=too-few-public-methods
-    admins: List[int] = []
+    admins: List[Union[int, str]] = []
     forwards: List[Forward] = []
     show_forwarded_from: bool = False
     live: LiveSettings = LiveSettings()
@@ -149,6 +149,10 @@ else:
 CONFIG = read_config()
 
 
+async def get_id(client: TelegramClient, peer):
+    return await client.get_peer_id(peer)
+
+
 async def load_from_to(
     client: TelegramClient, forwards: List[Forward]
 ) -> Dict[int, List[int]]:
@@ -171,13 +175,23 @@ async def load_from_to(
     from_to_dict = {}
 
     async def _(peer):
-        return await client.get_peer_id(peer)
+        return await get_id(client, peer)
 
     for forward in forwards:
         src = await _(forward.source)
         from_to_dict[src] = [await _(dest) for dest in forward.dest]
     logging.info(f"From to dict is {from_to_dict}")
     return from_to_dict
+
+
+ADMINS = []
+
+
+async def load_admins(client: TelegramClient):
+    for admin in CONFIG.admins:
+        ADMINS.append(await get_id(client, admin))
+    logging.info(f"Loaded admins are {ADMINS}")
+    return ADMINS
 
 
 from_to = {}
