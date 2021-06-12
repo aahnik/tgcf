@@ -172,7 +172,7 @@ urwid = ["urwid (==1.3.1)"]
 
 [[package]]
 name = "identify"
-version = "2.2.8"
+version = "2.2.10"
 description = "File identification library for Python"
 category = "dev"
 optional = false
@@ -769,8 +769,8 @@ hachoir = [
     {file = "hachoir-3.1.2.tar.gz", hash = "sha256:bc1259b1e2970532b2dbd99139cb0de59d9bb8904eb1489c3e8a82c979c98f23"},
 ]
 identify = [
-    {file = "identify-2.2.8-py2.py3-none-any.whl", hash = "sha256:3a74cf41f1a0bde21e2f196a1727a608629339d9897226bad07b22e0bbde6faa"},
-    {file = "identify-2.2.8.tar.gz", hash = "sha256:7d4a73d58869a484d4ba8892793c80e30aa699e77707f26c1049486ef9be415f"},
+    {file = "identify-2.2.10-py2.py3-none-any.whl", hash = "sha256:18d0c531ee3dbc112fa6181f34faa179de3f57ea57ae2899754f16a7e0ff6421"},
+    {file = "identify-2.2.10.tar.gz", hash = "sha256:5b41f71471bc738e7b586308c3fca172f78940195cb3bf6734c1e66fdac49306"},
 ]
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
