@@ -10,12 +10,11 @@ from tgcf.config import Forward
 
 def admin_protect(org_func):
     """Decorate to restrict non admins from accessing the bot."""
-    if config.CONFIG.admins == []:
-        return org_func
 
     async def wrapper_func(event):
         """Wrap the original function."""
-        if event.sender_id not in config.CONFIG.admins:
+        logging.info(f"Applying admin protection! Admins are {config.ADMINS}")
+        if event.sender_id not in config.ADMINS:
             await event.respond("You are not authorized.")
             raise events.StopPropagation
         return await org_func(event)
