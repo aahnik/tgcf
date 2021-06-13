@@ -44,7 +44,7 @@ async def forward_command_handler(event):
         except:
             pass
         config.CONFIG.forwards.append(forward)
-        config.from_to = config.load_from_to(event.client, config.CONFIG.forwards)
+        config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
         await event.respond("Success")
         config.write_config(config.CONFIG)
@@ -76,7 +76,7 @@ async def remove_command_handler(event):
         parsed_args = yaml.safe_load(args)
         source_to_remove = parsed_args.get("source")
         config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
-        config.from_to = config.load_from_to(event.client, config.CONFIG.forwards)
+        config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
         await event.respond("Success")
         config.write_config(config.CONFIG)
