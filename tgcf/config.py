@@ -92,7 +92,7 @@ CONFIG_TYPE = detect_config_type()
 def read_config() -> Config:
     """Load the configuration defined by user."""
     if CONFIG_TYPE == 1:
-        with open(CONFIG_FILE_NAME) as file:
+        with open(CONFIG_FILE_NAME, encoding="utf8") as file:
             config_dict = yaml.full_load(file)
     elif CONFIG_TYPE == 2:
         config_env_var = os.getenv("TGCF_CONFIG")
@@ -116,7 +116,7 @@ def read_config() -> Config:
 def write_config(config: Config):
     """Write changes in config back to file."""
     if CONFIG_TYPE == 1 or CONFIG_TYPE == 0:
-        with open(CONFIG_FILE_NAME, "w") as file:
+        with open(CONFIG_FILE_NAME, "w", encoding="utf8") as file:
             yaml.dump(config.dict(), file, sort_keys=False, allow_unicode=True)
     elif CONFIG_TYPE == 2:
         logging.warning("Could not update config! As env var is used")
