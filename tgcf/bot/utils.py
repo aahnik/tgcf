@@ -63,4 +63,4 @@ def remove_source(source, forwards: List[Forward]) -> List[Forward]:
 def get_command_prefix():
     if config.is_bot is None:
         raise ValueError("config.is_bot is not set!")
-    return "/" if config.is_bot else "."
+    return "/" if config.is_bot else "\."
