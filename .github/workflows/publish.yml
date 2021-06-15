@@ -1,6 +1,9 @@
 name: Publish Packages
 
-on: [release]
+on:
+  release:
+    types: [published]
+
 
 jobs:
   release:
