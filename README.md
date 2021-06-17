@@ -130,7 +130,7 @@ on Digital Ocean.
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=98b725055148&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 > **NOTE** You will get nothing if you directly sign up from Digital Ocean Home Page.
-> Use the link above, or click on the big fat button above to get free 100$.
+> **Use the link** above, or **click on the big fat button** above to get free 100$.
 
 Deploying to a cloud server is an easier alternative if you cannot install
 on your own machine.
