@@ -32,6 +32,7 @@ typer-cli = "^0.0.11"
 black = {version = "^20.8b1", allow-prereleases = true}
 isort = "^5.8.0"
 pre-commit = "^2.13.0"
+verlat = "^0.1.0"
 
 
 [tool.poetry.scripts]
