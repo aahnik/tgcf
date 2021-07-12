@@ -22,7 +22,8 @@ The ultimate tool to automate custom telegram message forwarding.
 </p>
 <!-- markdownlint-enable -->
 
-Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ... 
+Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ...
+
 Call it whatever you like! tgcf can fulfill your custom needs.
 
 The *key features* are:
