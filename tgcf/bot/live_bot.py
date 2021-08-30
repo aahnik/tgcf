@@ -18,35 +18,22 @@ from tgcf.bot.utils import (
 @admin_protect
 async def forward_command_handler(event):
     """Handle the `/forward` command."""
-    notes = """The `/forward` command allows you to add a new forward.
-    Example: suppose you want to forward from a to (b and c)
-
-    ```
-    /forward source: a
-    dest: [b,c]
-    ```
-
-    a,b,c are chat ids
-
-    """.replace(
-        "    ", ""
-    )
 
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(f"{const.BotMessages.forward_usage}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         forward = config.Forward(**parsed_args)
         try:
             remove_source(forward.source, config.CONFIG.forwards)
-        except:
-            pass
+        except Exception as err:
+            logging.info('Removing the forwarding source failed: {}'.format(err))
         config.CONFIG.forwards.append(forward)
         config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
-        await event.respond("Success")
+        await event.respond(const.BotMessages.forward_applied)
         config.write_config(config.CONFIG)
     except ValueError as err:
         logging.error(err)
@@ -59,26 +46,18 @@ async def forward_command_handler(event):
 @admin_protect
 async def remove_command_handler(event):
     """Handle the /remove command."""
-    notes = """The `/remove` command allows you to remove a source from forwarding.
-    Example: Suppose you want to remove the channel with id -100, then run
-
-    `/remove source: -100`
-
-    """.replace(
-        "    ", ""
-    )
 
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(f"{notes}\n{display_forwards(config.CONFIG.forwards)}")
+            raise ValueError(f"{const.BotMessages.remove_usage}\n{display_forwards(config.CONFIG.forwards)}")
 
         parsed_args = yaml.safe_load(args)
         source_to_remove = parsed_args.get("source")
         config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
         config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
-        await event.respond("Success")
+        await event.respond(const.BotMessages.remove_applied)
         config.write_config(config.CONFIG)
     except ValueError as err:
         logging.error(err)
@@ -91,26 +70,17 @@ async def remove_command_handler(event):
 @admin_protect
 async def style_command_handler(event):
     """Handle the /style command"""
-    notes = """This command is used to set the style of the messages to be forwarded.
-
-    Example: `/style bold`
-
-    Options are preserve,normal,bold,italics,code, strike
-
-    """.replace(
-        "    ", ""
-    )
 
     try:
         args = get_args(event.message.text)
         if not args:
-            raise ValueError(f"{notes}\n")
+            raise ValueError(f"{const.BotMessages.style_usage}\n")
         _valid = ["bold", "italics", "normal", "strike", "preserve"]
         if args not in _valid:
-            raise ValueError(f"Invalid style. Choose from {_valid}")
+            raise ValueError(f"{const.BotMessages.style_unexpected} {_valid}")
         config.CONFIG.plugins.update({"format": {"style": args}})
         plugins.plugins = plugins.load_plugins()
-        await event.respond("Success")
+        await event.respond(const.BotMessages.style_applied)
 
         config.write_config(config.CONFIG)
     except ValueError as err:

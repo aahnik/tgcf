@@ -67,14 +67,14 @@ class Config(BaseModel):
 
 def detect_config_type() -> int:
     """Return 0 when no config found, 1 when tgcf.config.yml, 2 when env var, else terminate."""
-    tutorial_link = "Learn more http://bit.ly/configure-tgcf"
+    tutorial_link = "Learn more https://bit.ly/configure-tgcf"
 
     if CONFIG_FILE_NAME in os.listdir():
         logging.info(f"{CONFIG_FILE_NAME} detected")
         return 1
     if os.getenv("TGCF_CONFIG"):
         logging.info(f"env var {CONFIG_ENV_VAR_NAME} detected")
-        if not ".env" in os.listdir():
+        if ".env" not in os.listdir():
             return 2
 
         logging.warning(

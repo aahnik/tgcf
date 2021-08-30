@@ -8,7 +8,7 @@ import inspect
 import logging
 from enum import Enum
 from importlib import import_module
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from telethon.tl.custom.message import Message
 
@@ -120,7 +120,7 @@ def load_plugins() -> Dict[str, TgcfPlugin]:
     return _plugins
 
 
-async def apply_plugins(message: Message) -> TgcfMessage:
+async def apply_plugins(message: Message) -> Optional[TgcfMessage]:
     """Apply all loaded plugins to a message."""
     tm = TgcfMessage(message)
 

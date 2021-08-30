@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from tgcf.plugins import TgcfMessage
 
 
-async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Message:
+async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Sequence[Message]:
     """Forward or send a copy, depending on config."""
     client: TelegramClient = tm.message.client
     if CONFIG.show_forwarded_from:

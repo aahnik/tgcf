@@ -93,7 +93,7 @@ def version_check():
     if __version__ != latver:
         con.print(
             f"tgcf has a newer release {latver} availaible!\
-            \nVisit http://bit.ly/update-tgcf",
+            \nVisit https://bit.ly/update-tgcf",
             style="bold yellow",
         )
 

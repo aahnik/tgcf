@@ -44,7 +44,7 @@ class TgcfMark(TgcfPlugin):
         self.data = MarkConfig(**data)
 
     async def modify(self, tm: TgcfMessage) -> TgcfMessage:
-        if not tm.file_type in ["gif", "video", "photo"]:
+        if tm.file_type not in ["gif", "video", "photo"]:
             return tm
         downloaded_file = await tm.get_file()
         base = File(downloaded_file)

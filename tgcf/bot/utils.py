@@ -13,9 +13,9 @@ def admin_protect(org_func):
 
     async def wrapper_func(event):
         """Wrap the original function."""
-        logging.info(f"Applying admin protection! Admins are {config.ADMINS}")
+        logging.info(f"Applying admin protection for {event.sender_id}! Admins are {config.ADMINS}")
         if event.sender_id not in config.ADMINS:
-            await event.respond("You are not authorized.")
+            await event.respond(const.BotMessages.user_not_admin)
             raise events.StopPropagation
         return await org_func(event)
 
@@ -40,12 +40,12 @@ def get_args(text: str) -> str:
 def display_forwards(forwards: List[Forward]) -> str:
     """Return a string that beautifully displays all current forwards."""
     if len(forwards) == 0:
-        return "Currently no forwards are set"
-    forward_str = "This is your configuration"
+        return const.BotMessages.display_forwards_empty
+    forward_str = const.BotMessages.forward_str_title
     for forward in forwards:
         forward_str = (
-            forward_str
-            + f"\n\n```\nsource: {forward.source}\ndest: {forward.dest}\n```\n"
+                forward_str
+                + f"\n\n```\n{const.BotMessages.forward_str_source} {forward.source}\n{const.BotMessages.forward_str_destination} {forward.dest}\n```\n"
         )
 
     return forward_str
@@ -57,10 +57,10 @@ def remove_source(source, forwards: List[Forward]) -> List[Forward]:
         if forward.source == source:
             del forwards[i]
             return forwards
-    raise ValueError("The source does not exist")
+    raise ValueError(const.BotMessages.remove_source_not_exists)
 
 
 def get_command_prefix():
     if config.is_bot is None:
         raise ValueError("config.is_bot is not set!")
-    return "/" if config.is_bot else "\."
+    return "/" if config.is_bot else r"\."

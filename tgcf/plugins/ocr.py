@@ -13,7 +13,7 @@ class TgcfOcr(TgcfPlugin):
 
     async def modify(self, tm: TgcfMessage) -> TgcfMessage:
 
-        if not tm.file_type in ["photo"]:
+        if tm.file_type not in ["photo"]:
             return tm
 
         file = await tm.get_file()
