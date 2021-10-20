@@ -37,8 +37,9 @@ async def forward_job() -> None:
                 event = st.DummyEvent(message.chat_id, message.id)
                 event_uid = st.EventUid(event)
 
-                if forward.end and last_id > forward.end:
-                    continue
+                if forward.end and last_id >= forward.end:
+                    logging.info(f"reached end id {forward.end}")
+                    break
                 if isinstance(message, MessageService):
                     continue
                 try:
