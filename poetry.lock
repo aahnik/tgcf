@@ -946,7 +946,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c8fd97238cc7eb00ce85944cf00dc36778a9f6a6a866df9531aae76ec880a60b"
+content-hash = "e42364e19111af43b7fc842c73c486fa9f8e8fee6991b49252521784aeefea0c"
 
 [metadata.files]
 aiohttp = [
