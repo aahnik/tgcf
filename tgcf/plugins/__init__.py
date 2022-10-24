@@ -13,21 +13,10 @@ from typing import Any, Dict
 from telethon.tl.custom.message import Message
 
 from tgcf.config import CONFIG
+from tgcf.plugin_models import FileType
 from tgcf.utils import cleanup, stamp
 
 PLUGINS = CONFIG.plugins
-
-
-class FileType(str, Enum):
-    AUDIO = "audio"
-    GIF = "gif"
-    VIDEO = "video"
-    VIDEO_NOTE = "video_note"
-    STICKER = "sticker"
-    CONTACT = "contact"
-    PHOTO = "photo"
-    DOCUMENT = "document"
-    NOFILE = "nofile"
 
 
 class TgcfMessage:
@@ -76,31 +65,22 @@ class TgcfPlugin:
 def load_plugins() -> Dict[str, TgcfPlugin]:
     """Load the plugins specified in config."""
     _plugins = {}
-    for plugin_id, plugin_data in PLUGINS.items():
-        if not plugin_data:
-            plugin_data = {}
+    for item in PLUGINS:
+        plugin_id = item[0]
+        if item[1].check == False:
+            continue
+
         plugin_class_name = f"Tgcf{plugin_id.title()}"
 
-        try:
+        try:  # try to load first party plugin
             plugin_module = import_module("tgcf.plugins." + plugin_id)
         except ModuleNotFoundError:
             logging.error(
-                f"{plugin_id} is not a first party plugin. Trying to load from availaible third party plugins."
+                f"{plugin_id} is not a first party plugin. Third party plugins are not supported."
             )
-            try:
-                plugin_module_name = f"tgcf_{plugin_id}"
-                plugin_module = import_module(plugin_module_name)
-            except ModuleNotFoundError:
-                logging.error(
-                    f"Module {plugin_module_name} not found. Failed to load plugin {plugin_id}"
-                )
-                continue
-            else:
-                logging.info(
-                    f"Plugin {plugin_id} is successfully loaded from third party plugins"
-                )
         else:
             logging.info(f"First party plugin {plugin_id} loaded!")
+
         try:
             plugin_class = getattr(plugin_module, plugin_class_name)
             if not issubclass(plugin_class, TgcfPlugin):
@@ -108,7 +88,7 @@ def load_plugins() -> Dict[str, TgcfPlugin]:
                     f"Plugin class {plugin_class_name} does not inherit TgcfPlugin"
                 )
                 continue
-            plugin: TgcfPlugin = plugin_class(plugin_data)
+            plugin: TgcfPlugin = plugin_class(item[1])
             if not plugin.id_ == plugin_id:
                 logging.error(f"Plugin id for {plugin_id} does not match expected id.")
                 continue
