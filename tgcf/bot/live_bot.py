@@ -13,6 +13,8 @@ from tgcf.bot.utils import (
     get_command_prefix,
     remove_source,
 )
+from tgcf.config import CONFIG, write_config
+from tgcf.plugin_models import Style
 
 
 @admin_protect
@@ -43,11 +45,11 @@ async def forward_command_handler(event):
             remove_source(forward.source, config.CONFIG.forwards)
         except:
             pass
-        config.CONFIG.forwards.append(forward)
+        CONFIG.forwards.append(forward)
         config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
         await event.respond("Success")
-        config.write_config(config.CONFIG)
+        write_config(config.CONFIG)
     except ValueError as err:
         logging.error(err)
         await event.respond(str(err))
@@ -75,11 +77,11 @@ async def remove_command_handler(event):
 
         parsed_args = yaml.safe_load(args)
         source_to_remove = parsed_args.get("source")
-        config.CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
+        CONFIG.forwards = remove_source(source_to_remove, config.CONFIG.forwards)
         config.from_to = await config.load_from_to(event.client, config.CONFIG.forwards)
 
         await event.respond("Success")
-        config.write_config(config.CONFIG)
+        write_config(config.CONFIG)
     except ValueError as err:
         logging.error(err)
         await event.respond(str(err))
@@ -105,14 +107,12 @@ async def style_command_handler(event):
         args = get_args(event.message.text)
         if not args:
             raise ValueError(f"{notes}\n")
-        _valid = ["bold", "italics", "normal", "strike", "preserve"]
+        _valid = [item.value for item in Style]
         if args not in _valid:
             raise ValueError(f"Invalid style. Choose from {_valid}")
-        config.CONFIG.plugins.update({"format": {"style": args}})
-        plugins.plugins = plugins.load_plugins()
+        CONFIG.plugins.fmt.style = args
         await event.respond("Success")
-
-        config.write_config(config.CONFIG)
+        write_config(CONFIG)
     except ValueError as err:
         logging.error(err)
         await event.respond(str(err))
@@ -133,7 +133,7 @@ async def help_command_handler(event):
 
 def get_events():
     _ = get_command_prefix()
-    logging.info(f"Command prefix is {_} ")
+    logging.info(f"Command prefix is . for userbot and / for bot")
     command_events = {
         "start": (start_command_handler, events.NewMessage(pattern=f"{_}start")),
         "forward": (forward_command_handler, events.NewMessage(pattern=f"{_}forward")),
