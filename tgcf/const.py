@@ -11,7 +11,7 @@ REGISTER_COMMANDS = True
 
 KEEP_LAST_MANY = 10000
 
-CONFIG_FILE_NAME = "tgcf.config.yml"
+CONFIG_FILE_NAME = "tgcf.config.json"
 CONFIG_ENV_VAR_NAME = "TGCF_CONFIG"
 
 
