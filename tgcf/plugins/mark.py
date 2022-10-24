@@ -7,9 +7,14 @@ import requests
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 from watermark import File, Position, Watermark, apply_watermark
 
-from tgcf.plugin_models import MarkConfig
 from tgcf.plugins import TgcfMessage, TgcfPlugin
 from tgcf.utils import cleanup
+
+
+class MarkConfig(BaseModel):
+    image: str = "image.png"
+    position: Position = Position.centre
+    frame_rate: int = 15
 
 
 def download_image(url: str, filename: str = "image.png") -> bool:
@@ -35,8 +40,8 @@ def download_image(url: str, filename: str = "image.png") -> bool:
 class TgcfMark(TgcfPlugin):
     id_ = "mark"
 
-    def __init__(self, data) -> None:
-        self.data = data
+    def __init__(self, data: Dict[str, Any]) -> None:
+        self.data = MarkConfig(**data)
 
     async def modify(self, tm: TgcfMessage) -> TgcfMessage:
         if not tm.file_type in ["gif", "video", "photo"]:

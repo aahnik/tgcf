@@ -1,6 +1,5 @@
 .env
 tgcf.config.yml
-tgcf.config.json
 .venv
 .vscode
 .github
@@ -13,9 +12,6 @@ foo.bar
 t.ipynb
 tgcf_external.py
 t.yml
-todo
-logs.txt
-old_logs.txt
 
 # Git
 .git

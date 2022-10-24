@@ -1,1 +1,0 @@
-Have a question? Ask in the [discussion forum](https://github.com/aahnik/tgcf/discussions). But make sure to **read the wiki** first.

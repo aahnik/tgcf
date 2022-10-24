@@ -69,9 +69,3 @@ def replace(pattern: str, new: str, string: str, regex: bool) -> str:
         return re.sub(pattern, new, string)
     else:
         return string.replace(pattern, new)
-
-
-def clean_session_files():
-    for item in os.listdir():
-        if item.endswith(".session") or item.endswith(".session-journal"):
-            os.remove(item)

@@ -3,16 +3,20 @@ from typing import Any, Dict
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from tgcf.plugin_models import Replace
 from tgcf.plugins import TgcfMessage, TgcfPlugin
 from tgcf.utils import replace
+
+
+class Replace(BaseModel):
+    text: Dict[str, str] = {}
+    regex: bool = False
 
 
 class TgcfReplace(TgcfPlugin):
     id_ = "replace"
 
-    def __init__(self, data):
-        self.replace = data
+    def __init__(self, data: Dict[str, str]):
+        self.replace = Replace(**data)
         logging.info(self.replace)
 
     def modify(self, tm: TgcfMessage) -> TgcfMessage:

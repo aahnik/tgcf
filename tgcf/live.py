@@ -1,20 +1,16 @@
 """The module responsible for operating tgcf in live mode."""
 
 import logging
-import os
-import sys
 from typing import Union
 
 from telethon import TelegramClient, events, functions, types
-from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message
 
 from tgcf import config, const
 from tgcf import storage as st
 from tgcf.bot import get_events
-from tgcf.config import CONFIG, get_SESSION
 from tgcf.plugins import apply_plugins
-from tgcf.utils import clean_session_files, send_message
+from tgcf.utils import send_message
 
 
 async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
@@ -116,18 +112,9 @@ ALL_EVENTS = {
 
 async def start_sync() -> None:
     """Start tgcf live sync."""
-    # clear past session files
-    clean_session_files()
 
-    SESSION = get_SESSION()
-    client = TelegramClient(SESSION, CONFIG.login.API_ID, CONFIG.login.API_HASH)
-    if CONFIG.login.user_type == 0:
-        if CONFIG.login.BOT_TOKEN == "":
-            logging.warning("Bot token not found, but login type is set to bot.")
-            sys.exit()
-        await client.start(bot_token=CONFIG.login.BOT_TOKEN)
-    else:
-        await client.start()
+    client = TelegramClient(config.SESSION, config.API_ID, config.API_HASH)
+    await client.start(bot_token=config.BOT_TOKEN)
     config.is_bot = await client.is_bot()
     logging.info(f"config.is_bot={config.is_bot}")
     command_events = get_events()
@@ -145,12 +132,10 @@ async def start_sync() -> None:
     if config.is_bot and const.REGISTER_COMMANDS:
         await client(
             functions.bots.SetBotCommandsRequest(
-                scope=types.BotCommandScopeDefault(),
-                lang_code="en",
                 commands=[
                     types.BotCommand(command=key, description=value)
                     for key, value in const.COMMANDS.items()
-                ],
+                ]
             )
         )
     config.from_to = await config.load_from_to(client, config.CONFIG.forwards)

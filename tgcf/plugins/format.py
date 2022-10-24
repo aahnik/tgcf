@@ -4,17 +4,30 @@ from typing import Any, Dict
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from tgcf.plugin_models import Format, Style
 from tgcf.plugins import TgcfMessage, TgcfPlugin
 
-STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "plain": ""}
+
+class Style(str, Enum):
+    BOLD = "bold"
+    ITALICS = "italics"
+    CODE = "code"
+    STRIKE = "strike"
+    PLAIN = "plain"
+    PRESERVE = "preserve"
 
 
-class TgcfFmt(TgcfPlugin):
-    id_ = "fmt"
+class Format(BaseModel):
+    style: Style = Style.PRESERVE
 
-    def __init__(self, data) -> None:
-        self.format = data
+
+STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "normal": ""}
+
+
+class TgcfFormat(TgcfPlugin):
+    id_ = "format"
+
+    def __init__(self, data: Dict[str, Any]) -> None:
+        self.format = Format(**data)
         logging.info(self.format)
 
     def modify(self, tm: TgcfMessage) -> TgcfMessage:
