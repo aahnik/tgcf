@@ -32,12 +32,9 @@ pypi:
 	@poetry publish --build
 
 docker:
-	@docker build -t tgcf .
+	@sudo docker build -t tgcf .
 	@docker tag tgcf aahnik/tgcf:latest
 	@docker tag tgcf aahnik/tgcf:$(VERSION)
-	@docker build -t tgcf-min . -f Dockerfile.min
-	@docker tag tgcf-min aahnik/tgcf:minimal
-	@docker tag tgcf-min aahnik/tgcf:minimal-$(VERSION)
 
 docker-release: docker
 	@docker push -a aahnik/tgcf

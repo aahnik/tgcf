@@ -20,154 +20,126 @@ The ultimate tool to automate custom telegram message forwarding.
 <p align="center">
 <a href="https://github.com/aahnik/tgcf/actions/workflows/quality.yml"><img src="https://github.com/aahnik/tgcf/actions/workflows/quality.yml/badge.svg" alt="Code Quality"></a>
 </p>
-<!-- markdownlint-enable -->
 
 Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ...
 
 Call it whatever you like! tgcf can fulfill your custom needs.
 
-The *key features* are:
-
-1. Forward messages as "forwarded" or
-send a copy of the messages from source to destination chats.
-
-    > A chat can be anything: a group, channel, person or even another bot.
-
-2. Supports two [modes](https://github.com/aahnik/tgcf/wiki/Past-vs-Live-modes-explained)
-of operation _past_ or _live_.
-
-    > The past mode deals with all existing messages,
-    > while the live mode is for upcoming ones.
-
-3. You may [login](https://github.com/aahnik/tgcf/wiki/Login-with-a-bot-or-user-account)
-with a _bot_ or an _user_ account.
-
-    > Telegram imposes certain
-    [limitations](https://github.com/aahnik/tgcf/wiki/Using-bot-accounts#limitations)
-    on bot accounts.
-    You may use an user account to perform the forwards if you wish.
-
-4. Perform custom manipulation on messages.
-
-    > You can
-    [filter](https://github.com/aahnik/tgcf/wiki/How-to-use-filters-%3F),
-    [format](https://github.com/aahnik/tgcf/wiki/Format-text-before-sending-to-destination),
-    [replace](https://github.com/aahnik/tgcf/wiki/Text-Replacement-feature-explained),
-    [watermark](https://github.com/aahnik/tgcf/wiki/How-to-use--watermarking-%3F),
-    [ocr](https://github.com/aahnik/tgcf/wiki/You-can-do-OCR)
-    and do whatever else you need !
-
-5. Detailed [wiki](https://github.com/aahnik/tgcf/wiki) +
-Video tutorial.
-    > You can also [get help](#getting-help) from the community.
-
-6. If you are a python developer, writing
-[plugins](https://github.com/aahnik/tgcf/wiki/How-to-write-a-plugin-for-tgcf-%3F)
-for tgcf is like stealing candy from a baby.
-    > Plugins modify the message before they are sent to the destination chat.
-
-What are you waiting for? Star the repo and click Watch to recieve updates.
-
-<!-- markdownlint-disable -->
-## Video Tutorial
-
-A youtube video is coming soon. [Subscribe](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg) to get notified.
+## Videos
 
 <!-- markdownlint-enable -->
 
-## Installation
+The following videos (english) explain everything in great detail.
 
-- If you are an **Windows** user, who is not familiar with the command line, the
-[Windows guide](https://github.com/aahnik/tgcf/wiki/Run-tgcf-on-Windows)
-is for you.
+- Feature Overview
+- Running on Windows/Mac/Linux
+- Running on Android
+- Deploy to Digital Ocean Droplet
 
-- To install tgcf on **Android** (Termux), there exists an installer script,
-that allows you to install all dependencies by running just a single line command.
-Read the
-[guide for android](https://github.com/aahnik/tgcf/wiki/Run-on-Android-using-Termux)
-to learn.
+## Supported environments
 
-- If you are familiar with **Docker**, you may read the
-[docker guide](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
-for an isolated installation.
+- Linux
+- Mac
+- Windows (Running Ubuntu on top of WSL-2)
+- Android (Using Termux app)
+- Any Linux VPS
 
-- Otherwise for **Linux/Mac**,
-    you may install `tgcf` via python's package manager `pip`.
+## Install and Run
 
-    > **Note:** Make sure you have Python 3.8 or above installed.
-    Go to [python.org](https://python.org) to download python.
+If you want to use tgcf for free, then run on your own desktop or mobile computer.
 
-    Open your terminal and run the following commands.
+Make sure you are on a supported environment and have python:3.10 or above, installed.
 
-    ```shell
-    pip install --upgrade tgcf
-    ```
+- Create a directory and move into it.
 
-    To check if the installation succeeded, run
+  ```shell
+  mkdir my-tgcf
+  cd my-tgcf
+  ```
 
-    ```shell
-    tgcf --version
-    ```
+- Create a python virtual environment and activate it.
 
-## Usage
+  ```shell
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
 
-Configuring `tgcf` is easy. You just need two files in your present directory
-(from which tgcf is invoked).
+- Install tgcf using `pip`
 
-- [`.env`](https://github.com/aahnik/tgcf/wiki/Environment-Variables)
-: To define your environment variables easily.
+  ```shell
+  pip install tgcf
+  tgcf --version
+  ```
 
-- [`tgcf.config.yml`](https://github.com/aahnik/tgcf/wiki/How-to-configure-tgcf-%3F)
-: An `yaml` file to configure how `tgcf` behaves.
+- Set the password for accessing web interface.
+  The password is to be set in the `.env` file.
 
-In your terminal, just run `tgcf live` or `tgcf past` to start `tgcf`.
-It will prompt you to enter your phone no. or bot token, when you run it
-for the first time.
+  ```shell
+  echo "PASSWORD=hocus pocus qwerty utopia" >> .env
+  ```
 
-For more details run `tgcf --help` or [read wiki](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
+  Set your own password, instead of whats given above.
+
+  _Security advice_:
+
+  - Please make sure the password has more than 16 characters.
+  - You can save your password in any password manager (may be of browser)
+    to autofill password everytime.
+
+- Start the web-server.
+
+  ```shell
+  tgcf-web
+  ```
+
+To run tgcf without the web-ui read about
+[tgcf cli](https://github.com/aahnik/tgcf/wiki/CLI-Usage).
+
+If you are planning to use watermarking and ocr features within tgcf,
+you need to install `ffmpeg` and `tesseract-ocr` libraries in you system.
+[Read more](https://github.com/aahnik/tgcf/wiki/Additional-Requirements).
 
 ## Deploy to Cloud
 
-Click on [this link](https://m.do.co/c/98b725055148) and get **free 100$**
+Click on [this link](https://m.do.co/c/98b725055148) and get **free 200$**
 on Digital Ocean.
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=98b725055148&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 > **NOTE** You will get nothing if you directly sign up from Digital Ocean Home Page.
-> **Use the link** above, or **click on the big fat button** above to get free 100$.
+> **Use the link** above, or **click on the big fat button** above to get free 200$.
 
 Deploying to a cloud server is an easier alternative if you cannot install
 on your own machine.
 Cloud servers are very reliable and great for running `tgcf` in live mode
 for a long time.
 
-You can enjoy smooth one-click deploys to the major cloud providers.
+Here are some guides for deployment to different cloud providers.
 
 - [Heroku](https://github.com/aahnik/tgcf/wiki/Deploy-to-Heroku)
 - [Digital Ocean](https://github.com/aahnik/tgcf/wiki/Deploy-to-Digital-Ocean)
 - [Gitpod](https://github.com/aahnik/tgcf/wiki/Run-for-free-on-Gitpod")
 - [Python Anywhere](https://github.com/aahnik/tgcf/wiki/Run-on-PythonAnywhere)
 - [Google Cloud Run](https://github.com/aahnik/tgcf/wiki/Run-on-Google-Cloud)
-- [GitHub Actions](https://github.com/aahnik/tgcf/wiki/Run-tgcf-in-past-mode-periodically)
 
 ## Getting Help
 
 - First of all [read the wiki](https://github.com/aahnik/tgcf/wiki)
-and [watch the videos](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg)
-to get started.
+  and [watch the videos](https://www.youtube.com/channel/UCcEbN0d8iLTB6ZWBE_IDugg)
+  to get started.
 
 - Type your question in GitHub's Search bar on the top left of this page,
-and click "In this repository".
-Go through the issues, discussions and wiki pages that appear in the result.
-Try re-wording your query a few times before you give up.
+  and click "In this repository".
+  Go through the issues, discussions and wiki pages that appear in the result.
+  Try re-wording your query a few times before you give up.
 
 - If your question does not already exist,
-feel free to ask your questions in the
-[Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
-Please avoid duplicates.
+  feel free to ask your questions in the
+  [Discussion forum](https://github.com/aahnik/tgcf/discussions/new).
+  Please avoid duplicates.
 
 - For reporting bugs or requesting a new feature please use the [issue tracker](https://github.com/aahnik/tgcf/issues/new)
-of the repo.
+  of the repo.
 
 ## Contributing
 

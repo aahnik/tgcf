@@ -3,36 +3,16 @@ from typing import Any, Dict, List
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from tgcf.plugins import FileType, TgcfMessage, TgcfPlugin
+from tgcf.plugin_models import FileType, Filters, TextFilter
+from tgcf.plugins import TgcfMessage, TgcfPlugin
 from tgcf.utils import match
-
-
-class FilterList(BaseModel):
-    blacklist: List[str] = []
-    whitelist: List[str] = []
-
-
-class FilesFilterList(BaseModel):
-    blacklist: List[FileType] = []
-    whitelist: List[FileType] = []
-
-
-class TextFilter(FilterList):
-    case_sensitive: bool = False
-    regex: bool = False
-
-
-class Filters(BaseModel):
-    users: FilterList = FilterList()
-    files: FilesFilterList = FilesFilterList()
-    text: TextFilter = TextFilter()
 
 
 class TgcfFilter(TgcfPlugin):
     id_ = "filter"
 
-    def __init__(self, data: Dict[str, Any]) -> None:
-        self.filters = Filters(**data)
+    def __init__(self, data) -> None:
+        self.filters = data
         self.case_correct()
         logging.info(self.filters)
 

@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10
 ENV VENV_PATH="/venv"
 ENV PATH="$VENV_PATH/bin:$PATH"
 WORKDIR /app
@@ -13,4 +13,5 @@ COPY . .
 RUN poetry build && \
     /venv/bin/pip install --upgrade pip wheel setuptools &&\
     /venv/bin/pip install dist/*.whl
-CMD tgcf --loud
+EXPOSE 8501
+CMD tgcf-web
