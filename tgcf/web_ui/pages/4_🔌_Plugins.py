@@ -25,6 +25,13 @@ if check_password(st):
         text_tab, users_tab, files_tab = st.tabs(["Text", "Users", "Files"])
 
         with text_tab:
+            CONFIG.plugins.filter.text.case_sensitive = st.checkbox(
+                "Case Sensitive", value=CONFIG.plugins.filter.text.case_sensitive
+            )
+            CONFIG.plugins.filter.text.regex = st.checkbox(
+                "Interpret filters as regex", value=CONFIG.plugins.filter.text.regex
+            )
+
             st.write("Enter one text expression per line")
             CONFIG.plugins.filter.text.whitelist = get_list(
                 st.text_area(
