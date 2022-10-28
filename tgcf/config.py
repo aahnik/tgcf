@@ -63,6 +63,11 @@ class LoginConfig(BaseModel):
     BOT_TOKEN: str = ""
 
 
+class BotMessages(BaseModel):
+    start: str = "Hi! I am alive"
+    bot_help: str = "For details visit github.com/aahnik/tgcf"
+
+
 class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
@@ -77,6 +82,7 @@ class Config(BaseModel):
     past: PastSettings = PastSettings()
 
     plugins: PluginConfig = PluginConfig()
+    bot_messages = BotMessages()
 
 
 def write_config_to_file(config: Config):
@@ -206,6 +212,3 @@ if PASSWORD == "tgcf":
 from_to = {}
 is_bot: Optional[bool] = None
 logging.info("config.py got executed")
-
-with open("logs.txt", "w") as file:
-    file.write("config file loaded")
