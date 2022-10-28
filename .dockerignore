@@ -14,8 +14,7 @@ t.ipynb
 tgcf_external.py
 t.yml
 todo
-logs.txt
-old_logs.txt
+*.txt
 
 # Git
 .git
