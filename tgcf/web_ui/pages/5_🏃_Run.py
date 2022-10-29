@@ -106,7 +106,6 @@ if check_password(st):
         st.experimental_rerun()
 
     try:
-        st.balloons()
         lines = st.slider(
             "Lines of logs to show", min_value=100, max_value=1000, step=100
         )
