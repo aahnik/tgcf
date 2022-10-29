@@ -31,7 +31,7 @@ Call it whatever you like! tgcf can fulfill your custom needs.
 
 The following videos (english) explain everything in great detail.
 
-- Feature Overview
+- [Feature Overview](https://youtu.be/FclVGY-K70M)
 - Running on Windows/Mac/Linux
 - Running on Android
 - Deploy to Digital Ocean Droplet
