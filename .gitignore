@@ -11,9 +11,7 @@ tgcf_external.py
 t.yml
 test.py
 tgcf.config.json
-logs.txt
-log.txt
-old_logs.txt
+*.txt
 todo
 
 

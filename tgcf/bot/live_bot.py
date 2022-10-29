@@ -123,12 +123,12 @@ async def style_command_handler(event):
 
 async def start_command_handler(event):
     """Handle the /start command."""
-    await event.respond(const.BotMessages.start)
+    await event.respond(CONFIG.bot_messages.start)
 
 
 async def help_command_handler(event):
     """Handle the /help command."""
-    await event.respond(const.BotMessages.bot_help)
+    await event.respond(CONFIG.bot_messages.bot_help)
 
 
 def get_events():
