@@ -22,7 +22,7 @@ if check_password(st):
             dumped = json.dumps(data, indent=3)
 
         with st.expander("View config json"):
-            st.code(dumped, language="json")
+            st.json(data)
         st.download_button(
             f"Download config json", data=dumped, file_name=CONFIG_FILE_NAME
         )

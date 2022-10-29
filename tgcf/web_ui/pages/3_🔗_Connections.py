@@ -42,7 +42,6 @@ if check_password(st):
                     if st.button(f"Remove connection {con}"):
                         del CONFIG.forwards[i]
                         write_config(CONFIG)
-                        st.session_state["button_rem"] = False
                         st.experimental_rerun()
 
                 st.write("---")
