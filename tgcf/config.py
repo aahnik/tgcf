@@ -13,7 +13,10 @@ from telethon.sessions import StringSession
 from tgcf.const import CONFIG_ENV_VAR_NAME, CONFIG_FILE_NAME
 from tgcf.plugin_models import PluginConfig
 
-load_dotenv()
+pwd = os.getcwd()
+env_file = os.path.join(pwd, ".env")
+
+load_dotenv(env_file)
 
 
 class Forward(BaseModel):
