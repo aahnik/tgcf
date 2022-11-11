@@ -11,12 +11,12 @@ from typing import Optional
 
 import typer
 from dotenv import load_dotenv
-from pyfiglet import Figlet
 from rich import console, traceback
 from rich.logging import RichHandler
 from verlat import latest_release
 
 from tgcf import __version__
+from tgcf.utils import platform_info
 
 load_dotenv(".env")
 
@@ -58,14 +58,8 @@ def verbosity_callback(value: bool):
     )
     topper()
     logging.info("Verbosity turned on! This is suitable for debugging")
-    nl = "\n"
-    logging.info(
-        f"""Running tgcf {__version__}\
-    \nPython {sys.version.replace(nl,"")}\
-    \nOS {os.name}\
-    \nPlatform {platform.system()} {platform.release()}\
-    \n{platform.architecture()} {platform.processor()}"""
-    )
+
+    logging.info(platform_info())
 
 
 def version_callback(value: bool):

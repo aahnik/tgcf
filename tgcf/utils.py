@@ -2,7 +2,9 @@
 
 import logging
 import os
+import platform
 import re
+import sys
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -10,10 +12,20 @@ from telethon.client import TelegramClient
 from telethon.hints import EntityLike
 from telethon.tl.custom.message import Message
 
+from tgcf import __version__
 from tgcf.config import CONFIG
 
 if TYPE_CHECKING:
     from tgcf.plugins import TgcfMessage
+
+
+def platform_info():
+    nl = "\n"
+    return f"""Running tgcf {__version__}\
+    \nPython {sys.version.replace(nl,"")}\
+    \nOS {os.name}\
+    \nPlatform {platform.system()} {platform.release()}\
+    \n{platform.architecture()} {platform.processor()}"""
 
 
 async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Message:
