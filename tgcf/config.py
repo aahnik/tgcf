@@ -127,12 +127,13 @@ def read_config() -> Config:
         return Config()
 
 
-def write_config(config: Config):
+def write_config(config: Config, persist=True):
     """Write changes in config back to file."""
     if stg.CONFIG_TYPE == 1 or stg.CONFIG_TYPE == 0:
         write_config_to_file(config)
     elif stg.CONFIG_TYPE == 2:
-        update_db(config)
+        if persist:
+            update_db(config)
 
 
 def get_env_var(name: str, optional: bool = False) -> str:
