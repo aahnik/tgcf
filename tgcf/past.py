@@ -70,7 +70,7 @@ async def forward_job() -> None:
                     last_id = message.id
                     logging.info(f"forwarding message with id = {last_id}")
                     forward.offset = last_id
-                    write_config(CONFIG)
+                    write_config(CONFIG, persist=False)
                     time.sleep(CONFIG.past.delay)
                     logging.info(f"slept for {CONFIG.past.delay} seconds")
 
