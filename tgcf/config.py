@@ -7,10 +7,12 @@ from typing import Dict, List, Optional, Union
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, validator  # pylint: disable=no-name-in-module
+from pymongo import MongoClient
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 
-from tgcf.const import CONFIG_ENV_VAR_NAME, CONFIG_FILE_NAME
+from tgcf import storage as stg
+from tgcf.const import CONFIG_FILE_NAME
 from tgcf.plugin_models import PluginConfig
 
 pwd = os.getcwd()
@@ -94,7 +96,11 @@ def write_config_to_file(config: Config):
 
 
 def detect_config_type() -> int:
-    if os.getenv("MONGO"):
+    if os.getenv("MONGO_CON_STR"):
+        if MONGO_CON_STR:
+            logging.info("Using mongo db for storing config!")
+            client = MongoClient(MONGO_CON_STR)
+            stg.mycol = setup_mongo(client)
         return 2
     if CONFIG_FILE_NAME in os.listdir():
         logging.info(f"{CONFIG_FILE_NAME} detected!")
@@ -110,26 +116,23 @@ def detect_config_type() -> int:
         return 1
 
 
-CONFIG_TYPE = detect_config_type()
-
-
 def read_config() -> Config:
     """Load the configuration defined by user."""
-    if CONFIG_TYPE == 1:
+    if stg.CONFIG_TYPE == 1:
         with open(CONFIG_FILE_NAME, encoding="utf8") as file:
             return Config.parse_raw(file.read())
-    elif CONFIG_TYPE == 2:
-        print("load data from mongodb server")
+    elif stg.CONFIG_TYPE == 2:
+        return read_db()
     else:
         return Config()
 
 
 def write_config(config: Config):
     """Write changes in config back to file."""
-    if CONFIG_TYPE == 1 or CONFIG_TYPE == 0:
+    if stg.CONFIG_TYPE == 1 or stg.CONFIG_TYPE == 0:
         write_config_to_file(config)
-    elif CONFIG_TYPE == 2:
-        logging.warning("upcoming feature:write to mongo")
+    elif stg.CONFIG_TYPE == 2:
+        update_db(config)
 
 
 def get_env_var(name: str, optional: bool = False) -> str:
@@ -141,9 +144,6 @@ def get_env_var(name: str, optional: bool = False) -> str:
             return ""
         var = input(f"Enter {name}: ")
     return var
-
-
-CONFIG = read_config()
 
 
 async def get_id(client: TelegramClient, peer):
@@ -184,9 +184,6 @@ async def load_from_to(
     return from_to_dict
 
 
-ADMINS = []
-
-
 async def load_admins(client: TelegramClient):
     for admin in CONFIG.admins:
         ADMINS.append(await get_id(client, admin))
@@ -207,7 +204,36 @@ def get_SESSION():
     return SESSION
 
 
+def setup_mongo(client):
+
+    mydb = client[MONGO_DB_NAME]
+    mycol = mydb[MONGO_COL_NAME]
+    if not mycol.find_one({"_id": 0}):
+        mycol.insert_one({"_id": 0, "author": "tgcf", "config": Config().dict()})
+
+    return mycol
+
+
+def update_db(cfg):
+    stg.mycol.update_one({"_id": 0}, {"$set": {"config": cfg.dict()}})
+
+
+def read_db():
+    obj = stg.mycol.find_one({"_id": 0})
+    cfg = Config(**obj["config"])
+    return cfg
+
+
 PASSWORD = os.getenv("PASSWORD", "tgcf")
+ADMINS = []
+
+MONGO_CON_STR = os.getenv("MONGO_CON_STR")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "tgcf-config")
+MONGO_COL_NAME = os.getenv("MONGO_COL_NAME", "tgcf-instance-0")
+
+stg.CONFIG_TYPE = detect_config_type()
+CONFIG = read_config()
+
 if PASSWORD == "tgcf":
     logging.warn(
         "You have not set a password to protect the web access to tgcf.\nThe default password `tgcf` is used."

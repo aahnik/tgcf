@@ -1,5 +1,6 @@
 from typing import Dict
 
+from pymongo.collection import Collection
 from telethon.tl.custom.message import Message
 
 
@@ -30,3 +31,5 @@ class DummyEvent:
 
 
 stored: Dict[EventUid, Dict[int, Message]] = {}
+CONFIG_TYPE: int = 0
+mycol: Collection = None
