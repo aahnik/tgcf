@@ -15,6 +15,7 @@ tgcf_external.py
 t.yml
 todo
 *.txt
+*.ipynb
 
 # Git
 .git

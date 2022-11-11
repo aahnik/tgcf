@@ -13,6 +13,7 @@ test.py
 tgcf.config.json
 *.txt
 todo
+*.ipynb
 
 
 
