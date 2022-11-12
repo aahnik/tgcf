@@ -11,6 +11,11 @@
       "description": "The password to protect the web interface",
       "value": "",
       "required": true
+    },
+    "MONGO_CON_STR": {
+      "description": "The connection string to mongo db database",
+      "value": "",
+      "required": false
     }
   }
 }
