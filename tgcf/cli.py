@@ -3,9 +3,7 @@
 import asyncio
 import logging
 import os
-import platform
 import sys
-import time
 from enum import Enum
 from typing import Optional
 
@@ -16,7 +14,6 @@ from rich.logging import RichHandler
 from verlat import latest_release
 
 from tgcf import __version__
-from tgcf.utils import platform_info
 
 load_dotenv(".env")
 
@@ -59,8 +56,6 @@ def verbosity_callback(value: bool):
     topper()
     logging.info("Verbosity turned on! This is suitable for debugging")
 
-    logging.info(platform_info())
-
 
 def version_callback(value: bool):
     """Show current version and exit."""
@@ -78,6 +73,8 @@ def version_check():
             \nVisit http://bit.ly/update-tgcf",
             style="bold yellow",
         )
+    else:
+        con.print(f"Running latest tgcf version {__version__}", style="bold green")
 
 
 @app.command()
