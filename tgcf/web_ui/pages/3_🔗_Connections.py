@@ -58,6 +58,23 @@ if check_password(st):
                     )
                 )
                 st.write("Write destinations one item per line")
+
+                if st.checkbox(
+                    f"Advanced options for connection: {con} [tgcf in Past mode]"
+                ):
+                    CONFIG.forwards[i].offset = int(
+                        st.text_input(
+                            f"Offset for connection:{con}",
+                            value=str(CONFIG.forwards[i].offset),
+                        )
+                    )
+                    CONFIG.forwards[i].end = int(
+                        st.text_input(
+                            f"End for connection:{con}",
+                            value=str(CONFIG.forwards[i].end),
+                        )
+                    )
+
                 st.write("---")
 
     if st.button("Save"):
