@@ -32,9 +32,9 @@ Call it whatever you like! tgcf can fulfill your custom needs.
 The following videos (english) explain everything in great detail.
 
 - [Feature Overview](https://youtu.be/FclVGY-K70M)
-- Running on Windows/Mac/Linux
+- [Running on Windows/Mac/Linux](https://youtu.be/5GzHb6J7mc0)
 - Running on Android
-- Deploy to Digital Ocean Droplet
+- [Deploy to Digital Ocean Droplet](https://youtu.be/0p0JkJpfTA0)
 
 ## Supported environments
 
