@@ -4,10 +4,8 @@ from typing import Any, Dict
 
 from pydantic import BaseModel  # pylint: disable=no-name-in-module
 
-from tgcf.plugin_models import Format, Style
+from tgcf.plugin_models import STYLE_CODES, Format, Style
 from tgcf.plugins import TgcfMessage, TgcfPlugin
-
-STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "plain": ""}
 
 
 class TgcfFmt(TgcfPlugin):

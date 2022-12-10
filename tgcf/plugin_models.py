@@ -41,6 +41,8 @@ class Style(str, Enum):
     PRESERVE = "preserve"
 
 
+STYLE_CODES = {"bold": "**", "italics": "__", "code": "`", "strike": "~~", "plain": ""}
+
 # define plugin configs
 
 
@@ -70,6 +72,7 @@ class OcrConfig(BaseModel):
 class Replace(BaseModel):
     check: bool = False
     text: Dict[str, str] = {}
+    text_raw: str = ""
     regex: bool = False
 
 
