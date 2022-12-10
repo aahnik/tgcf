@@ -1,6 +1,7 @@
 import os
 
 import streamlit as st
+import yaml
 
 from tgcf.config import CONFIG, read_config, write_config
 from tgcf.plugin_models import FileType, Style
@@ -113,21 +114,14 @@ if check_password(st):
         CONFIG.plugins.replace.regex = st.checkbox(
             "Interpret as regex", value=CONFIG.plugins.replace.regex
         )
-        replc = get_string(dict_to_list(CONFIG.plugins.replace.text))
-        replc = st.text_area("Replacements", value=replc)
-        CONFIG.plugins.replace.text = list_to_dict(get_list(replc))
 
-        st.write("Replace one word or expression with another.")
+        CONFIG.plugins.replace.text_raw = st.text_area(
+            "Replacements", value=CONFIG.plugins.replace.text_raw
+        )
+        CONFIG.plugins.replace.text = yaml.safe_load(CONFIG.plugins.replace.text_raw)
+
         st.markdown(
-            """
-            Write every replacement in a new line. The original text then a colon `:` and then the new text.
-
-        ```
-        god: devil
-        smart: idiot
-        original: new
-        ```
-            """
+            "Replace one word or expression with another. Write every replacement in a new line. The original text then a colon `:` and then the new text. View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."
         )
 
     if st.button("Save"):
