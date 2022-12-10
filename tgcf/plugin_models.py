@@ -76,9 +76,16 @@ class Replace(BaseModel):
     regex: bool = False
 
 
+class Caption(BaseModel):
+    check: bool = False
+    header: str = ""
+    footer: str = ""
+
+
 class PluginConfig(BaseModel):
     filter: Filters = Filters()
     fmt: Format = Format()
     mark: MarkConfig = MarkConfig()
     ocr: OcrConfig = OcrConfig()
     replace: Replace = Replace()
+    caption: Caption = Caption()

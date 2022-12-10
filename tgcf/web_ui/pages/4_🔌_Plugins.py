@@ -124,5 +124,19 @@ if check_password(st):
             "Replace one word or expression with another. Write every replacement in a new line. The original text then a colon `:` and then the new text. View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."
         )
 
+    with st.expander("Caption"):
+        CONFIG.plugins.caption.check = st.checkbox(
+            "Apply Captions", value=CONFIG.plugins.caption.check
+        )
+        CONFIG.plugins.caption.header = st.text_area(
+            "Header", value=CONFIG.plugins.caption.header
+        )
+        CONFIG.plugins.caption.footer = st.text_area(
+            "Footer", value=CONFIG.plugins.caption.footer
+        )
+        st.write(
+            "You can have blank lines inside header and footer, to make space between the orignal message and captions."
+        )
+
     if st.button("Save"):
         write_config(CONFIG)
