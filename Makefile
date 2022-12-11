@@ -32,11 +32,14 @@ pypi:
 	@poetry publish --build
 
 docker:
-	@sudo docker build -t tgcf .
+	@docker build -t tgcf .
 	@docker tag tgcf aahnik/tgcf:latest
 	@docker tag tgcf aahnik/tgcf:$(VERSION)
 
 docker-release: docker
 	@docker push -a aahnik/tgcf
+
+docker-run:
+	@docker run -d -p 8501:8501 --env-file .env aahnik/tgcf
 
 release: pypi docker-release

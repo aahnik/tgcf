@@ -118,10 +118,22 @@ if check_password(st):
         CONFIG.plugins.replace.text_raw = st.text_area(
             "Replacements", value=CONFIG.plugins.replace.text_raw
         )
-        CONFIG.plugins.replace.text = yaml.safe_load(CONFIG.plugins.replace.text_raw)
+        replace_dict = yaml.safe_load(CONFIG.plugins.replace.text_raw)
+        if not replace_dict:
+            replace_dict = {}
+
+        CONFIG.plugins.replace.text = replace_dict
 
         st.markdown(
-            "Replace one word or expression with another. Write every replacement in a new line. The original text then a colon `:` and then the new text. View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."
+            """
+            Replace one word or expression with another.
+            - Write every replacement in a new line.
+            - The original text then **a colon `:`** and then **a space** and then the new text.
+            - Its recommended to use double quotes. Quotes are must when your string contain spaces or special characters.
+                ```
+                "orginal": "new"
+                ```
+            - View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."""
         )
 
     with st.expander("Caption"):
