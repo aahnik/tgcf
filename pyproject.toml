@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tgcf"
-version = "1.1.6"
+version = "1.1.7"
 description = "The ultimate tool to automate custom telegram message forwarding."
 authors = ["aahnik <daw@aahnik.dev>"]
 license = "MIT"
@@ -24,7 +24,7 @@ tg-login = "^0.0.4"
 pytesseract = "^0.3.7"
 rich = "^12.6.0"
 verlat = "^0.1.0"
-streamlit = "^1.15.1"
+streamlit = "^1.15.2"
 PyYAML = "^6.0"
 pymongo = "^4.3.3"
 
