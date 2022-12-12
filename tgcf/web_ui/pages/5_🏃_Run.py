@@ -50,10 +50,6 @@ if check_password(st):
             CONFIG.live.delete_sync = st.checkbox(
                 "Sync when a message is deleted", value=CONFIG.live.delete_sync
             )
-            CONFIG.live.delete_on_edit = st.text_input(
-                "Delete a message when source edited to",
-                value=CONFIG.live.delete_on_edit,
-            )
 
         if st.button("Save"):
             write_config(CONFIG)

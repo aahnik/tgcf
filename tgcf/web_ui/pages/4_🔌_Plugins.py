@@ -4,9 +4,9 @@ import streamlit as st
 import yaml
 
 from tgcf.config import CONFIG, read_config, write_config
-from tgcf.plugin_models import FileType, Style
+from tgcf.plugin_models import FileType, Replace, Style
 from tgcf.web_ui.password import check_password
-from tgcf.web_ui.utils import dict_to_list, get_list, get_string, hide_st, list_to_dict
+from tgcf.web_ui.utils import get_list, get_string, hide_st
 
 CONFIG = read_config()
 
@@ -118,23 +118,35 @@ if check_password(st):
         CONFIG.plugins.replace.text_raw = st.text_area(
             "Replacements", value=CONFIG.plugins.replace.text_raw
         )
-        replace_dict = yaml.safe_load(CONFIG.plugins.replace.text_raw)
-        if not replace_dict:
-            replace_dict = {}
+        try:
+            replace_dict = yaml.safe_load(
+                CONFIG.plugins.replace.text_raw
+            )  # validate and load yaml
+            if not replace_dict:
+                replace_dict = {}
+            temp = Replace(text=replace_dict)  # perform validation by pydantic
+            del temp
+        except Exception as err:
+            st.error(err)
+            CONFIG.plugins.replace.text = {}
+        else:
+            CONFIG.plugins.replace.text = replace_dict
 
-        CONFIG.plugins.replace.text = replace_dict
+        if st.checkbox("Show rules and usage"):
+            st.markdown(
+                """
+                Replace one word or expression with another.
 
-        st.markdown(
-            """
-            Replace one word or expression with another.
-            - Write every replacement in a new line.
-            - The original text then **a colon `:`** and then **a space** and then the new text.
-            - Its recommended to use double quotes. Quotes are must when your string contain spaces or special characters.
-                ```
-                "orginal": "new"
-                ```
-            - View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."""
-        )
+                - Write every replacement in a new line.
+                - The original text then **a colon `:`** and then **a space** and then the new text.
+                - Its recommended to use **single quotes**. Quotes are must when your string contain spaces or special characters.
+                - Double quotes wont work if your regex has the character: `\` .
+                    ```
+                    'orginal': 'new'
+
+                    ```
+                - View [docs](https://github.com/aahnik/tgcf/wiki/Replace-Plugin) for advanced usage."""
+            )
 
     with st.expander("Caption"):
         CONFIG.plugins.caption.check = st.checkbox(

@@ -25,6 +25,8 @@ class Forward(BaseModel):
     """Blueprint for the forward object."""
 
     # pylint: disable=too-few-public-methods
+    con_name: str = ""
+    use_this: bool = True
     source: Union[int, str] = ""
     dest: List[Union[int, str]] = []
     offset: int = 0
@@ -36,7 +38,7 @@ class LiveSettings(BaseModel):
 
     # pylint: disable=too-few-public-methods
     delete_sync: bool = False
-    delete_on_edit: Optional[str] = ""
+    delete_on_edit: Optional[str] = ".deleteMe"
 
 
 class PastSettings(BaseModel):
@@ -116,15 +118,25 @@ def detect_config_type() -> int:
         return 1
 
 
-def read_config() -> Config:
+def read_config(count=1) -> Config:
     """Load the configuration defined by user."""
-    if stg.CONFIG_TYPE == 1:
-        with open(CONFIG_FILE_NAME, encoding="utf8") as file:
-            return Config.parse_raw(file.read())
-    elif stg.CONFIG_TYPE == 2:
-        return read_db()
-    else:
+    if count > 3:
+        logging.warning("Failed to read config, returning default config")
         return Config()
+    if count != 1:
+        logging.info(f"Trying to read config time:{count}")
+    try:
+        if stg.CONFIG_TYPE == 1:
+            with open(CONFIG_FILE_NAME, encoding="utf8") as file:
+                return Config.parse_raw(file.read())
+        elif stg.CONFIG_TYPE == 2:
+            return read_db()
+        else:
+            return Config()
+    except Exception as err:
+        logging.warning(err)
+        stg.CONFIG_TYPE = detect_config_type()
+        return read_config(count=count + 1)
 
 
 def write_config(config: Config, persist=True):
@@ -176,6 +188,8 @@ async def load_from_to(
         return await get_id(client, peer)
 
     for forward in forwards:
+        if not forward.use_this:
+            continue
         source = forward.source
         if type(source) != int and source.strip() == "":
             continue

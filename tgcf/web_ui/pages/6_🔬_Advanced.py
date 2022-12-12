@@ -2,7 +2,7 @@ import json
 
 import streamlit as st
 
-from tgcf.config import CONFIG_FILE_NAME, read_config
+from tgcf.config import CONFIG_FILE_NAME, read_config, write_config
 from tgcf.utils import platform_info
 from tgcf.web_ui.password import check_password
 from tgcf.web_ui.utils import hide_st
@@ -30,5 +30,25 @@ if check_password(st):
             st.download_button(
                 f"Download config json", data=dumped, file_name=CONFIG_FILE_NAME
             )
-
             st.json(data)
+
+        with st.expander("Special Options for Live Mode"):
+            st.info(
+                "Note: For userbots, the commands start with `.` instead of `/`, like `.start` and not `/start`"
+            )
+            CONFIG.bot_messages.start = st.text_area(
+                "Bot's Reply to /start command", value=CONFIG.bot_messages.start
+            )
+            CONFIG.bot_messages.bot_help = st.text_area(
+                "Bot's Reply to /help command", value=CONFIG.bot_messages.bot_help
+            )
+            CONFIG.live.delete_on_edit = st.text_input(
+                "Delete a message when source edited to",
+                value=CONFIG.live.delete_on_edit,
+            )
+            st.write(
+                "When you edit the message in source to something particular, the message will be deleted in both source and destinations."
+            )
+
+            if st.button("Save"):
+                write_config(CONFIG)
