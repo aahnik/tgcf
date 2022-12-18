@@ -120,7 +120,12 @@ async def start_sync() -> None:
     clean_session_files()
 
     SESSION = get_SESSION()
-    client = TelegramClient(SESSION, CONFIG.login.API_ID, CONFIG.login.API_HASH)
+    client = TelegramClient(
+        SESSION,
+        CONFIG.login.API_ID,
+        CONFIG.login.API_HASH,
+        sequential_updates=CONFIG.live.sequential_updates,
+    )
     if CONFIG.login.user_type == 0:
         if CONFIG.login.BOT_TOKEN == "":
             logging.warning("Bot token not found, but login type is set to bot.")

@@ -37,6 +37,7 @@ class LiveSettings(BaseModel):
     """Settings to configure how tgcf operates in live mode."""
 
     # pylint: disable=too-few-public-methods
+    sequential_updates: bool = False
     delete_sync: bool = False
     delete_on_edit: Optional[str] = ".deleteMe"
 

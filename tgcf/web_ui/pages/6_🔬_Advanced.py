@@ -33,15 +33,10 @@ if check_password(st):
             st.json(data)
 
         with st.expander("Special Options for Live Mode"):
-            st.info(
-                "Note: For userbots, the commands start with `.` instead of `/`, like `.start` and not `/start`"
+            CONFIG.live.sequential_updates = st.checkbox(
+                "Enforce sequential updates", value=CONFIG.live.sequential_updates
             )
-            CONFIG.bot_messages.start = st.text_area(
-                "Bot's Reply to /start command", value=CONFIG.bot_messages.start
-            )
-            CONFIG.bot_messages.bot_help = st.text_area(
-                "Bot's Reply to /help command", value=CONFIG.bot_messages.bot_help
-            )
+
             CONFIG.live.delete_on_edit = st.text_input(
                 "Delete a message when source edited to",
                 value=CONFIG.live.delete_on_edit,
@@ -49,6 +44,16 @@ if check_password(st):
             st.write(
                 "When you edit the message in source to something particular, the message will be deleted in both source and destinations."
             )
+            if st.checkbox("Customize Bot Messages"):
+                st.info(
+                    "Note: For userbots, the commands start with `.` instead of `/`, like `.start` and not `/start`"
+                )
+                CONFIG.bot_messages.start = st.text_area(
+                    "Bot's Reply to /start command", value=CONFIG.bot_messages.start
+                )
+                CONFIG.bot_messages.bot_help = st.text_area(
+                    "Bot's Reply to /help command", value=CONFIG.bot_messages.bot_help
+                )
 
             if st.button("Save"):
                 write_config(CONFIG)
