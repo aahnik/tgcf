@@ -21,17 +21,11 @@ The ultimate tool to automate custom telegram message forwarding.
 <a href="https://github.com/aahnik/tgcf/actions/workflows/quality.yml"><img src="https://github.com/aahnik/tgcf/actions/workflows/quality.yml/badge.svg" alt="Code Quality"></a>
 </p>
 
-Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ...
-
-Call it whatever you like! tgcf is an advanced telegram chat forwarding automation tool and can fulfill all your custom needs.
-
+Extremely easy to get started yet ready for all the complex tasks you throw at it. tgcf is an advanced telegram chat forwarding automation tool that can fulfill your custom needs.
 
 
 ## Features
 
-tgcf is extremely easy to get started yet ready for all your custom needs.
-
-**what is tgcf ?**
 
 - At its simple form, its just a **telegram message forwarder** that forwards your messages from source to destination chats.
 - You can choose the mode: **past**=forward all old(existing messages) or **live**=start forwarding from now. You can either use a telegram bot account or an user account.
