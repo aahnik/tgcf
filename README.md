@@ -23,26 +23,38 @@ The ultimate tool to automate custom telegram message forwarding.
 
 Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ...
 
-Call it whatever you like! tgcf can fulfill your custom needs.
+Call it whatever you like! tgcf is an advanced telegram chat forwarding automation tool and can fulfill all your custom needs.
 
-## Videos
 
-<!-- markdownlint-enable -->
 
-The following videos (english) explain everything in great detail.
+## Features
 
-- [Feature Overview](https://youtu.be/FclVGY-K70M)
-- [Running on Windows/Mac/Linux](https://youtu.be/5GzHb6J7mc0)
-- Running on Android
-- [Deploy to Digital Ocean Droplet](https://youtu.be/0p0JkJpfTA0)
+tgcf is extremely easy to get started yet ready for all your custom needs.
 
-## Supported environments
+**what is tgcf ?**
 
-- Linux
-- Mac
-- Windows (Running Ubuntu on top of WSL-2)
-- Android (Using Termux app)
-- Any Linux VPS
+- At its simple form, its just a **telegram message forwarder** that forwards your messages from source to destination chats.
+- You can choose the mode: **past**=forward all old(existing messages) or **live**=start forwarding from now. You can either use a telegram bot account or an user account.
+![image](https://user-images.githubusercontent.com/66209958/209553073-c6ed1b78-ab8c-43d0-b20d-cd30e543bc34.png)
+
+- You can cutomize every detail of the forwarding with the help of plugins: **filter**(blacklist/whitelist), **format**(bold, italics, etc), **replace**(supports regex), **caption**(header/footer). You can even apply watermark to images/videos, or perform optical character recognition (ocr) on images
+![image](https://user-images.githubusercontent.com/66209958/209553374-8a6f9a5a-8095-4ca7-9f7f-acafe61d9932.png)
+
+- tgcf comes with a **web interface** to customize all these options. You may define you **config in json**, and **run tgcf from the CLI** if you wish.
+![image](https://user-images.githubusercontent.com/66209958/209554118-c657e361-8ce2-462d-a305-04e44754cbf7.png)
+![image](https://user-images.githubusercontent.com/66209958/209554345-1db31eff-7694-47ef-aede-6a77a7cefb83.png)
+
+<!-- - A **bot interface** is under development. Bot interface means a set of commands, buttons, and conversation flows that will allow you to alter config values while tgcf is running in live mode. -->
+<!-- - Any body with basic knowledge of python can easily write plugins for tgcf, thus extending its capabilities. -->
+- Detailed **documentation** and **videos** makes it easy for you to configure tgcf and deploy to any platform of your choice.
+  The following videos (english) explain everything in great detail.
+  - [Feature Overview](https://youtu.be/FclVGY-K70M)
+  - [Running on Windows/Mac/Linux](https://youtu.be/5GzHb6J7mc0)
+  <!-- - Running on Android -->
+  - [Deploy to Digital Ocean Droplet](https://youtu.be/0p0JkJpfTA0)
+- Supported environments **Linux**, **Mac**, Windows (Running Ubuntu on top of **WSL-2**), **Android** (Using Termux app) and any platform where running **Docker** containers is supported.
+- All these is **free and open source**, with not a single feature behind a paywall. Tgcf serves to be a free alternative to many commercial telegram bots out there. However you may sponsor to accelerate the development of any new feature and get fast support over chat.
+
 
 ## Install and Run
 
