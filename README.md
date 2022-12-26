@@ -21,26 +21,33 @@ The ultimate tool to automate custom telegram message forwarding.
 <a href="https://github.com/aahnik/tgcf/actions/workflows/quality.yml"><img src="https://github.com/aahnik/tgcf/actions/workflows/quality.yml/badge.svg" alt="Code Quality"></a>
 </p>
 
-Extremely easy to get started yet ready for all the complex tasks you throw at it. tgcf is an advanced telegram chat forwarding automation tool that can fulfill your custom needs.
+ Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ... Call it whatever you like! **tgcf** is an advanced telegram chat forwarding automation tool that can fulfill all your custom needs.
 
 
 ## Features
 
+Extremely easy to get started yet ready for any complex task you throw at it.
 
 - At its simple form, its just a **telegram message forwarder** that forwards your messages from source to destination chats.
-- You can choose the mode: **past**=forward all old(existing messages) or **live**=start forwarding from now. You can either use a telegram bot account or an user account.
+- You can choose the mode: **past** for forward all old(existing messages) or **live** for start forwarding from now. You can either use a telegram bot account or an user account.
+<br>
+<br>
 ![image](https://user-images.githubusercontent.com/66209958/209553073-c6ed1b78-ab8c-43d0-b20d-cd30e543bc34.png)
 
-- You can cutomize every detail of the forwarding with the help of plugins: **filter**(blacklist/whitelist), **format**(bold, italics, etc), **replace**(supports regex), **caption**(header/footer). You can even apply watermark to images/videos, or perform optical character recognition (ocr) on images
+- You can cutomize every detail of the forwarding with the help of plugins: **filter**(blacklist/whitelist), **format**(bold, italics, etc), **replace**(supports regex), **caption**(header/footer). You can even apply watermark to images/videos, or perform optical character recognition (ocr) on images.
+<br>
+<br>
 ![image](https://user-images.githubusercontent.com/66209958/209553374-8a6f9a5a-8095-4ca7-9f7f-acafe61d9932.png)
 
 - tgcf comes with a **web interface** to customize all these options. You may define you **config in json**, and **run tgcf from the CLI** if you wish.
+<br>
+<br>
 ![image](https://user-images.githubusercontent.com/66209958/209554118-c657e361-8ce2-462d-a305-04e44754cbf7.png)
 ![image](https://user-images.githubusercontent.com/66209958/209554345-1db31eff-7694-47ef-aede-6a77a7cefb83.png)
 
 <!-- - A **bot interface** is under development. Bot interface means a set of commands, buttons, and conversation flows that will allow you to alter config values while tgcf is running in live mode. -->
 <!-- - Any body with basic knowledge of python can easily write plugins for tgcf, thus extending its capabilities. -->
-- Detailed **documentation** and **videos** makes it easy for you to configure tgcf and deploy to any platform of your choice.
+- Detailed [**documentation**](https://github.com/aahnik/tgcf/wiki) and [**videos**](https://www.youtube.com/playlist?list=PLSTrsq_DvEgisMG5BLUf97tp2DoAnwCMG) makes it easy for you to configure tgcf and deploy to any platform of your choice.
   The following videos (english) explain everything in great detail.
   - [Feature Overview](https://youtu.be/FclVGY-K70M)
   - [Running on Windows/Mac/Linux](https://youtu.be/5GzHb6J7mc0)
@@ -104,6 +111,8 @@ To run tgcf without the web-ui read about
 If you are planning to use watermarking and ocr features within tgcf,
 you need to install `ffmpeg` and `tesseract-ocr` libraries in you system.
 [Read more](https://github.com/aahnik/tgcf/wiki/Additional-Requirements).
+
+See also: [How to install and run using docker ?](https://github.com/aahnik/tgcf/wiki/Install-and-run-using-docker)
 
 ## Deploy to Cloud
 
