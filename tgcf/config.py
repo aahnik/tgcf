@@ -192,7 +192,7 @@ async def load_from_to(
         if not forward.use_this:
             continue
         source = forward.source
-        if type(source) != int and source.strip() == "":
+        if not isinstance(source, int) and source.strip() == "":
             continue
         src = await _(forward.source)
         from_to_dict[src] = [await _(dest) for dest in forward.dest]
