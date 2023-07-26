@@ -13,7 +13,7 @@ from typing import Any, Dict
 from telethon.tl.custom.message import Message
 
 from tgcf.config import CONFIG
-from tgcf.plugin_models import FileType
+from tgcf.plugin_models import FileType, ASYNC_PLUGIN_IDS
 from tgcf.utils import cleanup, stamp
 
 PLUGINS = CONFIG.plugins
@@ -29,6 +29,7 @@ class TgcfMessage:
         self.new_file = None
         self.cleanup = False
         self.reply_to = None
+        self.client = self.message.client
 
     async def get_file(self) -> str:
         """Downloads the file in the message and returns the path where its saved."""
@@ -56,6 +57,9 @@ class TgcfPlugin:
 
     def __init__(self, data: Dict[str, Any]) -> None:  # TODO data type has changed
         self.data = data
+
+    async def __ainit__(self) -> None:
+        """Asynchronous initialization here."""
 
     def modify(self, tm: TgcfMessage) -> TgcfMessage:
         """Modify the message here."""
@@ -93,11 +97,20 @@ def load_plugins() -> Dict[str, TgcfPlugin]:
                 logging.error(f"Plugin id for {plugin_id} does not match expected id.")
                 continue
         except AttributeError:
-            logging.error(f"Found plugin {plugin_id}, but plguin class not found.")
+            logging.error(f"Found plugin {plugin_id}, but plugin class not found.")
         else:
             logging.info(f"Loaded plugin {plugin_id}")
             _plugins.update({plugin.id_: plugin})
     return _plugins
+
+
+async def load_async_plugins() -> None:
+    """Load async plugins specified plugin_models."""
+    if plugins:
+        for id in ASYNC_PLUGIN_IDS:
+            if id in plugins:
+                await plugins[id].__ainit__()
+                logging.info(f"Plugin {id} asynchronously loaded")
 
 
 async def apply_plugins(message: Message) -> TgcfMessage:

@@ -13,7 +13,7 @@ from tgcf import config, const
 from tgcf import storage as st
 from tgcf.bot import get_events
 from tgcf.config import CONFIG, get_SESSION
-from tgcf.plugins import apply_plugins
+from tgcf.plugins import apply_plugins, load_async_plugins
 from tgcf.utils import clean_session_files, send_message
 
 
@@ -118,6 +118,9 @@ async def start_sync() -> None:
     """Start tgcf live sync."""
     # clear past session files
     clean_session_files()
+
+    # load async plugins defined in plugin_models
+    await load_async_plugins()
 
     SESSION = get_SESSION()
     client = TelegramClient(
