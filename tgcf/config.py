@@ -81,6 +81,7 @@ class Config(BaseModel):
 
     # pylint: disable=too-few-public-
     pid: int = 0
+    theme: str = "light"
     login: LoginConfig = LoginConfig()
     admins: List[Union[int, str]] = []
     forwards: List[Forward] = []
