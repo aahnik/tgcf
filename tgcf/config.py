@@ -3,7 +3,7 @@
 import logging
 import os
 import sys
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Any
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, validator  # pylint: disable=no-name-in-module
@@ -207,19 +207,6 @@ async def load_admins(client: TelegramClient):
     return ADMINS
 
 
-def get_SESSION():
-    if CONFIG.login.SESSION_STRING and CONFIG.login.user_type == 1:
-        logging.info("using session string")
-        SESSION = StringSession(CONFIG.login.SESSION_STRING)
-    elif CONFIG.login.BOT_TOKEN and CONFIG.login.user_type == 0:
-        logging.info("using bot account")
-        SESSION = "tgcf_bot"
-    else:
-        logging.warning("Login information not set!")
-        sys.exit()
-    return SESSION
-
-
 def setup_mongo(client):
 
     mydb = client[MONGO_DB_NAME]
@@ -257,3 +244,16 @@ if PASSWORD == "tgcf":
 from_to = {}
 is_bot: Optional[bool] = None
 logging.info("config.py got executed")
+
+
+def get_SESSION(section: Any = CONFIG.login, default: str = 'tgcf_bot'):
+    if section.SESSION_STRING and section.user_type == 1:
+        logging.info("using session string")
+        SESSION = StringSession(section.SESSION_STRING)
+    elif section.BOT_TOKEN and section.user_type == 0:
+        logging.info("using bot account")
+        SESSION = default
+    else:
+        logging.warning("Login information not set!")
+        sys.exit()
+    return SESSION

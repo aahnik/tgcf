@@ -16,13 +16,17 @@ from telethon.tl.patched import MessageService
 from tgcf import config
 from tgcf import storage as st
 from tgcf.config import CONFIG, get_SESSION, write_config
-from tgcf.plugins import apply_plugins
+from tgcf.plugins import apply_plugins, load_async_plugins
 from tgcf.utils import clean_session_files, send_message
 
 
 async def forward_job() -> None:
     """Forward all existing messages in the concerned chats."""
     clean_session_files()
+
+    # load async plugins defined in plugin_models
+    await load_async_plugins()    
+
     if CONFIG.login.user_type != 1:
         logging.warning(
             "You cannot use bot account for tgcf past mode. Telegram does not allow bots to access chat history."
