@@ -5,7 +5,7 @@ import streamlit as st
 from tgcf.config import CONFIG_FILE_NAME, read_config, write_config
 from tgcf.utils import platform_info
 from tgcf.web_ui.password import check_password
-from tgcf.web_ui.utils import hide_st
+from tgcf.web_ui.utils import hide_st, switch_theme
 
 CONFIG = read_config()
 
@@ -14,6 +14,7 @@ st.set_page_config(
     page_icon="🔬",
 )
 hide_st(st)
+switch_theme(st,CONFIG)
 
 if check_password(st):
 
