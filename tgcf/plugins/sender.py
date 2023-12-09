@@ -1,22 +1,26 @@
 import logging
 import sys
 
-from tgcf.plugins import TgcfMessage, TgcfPlugin
-from tgcf.config import CONFIG, get_SESSION
 from telethon import TelegramClient
+
+from tgcf.config import CONFIG, get_SESSION
+from tgcf.plugins import TgcfMessage, TgcfPlugin
+
 
 class TgcfSender(TgcfPlugin):
     id_ = "sender"
-    
+
     async def __ainit__(self) -> None:
         sender = TelegramClient(
-            get_SESSION(CONFIG.plugins.sender, 'tgcf_sender'),
-            CONFIG.login.API_ID,
-            CONFIG.login.API_HASH,
+            get_SESSION(CONFIG.plugin_cfgs.sender, "tgcf_sender"),
+            CONFIG.login_cfg.API_ID,
+            CONFIG.login_cfg.API_HASH,
         )
         if self.data.user_type == 0:
             if self.data.BOT_TOKEN == "":
-                logging.warning("[Sender] Bot token not found, but login type is set to bot.")
+                logging.warning(
+                    "[Sender] Bot token not found, but login type is set to bot."
+                )
                 sys.exit()
             await sender.start(bot_token=self.data.BOT_TOKEN)
         else:

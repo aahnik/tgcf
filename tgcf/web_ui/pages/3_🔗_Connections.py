@@ -13,7 +13,7 @@ st.set_page_config(
     page_icon="🔗",
 )
 hide_st(st)
-switch_theme(st,CONFIG)
+switch_theme(st, CONFIG)
 if check_password(st):
     add_new = st.button("Add new connection")
     if add_new:
@@ -49,8 +49,8 @@ if check_password(st):
                 if name:
                     label = f"{con} [{name}]"
                 else:
-                    label = con
-                with st.expander("Modify Metadata"):
+                    label = str(con)
+                with st.expander("Core Settings"):
                     st.write(f"Connection ID: **{con}**")
                     CONFIG.forwards[i].con_name = st.text_input(
                         "Name of this connection",
@@ -65,6 +65,21 @@ if check_password(st):
                         "Use this connection",
                         value=CONFIG.forwards[i].use_this,
                         key=f"use {con}",
+                    )
+                    CONFIG.forwards[i].agent = st.selectbox(
+                        "Agent",
+                        options=range(len(CONFIG.login_cfg.agents)),
+                        key=f"agentfwd {i}",
+                        format_func=lambda x: CONFIG.login_cfg.agents[x].alias,
+                        index=CONFIG.forwards[i].agent,
+                    )
+
+                    CONFIG.forwards[i].plugin_cfg = st.selectbox(
+                        "Plugin Config",
+                        options=range(len(CONFIG.plugin_cfgs)),
+                        key=f"pcfg {i}",
+                        format_func=lambda x: CONFIG.plugin_cfgs[x].alias,
+                        index=CONFIG.forwards[i].plugin_cfg,
                     )
                 with st.expander("Source and Destination"):
                     st.write(f"Configure connection {label}")

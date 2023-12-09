@@ -110,7 +110,7 @@ async def style_command_handler(event):
         _valid = [item.value for item in Style]
         if args not in _valid:
             raise ValueError(f"Invalid style. Choose from {_valid}")
-        CONFIG.plugins.fmt.style = args
+        CONFIG.plugin_cfgs.fmt.style = args
         await event.respond("Success")
         write_config(CONFIG)
     except ValueError as err:

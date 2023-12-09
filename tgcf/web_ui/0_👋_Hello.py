@@ -1,7 +1,7 @@
 import streamlit as st
 
-from tgcf.web_ui.utils import hide_st, switch_theme
 from tgcf.config import read_config
+from tgcf.web_ui.utils import hide_st, switch_theme
 
 CONFIG = read_config()
 
@@ -10,7 +10,7 @@ st.set_page_config(
     page_icon="👋",
 )
 hide_st(st)
-switch_theme(st,CONFIG)
+switch_theme(st, CONFIG)
 st.write("# Welcome to tgcf 👋")
 
 html = """
