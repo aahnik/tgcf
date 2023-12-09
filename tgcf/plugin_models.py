@@ -81,13 +81,16 @@ class Caption(BaseModel):
     header: str = ""
     footer: str = ""
 
+
 class Sender(BaseModel):
     check: bool = False
     user_type: int = 0  # 0:bot, 1:user
     BOT_TOKEN: str = ""
     SESSION_STRING: str = ""
 
+
 class PluginConfig(BaseModel):
+    alias: str = ""
     filter: Filters = Filters()
     fmt: Format = Format()
     mark: MarkConfig = MarkConfig()
@@ -98,4 +101,4 @@ class PluginConfig(BaseModel):
 
 
 # List of plugins that need to load asynchronously
-ASYNC_PLUGIN_IDS = ['sender']
+ASYNC_PLUGIN_IDS = ["sender"]
