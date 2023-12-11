@@ -96,6 +96,7 @@ class AgentForwardingConfig(BaseModel):
     mode: int = 0  # 0: live, 1:past
     live: LiveSettings = LiveSettings()
     past: PastSettings = PastSettings()
+    pid:int = 0
 
 
 class LoginConfig(BaseModel):
@@ -112,7 +113,7 @@ class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
     # pylint: disable=too-few-public-
-    pid: int = 0
+    pids: List[int] = []
     theme: str = "light"
     login_cfg: LoginConfig = LoginConfig()
     admins: List[Union[int, str]] = []
@@ -313,4 +314,5 @@ def get_SESSION(
     else:
         logging.warning("Login information not set!")
         sys.exit()
+    logging.info(SESSION)
     return SESSION

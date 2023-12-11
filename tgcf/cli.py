@@ -113,6 +113,7 @@ def main(
         logging.critical(f"You are running fake with {mode} mode")
         sys.exit(1)
 
+    logging.info(f"Running agent id: {agent_id}")
     if mode == Mode.PAST:
         from tgcf.past import forward_job  # pylint: disable=import-outside-toplevel
 

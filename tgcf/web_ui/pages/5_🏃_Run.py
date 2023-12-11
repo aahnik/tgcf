@@ -12,16 +12,16 @@ from tgcf.web_ui.utils import hide_st, switch_theme
 CONFIG = read_config()
 
 
-def termination():
+def termination(agent_id:int):
     st.code("process terminated!")
-    os.rename("logs.txt", "old_logs.txt")
+    os.rename(f"logs_{i}.txt", f"old_logs_{i}.txt")
     with open("old_logs.txt", "r") as f:
         st.download_button(
-            "Download last logs", data=f.read(), file_name="tgcf_logs.txt"
+            "Download last logs", data=f.read(), file_name=f"tgcf_logs_{i}.txt"
         )
 
     CONFIG = read_config()
-    CONFIG.pid = 0
+    CONFIG.agent_fwd_cfg[i].pid= 0
     write_config(CONFIG)
     st.button("Refresh page")
 
@@ -91,20 +91,20 @@ if check_password(st):
 
             check = False
 
-            if CONFIG.pid == 0:
+            if CONFIG.agent_fwd_cfg[i].pid == 0:
                 check = st.button(f"Run {agent.alias}", type="primary")
 
-            if CONFIG.pid != 0:
+            if CONFIG.agent_fwd_cfg[i].pid != 0:
                 st.warning(
                     "You must click stop and then re-run tgcf to apply changes in config."
                 )
                 # check if process is running using pid
                 try:
-                    os.kill(CONFIG.pid, signal.SIGCONT)
+                    os.kill(CONFIG.agent_fwd_cfg[i].pid, signal.SIGCONT)
                 except Exception as err:
                     st.code("The process has stopped.")
                     st.code(err)
-                    CONFIG.pid = 0
+                    CONFIG.agent_fwd_cfg[i].pid = 0
                     write_config(CONFIG)
                     time.sleep(1)
                     st.experimental_rerun()
@@ -112,25 +112,25 @@ if check_password(st):
                 stop = st.button(f"Stop {agent.alias}", type="primary")
                 if stop:
                     try:
-                        os.kill(CONFIG.pid, signal.SIGSTOP)
+                        os.kill(CONFIG.agent_fwd_cfg[i].pid, signal.SIGSTOP)
                     except Exception as err:
                         st.code(err)
 
-                        CONFIG.pid = 0
+                        CONFIG.agent_fwd_cfg[i].pid = 0
                         write_config(CONFIG)
                         st.button("Refresh Page")
 
                     else:
-                        termination()
+                        termination(i)
 
             if check:
-                with open("logs.txt", "w") as logs:
+                with open(f"logs_{i}.txt", "w") as logs:
                     process = subprocess.Popen(
                         ["tgcf", "--loud", mode, str(i)],
                         stdout=logs,
                         stderr=subprocess.STDOUT,
                     )
-                CONFIG.pid = process.pid
+                CONFIG.agent_fwd_cfg[i].pid = process.pid
                 write_config(CONFIG)
                 time.sleep(2)
 
@@ -144,12 +144,12 @@ if check_password(st):
                     step=100,
                     key=f"slider {i}",
                 )
-                temp_logs = "logs_n_lines.txt"
+                temp_logs = f"logs_n_lines{i}.txt"
                 os.system(f"rm {temp_logs}")
-                with open("logs.txt", "r") as file:
+                with open(f"logs_{i}.txt", "r") as file:
                     pass
 
-                os.system(f"tail -n {lines} logs.txt >> {temp_logs}")
+                os.system(f"tail -n {lines} logs_{i}.txt >> {temp_logs}")
                 with open(temp_logs, "r") as file:
                     st.code(file.read())
             except FileNotFoundError as err:
