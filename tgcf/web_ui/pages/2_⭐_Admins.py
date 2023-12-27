@@ -11,7 +11,7 @@ st.set_page_config(
     page_icon="⭐",
 )
 hide_st(st)
-switch_theme(st,CONFIG)
+switch_theme(st, CONFIG)
 if check_password(st):
 
     CONFIG.admins = get_list(st.text_area("Admins", value=get_string(CONFIG.admins)))

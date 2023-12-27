@@ -14,7 +14,7 @@ tgcf.config.json
 *.txt
 todo
 *.ipynb
-
+secrets/
 
 
 # Byte-compiled / optimized / DLL files

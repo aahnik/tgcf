@@ -13,10 +13,10 @@ from typing import Any, Dict
 from telethon.tl.custom.message import Message
 
 from tgcf.config import CONFIG
-from tgcf.plugin_models import FileType, ASYNC_PLUGIN_IDS
+from tgcf.plugin_models import ASYNC_PLUGIN_IDS, FileType
 from tgcf.utils import cleanup, stamp
 
-PLUGINS = CONFIG.plugins
+# PLUGINS = CONFIG.plugin_cfgs
 
 
 class TgcfMessage:
@@ -61,63 +61,76 @@ class TgcfPlugin:
     async def __ainit__(self) -> None:
         """Asynchronous initialization here."""
 
-    def modify(self, tm: TgcfMessage) -> TgcfMessage:
+    def modify(self, tm: TgcfMessage) -> TgcfMessage | None:
         """Modify the message here."""
         return tm
 
 
-def load_plugins() -> Dict[str, TgcfPlugin]:
+def load_plugins() -> Dict[int, Dict[str, TgcfPlugin]]:
     """Load the plugins specified in config."""
-    _plugins = {}
-    for item in PLUGINS:
-        plugin_id = item[0]
-        if item[1].check == False:
-            continue
+    _plugins: Dict = {}
+    # plugin_cfg_id: { plugin_id: plugin }
+    for pcfg_id, cfg in enumerate(CONFIG.plugin_cfgs):
+        _plugins[pcfg_id] = {}
+        for item in cfg:
+            if item[0] == "alias":
+                continue
 
-        plugin_class_name = f"Tgcf{plugin_id.title()}"
+            plugin_id = item[0]
+            if item[1].check == False:
+                continue
 
-        try:  # try to load first party plugin
-            plugin_module = import_module("tgcf.plugins." + plugin_id)
-        except ModuleNotFoundError:
-            logging.error(
-                f"{plugin_id} is not a first party plugin. Third party plugins are not supported."
-            )
-        else:
-            logging.info(f"First party plugin {plugin_id} loaded!")
+            plugin_class_name = f"Tgcf{plugin_id.title().replace('_', '')}"
+            logging.info(f"plugin class name {plugin_class_name}")
 
-        try:
-            plugin_class = getattr(plugin_module, plugin_class_name)
-            if not issubclass(plugin_class, TgcfPlugin):
+            try:  # try to load first party plugin
+                plugin_module = import_module("tgcf.plugins." + plugin_id)
+
+            except ModuleNotFoundError:
                 logging.error(
-                    f"Plugin class {plugin_class_name} does not inherit TgcfPlugin"
+                    f"{plugin_id} is not a first party plugin. Third party plugins are not supported."
                 )
-                continue
-            plugin: TgcfPlugin = plugin_class(item[1])
-            if not plugin.id_ == plugin_id:
-                logging.error(f"Plugin id for {plugin_id} does not match expected id.")
-                continue
-        except AttributeError:
-            logging.error(f"Found plugin {plugin_id}, but plugin class not found.")
-        else:
-            logging.info(f"Loaded plugin {plugin_id}")
-            _plugins.update({plugin.id_: plugin})
+            else:
+                logging.info(f"First party plugin {plugin_id} loaded!")
+
+            try:
+                plugin_class = getattr(plugin_module, plugin_class_name)
+                if not issubclass(plugin_class, TgcfPlugin):
+                    logging.error(
+                        f"Plugin class {plugin_class_name} does not inherit TgcfPlugin"
+                    )
+                    continue
+                plugin: TgcfPlugin = plugin_class(item[1])
+                if not plugin.id_ == plugin_id:
+                    logging.error(
+                        f"Plugin id for {plugin_id} does not match expected id."
+                    )
+                    continue
+            except AttributeError as err:
+                logging.error(f"Found plugin {plugin_id}, but plugin class not found.")
+                logging.error(err)
+            else:
+                logging.info(f"Loaded plugin {plugin_id}")
+                _plugins[pcfg_id].update({plugin.id_: plugin})
     return _plugins
 
 
 async def load_async_plugins() -> None:
     """Load async plugins specified plugin_models."""
     if plugins:
-        for id in ASYNC_PLUGIN_IDS:
-            if id in plugins:
-                await plugins[id].__ainit__()
-                logging.info(f"Plugin {id} asynchronously loaded")
+        for pcfg_id, cfg in plugins.items():
+            for _id in ASYNC_PLUGIN_IDS:
+                if _id in plugins[pcfg_id].keys():
+                    await plugins[pcfg_id][_id].__ainit__()
+                    logging.info(f"Plugin {_id} asynchronously loaded")
 
 
-async def apply_plugins(message: Message) -> TgcfMessage:
+async def apply_plugins(pcfg_id: int, message: Message) -> TgcfMessage | None:
     """Apply all loaded plugins to a message."""
     tm = TgcfMessage(message)
+    pcfg = plugins[pcfg_id]
 
-    for _id, plugin in plugins.items():
+    for _id, plugin in pcfg.items():
         try:
             if inspect.iscoroutinefunction(plugin.modify):
                 ntm = await plugin.modify(tm)

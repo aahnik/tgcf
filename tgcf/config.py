@@ -3,7 +3,7 @@
 import logging
 import os
 import sys
-from typing import Dict, List, Optional, Union, Any
+from typing import Any, Dict, List, Optional, Union
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, validator  # pylint: disable=no-name-in-module
@@ -31,6 +31,9 @@ class Forward(BaseModel):
     dest: List[Union[int, str]] = []
     offset: int = 0
     end: Optional[int] = 0
+
+    agent: int = 0  # the agent id to use for this connection
+    plugin_cfg: int = 0  # the plugin configuration id to use for this connection
 
 
 class LiveSettings(BaseModel):
@@ -60,15 +63,45 @@ class PastSettings(BaseModel):
         return val
 
 
-class LoginConfig(BaseModel):
+# class LoginConfig(BaseModel):
 
+#     API_ID: int = 0
+#     API_HASH: str = ""
+
+
+#     user_type: int = 0  # 0:bot, 1:user
+#     phone_no: int = 91
+#     USERNAME: str = ""
+#     SESSION_STRING: str = ""
+#     BOT_TOKEN: str = ""
+
+
+class TgAPIConfig(BaseModel):
     API_ID: int = 0
     API_HASH: str = ""
+
+
+class AgentLoginConfig(BaseModel):
+    alias: str = ""
     user_type: int = 0  # 0:bot, 1:user
     phone_no: int = 91
     USERNAME: str = ""
     SESSION_STRING: str = ""
     BOT_TOKEN: str = ""
+    is_active: bool = False
+
+
+class AgentForwardingConfig(BaseModel):
+    show_forwarded_from: bool = False
+    mode: int = 0  # 0: live, 1:past
+    live: LiveSettings = LiveSettings()
+    past: PastSettings = PastSettings()
+    pid:int = 0
+
+
+class LoginConfig(BaseModel):
+    tg: TgAPIConfig = TgAPIConfig()
+    agents: List[AgentLoginConfig] = [AgentLoginConfig()]
 
 
 class BotMessages(BaseModel):
@@ -80,17 +113,13 @@ class Config(BaseModel):
     """The blueprint for tgcf's whole config."""
 
     # pylint: disable=too-few-public-
-    pid: int = 0
+    pids: List[int] = []
     theme: str = "light"
-    login: LoginConfig = LoginConfig()
+    login_cfg: LoginConfig = LoginConfig()
     admins: List[Union[int, str]] = []
     forwards: List[Forward] = []
-    show_forwarded_from: bool = False
-    mode: int = 0  # 0: live, 1:past
-    live: LiveSettings = LiveSettings()
-    past: PastSettings = PastSettings()
-
-    plugins: PluginConfig = PluginConfig()
+    agent_fwd_cfg: List[AgentForwardingConfig] = [AgentForwardingConfig()]
+    plugin_cfgs: List[PluginConfig] = [PluginConfig()]
     bot_messages = BotMessages()
 
 
@@ -165,10 +194,24 @@ async def get_id(client: TelegramClient, peer):
     return await client.get_peer_id(peer)
 
 
+async def load_active_forwards(agent_id: int, forwards: List[Forward]) -> List[Forward]:
+    active_forwards: List[Forward] = []
+    for forward in forwards:
+        if forward.agent != agent_id:
+            continue
+        if not forward.use_this:
+            continue
+        active_forwards.append(forward)
+    return active_forwards
+
+
 async def load_from_to(
-    client: TelegramClient, forwards: List[Forward]
-) -> Dict[int, List[int]]:
+    agent_id: int,
+    client: TelegramClient,
+    forwards: List[Forward],
+) -> Dict[int, Dict[str, List[int] | int]]:
     """Convert a list of Forward objects to a mapping.
+    The active connections of current agent are included.
 
     Args:
         client: Instance of Telegram client (logged in)
@@ -176,7 +219,9 @@ async def load_from_to(
 
     Returns:
         Dict: key = chat id of source
-                value = List of chat ids of destinations
+                value = dict
+                dest: List of chat ids of destinations
+                pcgf: id of plugin config to use
 
     Notes:
     -> The Forward objects may contain username/phn no/links
@@ -184,19 +229,27 @@ async def load_from_to(
     -> Chat ids are essential for how storage is implemented
     -> Storage is essential for edit, delete and reply syncs
     """
-    from_to_dict = {}
+    from_to_dict: dict = {}
 
     async def _(peer):
         return await get_id(client, peer)
 
     for forward in forwards:
+        if forward.agent != agent_id:
+            continue
         if not forward.use_this:
             continue
         source = forward.source
         if not isinstance(source, int) and source.strip() == "":
             continue
         src = await _(forward.source)
-        from_to_dict[src] = [await _(dest) for dest in forward.dest]
+        # from_to_dict[src] = {
+        #     "dest": [], # the list of destination entities
+        #     "pcfg": 0 # id of the plugin config to use
+        # }
+        from_to_dict[src] = {}
+        from_to_dict[src]["dest"] = [await _(dest) for dest in forward.dest]
+        from_to_dict[src]["pcfg"] = forward.plugin_cfg
     logging.info(f"From to dict is {from_to_dict}")
     return from_to_dict
 
@@ -229,7 +282,7 @@ def read_db():
 
 
 PASSWORD = os.getenv("PASSWORD", "tgcf")
-ADMINS = []
+ADMINS: List = []
 
 MONGO_CON_STR = os.getenv("MONGO_CON_STR")
 MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "tgcf-config")
@@ -242,19 +295,24 @@ if PASSWORD == "tgcf":
     logging.warn(
         "You have not set a password to protect the web access to tgcf.\nThe default password `tgcf` is used."
     )
-from_to = {}
+from_to: Dict[int, Dict[str, int | List[int]]] = {}
 is_bot: Optional[bool] = None
 logging.info("config.py got executed")
 
 
-def get_SESSION(section: Any = CONFIG.login, default: str = 'tgcf_bot'):
-    if section.SESSION_STRING and section.user_type == 1:
+def get_SESSION(
+    agent_id: int, login_cfg: LoginConfig = CONFIG.login_cfg, default: str = "tgcf_bot"
+):
+    # TODO: validate agent_id
+    agent = login_cfg.agents[agent_id]
+    if agent.SESSION_STRING and agent.user_type == 1:
         logging.info("using session string")
-        SESSION = StringSession(section.SESSION_STRING)
-    elif section.BOT_TOKEN and section.user_type == 0:
+        SESSION = StringSession(agent.SESSION_STRING)
+    elif agent.BOT_TOKEN and agent.user_type == 0:
         logging.info("using bot account")
-        SESSION = default
+        SESSION = default + str(agent_id)
     else:
         logging.warning("Login information not set!")
         sys.exit()
+    logging.info(SESSION)
     return SESSION

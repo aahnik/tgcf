@@ -82,6 +82,9 @@ def main(
     mode: Mode = typer.Argument(
         ..., help="Choose the mode in which you want to run tgcf.", envvar="TGCF_MODE"
     ),
+    agent_id: Optional[int] = typer.Argument(
+        default=0, help="Choose the agent to use for message forwarding."
+    ),
     verbose: Optional[bool] = typer.Option(  # pylint: disable=unused-argument
         None,
         "--loud",
@@ -110,14 +113,15 @@ def main(
         logging.critical(f"You are running fake with {mode} mode")
         sys.exit(1)
 
+    logging.info(f"Running agent id: {agent_id}")
     if mode == Mode.PAST:
         from tgcf.past import forward_job  # pylint: disable=import-outside-toplevel
 
-        asyncio.run(forward_job())
+        asyncio.run(forward_job(agent_id))
     else:
         from tgcf.live import start_sync  # pylint: disable=import-outside-toplevel
 
-        asyncio.run(start_sync())
+        asyncio.run(start_sync(agent_id))
 
 
-# AAHNIK 2021
+# AAHNIK 2023

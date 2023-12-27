@@ -16,6 +16,8 @@ from tgcf.config import CONFIG, get_SESSION
 from tgcf.plugins import apply_plugins, load_async_plugins
 from tgcf.utils import clean_session_files, send_message
 
+current_agent: int = 0
+
 
 async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
     """Process new incoming messages."""
@@ -36,9 +38,10 @@ async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
             del st.stored[key]
             break
 
-    dest = config.from_to.get(chat_id)
+    dest = config.from_to.get(chat_id).get("dest")
+    pcfg_id = config.from_to.get(chat_id).get("pcfg")
 
-    tm = await apply_plugins(message)
+    tm = await apply_plugins(pcfg_id, message)
     if not tm:
         return
 
@@ -50,7 +53,7 @@ async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
     for d in dest:
         if event.is_reply and r_event_uid in st.stored:
             tm.reply_to = st.stored.get(r_event_uid).get(d)
-        fwded_msg = await send_message(d, tm)
+        fwded_msg = await send_message(current_agent, d, tm)
         st.stored[event_uid].update({d: fwded_msg})
     tm.clear()
 
@@ -67,8 +70,9 @@ async def edited_message_handler(event) -> None:
     logging.info(f"Message edited in {chat_id}")
 
     event_uid = st.EventUid(event)
+    pcfg_id = config.from_to.get(chat_id).get("pcfg")
 
-    tm = await apply_plugins(message)
+    tm = await apply_plugins(pcfg_id, message)
 
     if not tm:
         return
@@ -77,17 +81,20 @@ async def edited_message_handler(event) -> None:
 
     if fwded_msgs:
         for _, msg in fwded_msgs.items():
-            if config.CONFIG.live.delete_on_edit == message.text:
+            if (
+                config.CONFIG.agent_fwd_cfg[current_agent].live.delete_on_edit
+                == message.text
+            ):
                 await msg.delete()
                 await message.delete()
             else:
                 await msg.edit(tm.text)
         return
 
-    dest = config.from_to.get(chat_id)
+    dest = config.from_to.get(chat_id).get("dest")
 
     for d in dest:
-        await send_message(d, tm)
+        await send_message(current_agent, d, tm)
     tm.clear()
 
 
@@ -114,26 +121,29 @@ ALL_EVENTS = {
 }
 
 
-async def start_sync() -> None:
+async def start_sync(agent_id: int) -> None:
     """Start tgcf live sync."""
     # clear past session files
     clean_session_files()
+    global current_agent
+    current_agent = agent_id
 
     # load async plugins defined in plugin_models
     await load_async_plugins()
 
-    SESSION = get_SESSION()
+    SESSION = get_SESSION(agent_id)
     client = TelegramClient(
         SESSION,
-        CONFIG.login.API_ID,
-        CONFIG.login.API_HASH,
-        sequential_updates=CONFIG.live.sequential_updates,
+        CONFIG.login_cfg.tg.API_ID,
+        CONFIG.login_cfg.tg.API_HASH,
+        sequential_updates=CONFIG.agent_fwd_cfg[agent_id].live.sequential_updates,
     )
-    if CONFIG.login.user_type == 0:
-        if CONFIG.login.BOT_TOKEN == "":
+    agent = CONFIG.login_cfg.agents[agent_id]
+    if agent.user_type == 0:
+        if agent.BOT_TOKEN == "":
             logging.warning("Bot token not found, but login type is set to bot.")
             sys.exit()
-        await client.start(bot_token=CONFIG.login.BOT_TOKEN)
+        await client.start(bot_token=agent.BOT_TOKEN)
     else:
         await client.start()
     config.is_bot = await client.is_bot()
@@ -145,7 +155,10 @@ async def start_sync() -> None:
     ALL_EVENTS.update(command_events)
 
     for key, val in ALL_EVENTS.items():
-        if config.CONFIG.live.delete_sync is False and key == "deleted":
+        if (
+            config.CONFIG.agent_fwd_cfg[agent_id].live.delete_sync is False
+            and key == "deleted"
+        ):
             continue
         client.add_event_handler(*val)
         logging.info(f"Added event handler for {key}")
@@ -161,5 +174,5 @@ async def start_sync() -> None:
                 ],
             )
         )
-    config.from_to = await config.load_from_to(client, config.CONFIG.forwards)
+    config.from_to = await config.load_from_to(agent_id, client, config.CONFIG.forwards)
     await client.run_until_disconnected()
