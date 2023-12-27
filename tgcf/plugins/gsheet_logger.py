@@ -38,7 +38,7 @@ class TgcfGsheetLogger(TgcfPlugin):
         existing_values = await wks.get_all_values()
         self.next_row = len(existing_values) + 1
 
-    async def modify(self, tm: TgcfMessage) -> TgcfMessage | None:
+    async def modify(self, tm: TgcfMessage) -> TgcfMessage:
         logging.info("Processing message under Gsheet Logger")
 
         if not tm.text.startswith(self.gsl.prefix):
@@ -54,4 +54,4 @@ class TgcfGsheetLogger(TgcfPlugin):
         )
         self.next_row += 1
 
-        return None
+        return tm
