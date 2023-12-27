@@ -89,6 +89,13 @@ class Sender(BaseModel):
     SESSION_STRING: str = ""
 
 
+class GsheetLogger(BaseModel):
+    check: bool = False
+    prefix: str = ""
+    service_account_json: str = ""
+    gsheet_link: str = ""
+
+
 class PluginConfig(BaseModel):
     alias: str = ""
     filter: Filters = Filters()
@@ -98,7 +105,8 @@ class PluginConfig(BaseModel):
     replace: Replace = Replace()
     caption: Caption = Caption()
     sender: Sender = Sender()
+    gsheet_logger: GsheetLogger = GsheetLogger()
 
 
 # List of plugins that need to load asynchronously
-ASYNC_PLUGIN_IDS = ["sender"]
+ASYNC_PLUGIN_IDS = ["sender", "gsheet_logger"]

@@ -295,5 +295,27 @@ if check_password(st):
                             unsafe_allow_html=True,
                         )
 
+            with st.expander("Google Sheets Logger"):
+                pc.gsheet_logger.check = st.checkbox(
+                    "Log messages to Google Sheets ?",
+                    value=pc.gsheet_logger.check,
+                    key=f"log to gsheet {i}",
+                )
+                pc.gsheet_logger.prefix = st.text_input(
+                    "Prefix Match",
+                    value=pc.gsheet_logger.prefix,
+                    key=f"gsheet_logger prefix {i}",
+                )
+                pc.gsheet_logger.service_account_json = st.text_area(
+                    "Google Service Account Json",
+                    value=pc.gsheet_logger.service_account_json,
+                    key=f"gsheet logger service account json {i}",
+                )
+                pc.gsheet_logger.gsheet_link = st.text_input(
+                    "Google Sheet Link",
+                    value=pc.gsheet_logger.gsheet_link,
+                    key=f"gsheet link {i}",
+                )
+
     if st.button("Save"):
         write_config(CONFIG)
