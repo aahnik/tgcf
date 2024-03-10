@@ -163,6 +163,11 @@ if check_password(st):
             "You can have blank lines inside header and footer, to make space between the orignal message and captions."
         )
 
+    with st.expander("Unique"):
+        CONFIG.plugins.unique.check = st.checkbox(
+            "Use this plugin: unique", value=CONFIG.plugins.unique.check
+        )
+
     with st.expander("Sender"):
         st.write("Modify the sender of forwarded messages other than the current user/bot")
         st.warning("Show 'Forwarded from' option must be disabled or else messages will not be sent",icon="⚠️")
