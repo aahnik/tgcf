@@ -24,6 +24,6 @@ class TgcfUnique(TgcfPlugin):
     def include_message(self, tm: TgcfMessage):
         self.messages.insert(0, tm.raw_text)
         if len(self.messages) > self.max:
-            self.messages = self.messages.pop()
+            self.messages.pop()
             logging.info("Too many messages. Remove 1 oldest")
 
