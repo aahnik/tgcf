@@ -81,6 +81,8 @@ class Caption(BaseModel):
     header: str = ""
     footer: str = ""
 
+class Unique(BaseModel):
+    check: bool = False
 
 class Sender(BaseModel):
     check: bool = False
@@ -104,6 +106,7 @@ class PluginConfig(BaseModel):
     ocr: OcrConfig = OcrConfig()
     replace: Replace = Replace()
     caption: Caption = Caption()
+    unique: Unique = Unique()
     sender: Sender = Sender()
     gsheet_logger: GsheetLogger = GsheetLogger()
 
