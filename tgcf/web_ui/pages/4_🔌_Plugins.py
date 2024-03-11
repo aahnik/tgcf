@@ -234,6 +234,11 @@ if check_password(st):
                     "You can have blank lines inside header and footer, to make space between the orignal message and captions."
                 )
 
+            with st.expander("Unique"):
+                pc.unique.check = st.checkbox(
+                    "Check if message is unique", value=pc.unique.check, key=f"apply unique {i}"
+                )
+
             with st.expander("Sender"):
                 st.write(
                     "Modify the sender of forwarded messages other than the current user/bot"
