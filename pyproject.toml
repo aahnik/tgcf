@@ -24,7 +24,7 @@ tg-login = "^0.0.4"
 pytesseract = "^0.3.7"
 rich = "^12.6.0"
 verlat = "^0.1.0"
-streamlit = "^1.28.0"
+streamlit = "^1.23.1"
 PyYAML = "^6.0"
 pymongo = "^4.3.3"
 
