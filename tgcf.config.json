@@ -1,0 +1,269 @@
+{
+   "pid": 3008093,
+   "login": {
+      "API_ID": 19987622,
+      "API_HASH": "00d42b460cef01c13d97dad1f417194e",
+      "user_type": 1,
+      "phone_no": 91,
+      "USERNAME": "",
+      "SESSION_STRING": "1BJWap1wBuzuMSZ9EuW30RNwOS9INEZJqVoLy_ogd2X72HMwQJJrt8eZG9-01tlNR_1gD_UI9d4-dYBOCW739Fd1H7SVNZk73BUYicbyoFUg7cXaHD_EzEH4DK71hzBSybBK4JSFg7K8SOmZJC1yuNdIamoZc6s_eTo5MU9xkzZDQ1AqZIpz4d2QC-J1j9SxFXZdccqN_Kb6s0xEXiNQACPx_dN77aTul7Gl7QgIyuHYfl3NwqBIj6c_zbA7kfHXeXo4NlP5sMTOYkZXRb88bZ8QZOgZb7cNQuYW_K0FYyy1PHVwuaW0ARun114MiqiaJIbofW486VGd-zHSYrD8JyFHdAdATcm8=",
+      "BOT_TOKEN": "6637411818:AAE3uvOz72dpAT8mpLEqw7PYd0sD3TGREO0"
+   },
+   "admins": [
+      21040638
+   ],
+   "forwards": [
+      {
+         "con_name": "NSMOViES FiLES",
+         "use_this": true,
+         "source": -1002097183965,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Cult Files",
+         "use_this": true,
+         "source": -1001728616788,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "prime",
+         "use_this": true,
+         "source": -1001856404502,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Nothing here",
+         "use_this": true,
+         "source": -1002042695907,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "KyoGo (Backup)",
+         "use_this": true,
+         "source": -1001619486856,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "CultCinemas",
+         "use_this": true,
+         "source": -1001659231206,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "TAE Official",
+         "use_this": true,
+         "source": -1001688511757,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "FuZionX [ Main ]",
+         "use_this": true,
+         "source": -1001537223060,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Recently Released Movies",
+         "use_this": true,
+         "source": -1001455180685,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "HDRMoviezZ | REBORN",
+         "use_this": true,
+         "source": -1002144149293,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "OMNiRiPs",
+         "use_this": true,
+         "source": -1001730027359,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Entertainment Reports 3.0",
+         "use_this": true,
+         "source": -1001852583849,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "NsMovies77 | Official",
+         "use_this": true,
+         "source": -1001855383944,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Tvs Shows Sat - Sun",
+         "use_this": true,
+         "source": -1001941640399,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "OTTMIX",
+         "use_this": true,
+         "source": -1001535862830,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Benz Gdrive Links",
+         "use_this": true,
+         "source": -1001963650485,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "HDRip Movies",
+         "use_this": true,
+         "source": -1001339903850,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "TheMoviesBoss",
+         "use_this": true,
+         "source": -1001955950970,
+         "dest": [
+            -1001845518274
+         ],
+         "offset": 0,
+         "end": 0
+      },
+      {
+         "con_name": "Broadtest",
+         "use_this": true,
+         "source": -1001845518274,
+         "dest": [
+            -1001197752236,
+            -1001794639142
+         ],
+         "offset": 0,
+         "end": 0
+      }
+   ],
+   "show_forwarded_from": true,
+   "mode": 0,
+   "live": {
+      "sequential_updates": true,
+      "delete_sync": true,
+      "delete_on_edit": ".deleteMe"
+   },
+   "past": {
+      "delay": 10
+   },
+   "plugins": {
+      "filter": {
+         "check": true,
+         "users": {
+            "blacklist": [],
+            "whitelist": []
+         },
+         "files": {
+            "blacklist": [
+               "sticker",
+               "gif",
+               "audio"
+            ],
+            "whitelist": []
+         },
+         "text": {
+            "blacklist": [],
+            "whitelist": [],
+            "case_sensitive": false,
+            "regex": false
+         }
+      },
+      "fmt": {
+         "check": false,
+         "style": "preserve"
+      },
+      "mark": {
+         "check": false,
+         "image": "image.png",
+         "position": "centre",
+         "frame_rate": 15
+      },
+      "ocr": {
+         "check": false
+      },
+      "replace": {
+         "check": false,
+         "text": {},
+         "text_raw": "",
+         "regex": false
+      },
+      "caption": {
+         "check": false,
+         "header": "",
+         "footer": ""
+      }
+   },
+   "bot_messages": {
+      "start": "Hi! I am alive",
+      "bot_help": "For details visit github.com/aahnik/tgcf"
+   }
+}

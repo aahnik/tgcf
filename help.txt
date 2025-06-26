@@ -1,0 +1,97 @@
+#!/bin/bash
+cd $(dirname $0)
+#sudo docker ps -aq | xargs sudo docker stop | xargs sudo docker rm
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade tgcf
+screen -d -m tgcf-web
+
+
+
+#to stop 
+
+use below command 
+
+exit tgcf-web
+
+
+
+
+
+
+
+
+
+
+
+#MONGO_CON_STR="mongodb+srv://satyamisme:Aa100200@tgcf.f9ppnil.mongodb.net/?retryWrites=true&w=majority"
+MONGO_CON_STR=mongodb+srv://satyamisme:Aa100200@tgcf.f9ppnil.mongodb.net/?retryWrites=true&w=majority
+#MONGO_DB_NAME=tgcf
+#MONGO_COL_NAME=mycollection
+#API_ID=19987622
+#API_HASH="00d42b460cef01c13d97dad1f417194e"
+#USERNAME=@satyamisme
+#PHONE_NO=91
+#BOT_TOKEN="6637411818:AAE3uvOz72dpAT8mpLEqw7PYd0sD3TGREO0"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pid=50
+ login__API_ID=19987622
+ login__API_HASH=00d42b460cef01c13d97dad1f417194e
+ login__user_type=0
+ login__phone_no=91
+ login__USERNAME=
+ login__SESSION_STRING=
+ login__BOT_TOKEN=6637411818:AAE3uvOz72dpAT8mpLEqw7PYd0sD3TGREO0
+ admins=21040638
+ forwards=[{con_name:broad, use_this:true, source:-1001845518274, dest: [-1001197752236], offset:0, end:0}]
+ show_forwarded_from=false
+ mode=0
+ live__delete_sync=false
+ live__delete_on_edit=.deleteMe
+ past__delay=0
+ plugins__filter__check=false
+ plugins__filter__users__blacklist=[]
+ plugins__filter__users__whitelist=[]
+ plugins__filter__files__blacklist=[]
+ plugins__filter__files__whitelist=[]
+ plugins__filter__text__blacklist=[]
+ plugins__filter__text__whitelist=[]
+ plugins__filter__text__case_sensitive=false
+ plugins__filter__text__regex=false
+ plugins__fmt__check=false
+ plugins__fmt__style=preserve
+ plugins__mark__check=false
+ plugins__mark__image=image.png
+ plugins__mark__position=centre
+ plugins__mark__frame_rate=15
+ plugins__ocr__check=false
+ plugins__replace__check=false
+ plugins__replace__text={}
+ plugins__replace__text_raw=
+ plugins__replace__regex=false
+ plugins__caption__check=false
+ plugins__caption__header=
+ plugins__caption__footer=
+ bot_messages__start=Hi! I am alive
+ bot_messages__bot_help=For details visit github.com/aahnik/tgcf
