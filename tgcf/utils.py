@@ -34,6 +34,7 @@ async def send_message(recipient: EntityLike, tm: "TgcfMessage") -> Message:
     client: TelegramClient = tm.client
     if CONFIG.show_forwarded_from:
         return await client.forward_messages(recipient, tm.message)
+
     if tm.new_file:
         message = await client.send_file(
             recipient, tm.new_file, caption=tm.text, reply_to=tm.reply_to

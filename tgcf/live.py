@@ -1,11 +1,13 @@
 """The module responsible for operating tgcf in live mode."""
 
+import asyncio
 import logging
 import os
 import sys
 from typing import Union
 
 from telethon import TelegramClient, events, functions, types
+from telethon.errors.rpcerrorlist import FloodWaitError
 from telethon.sessions import StringSession
 from telethon.tl.custom.message import Message
 
@@ -15,6 +17,11 @@ from tgcf.bot import get_events
 from tgcf.config import CONFIG, get_SESSION
 from tgcf.plugins import apply_plugins, load_async_plugins
 from tgcf.utils import clean_session_files, send_message
+
+# Retry configuration
+MAX_RETRIES = 500
+INITIAL_DELAY = 2  # seconds
+MAX_DELAY = 60  # seconds
 
 
 async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
@@ -50,8 +57,17 @@ async def new_message_handler(event: Union[Message, events.NewMessage]) -> None:
     for d in dest:
         if event.is_reply and r_event_uid in st.stored:
             tm.reply_to = st.stored.get(r_event_uid).get(d)
-        fwded_msg = await send_message(d, tm)
-        st.stored[event_uid].update({d: fwded_msg})
+        try:
+            fwded_msg = await send_message(d, tm)
+            st.stored[event_uid].update({d: fwded_msg})
+        except FloodWaitError as fwe:
+            logging.info(f"Sleeping for {fwe} on forward_messages")
+            await asyncio.sleep(delay=fwe.seconds)
+            # Retry after flood wait
+            fwded_msg = await send_message(d, tm)
+            st.stored[event_uid].update({d: fwded_msg})
+        except Exception as err:
+            logging.exception(f"Failed to forward message to {d}: {err}")
     tm.clear()
 
 
@@ -87,7 +103,15 @@ async def edited_message_handler(event) -> None:
     dest = config.from_to.get(chat_id)
 
     for d in dest:
-        await send_message(d, tm)
+        try:
+            await send_message(d, tm)
+        except FloodWaitError as fwe:
+            logging.info(f"Sleeping for {fwe} on forward_messages")
+            await asyncio.sleep(delay=fwe.seconds)
+            # Retry after flood wait
+            await send_message(d, tm)
+        except Exception as err:
+            logging.exception(f"Failed to forward edited message to {d}: {err}")
     tm.clear()
 
 
@@ -114,12 +138,51 @@ ALL_EVENTS = {
 }
 
 
-async def start_sync() -> None:
-    """Start tgcf live sync."""
-    # clear past session files
-    clean_session_files()
+async def run_with_retry() -> None:
+    retry_count = 0
+    current_delay = INITIAL_DELAY
 
-    # load async plugins defined in plugin_models
+    while retry_count < MAX_RETRIES:
+        try:
+            await run_client()
+            return
+        except (ConnectionError, TimeoutError, ValueError, OSError) as e:
+            retry_count += 1
+            logging.warning(
+                f"Connection error (attempt {retry_count}/{MAX_RETRIES}): {e}"
+            )
+            
+            if retry_count >= MAX_RETRIES:
+                logging.error(
+                    f"Max retries ({MAX_RETRIES}) reached. Exiting."
+                )
+                break
+
+            logging.info(f"Retrying in {current_delay} seconds...")
+            await asyncio.sleep(current_delay)
+            
+            current_delay = min(current_delay * 2, MAX_DELAY)
+            
+            clean_session_files()
+            logging.info("Session files cleaned, preparing for retry...")
+        except Exception as e:
+            logging.exception(f"Unexpected error: {e}")
+            retry_count += 1
+            
+            if retry_count >= MAX_RETRIES:
+                logging.error(
+                    f"Max retries ({MAX_RETRIES}) reached due to unexpected error. Exiting."
+                )
+                break
+            
+            logging.info(f"Retrying in {current_delay} seconds...")
+            await asyncio.sleep(current_delay)
+            current_delay = min(current_delay * 2, MAX_DELAY)
+            clean_session_files()
+
+
+async def run_client() -> None:
+    clean_session_files()
     await load_async_plugins()
 
     SESSION = get_SESSION()
@@ -163,3 +226,8 @@ async def start_sync() -> None:
         )
     config.from_to = await config.load_from_to(client, config.CONFIG.forwards)
     await client.run_until_disconnected()
+
+
+async def start_sync() -> None:
+    """Start tgcf live sync."""
+    await run_with_retry()

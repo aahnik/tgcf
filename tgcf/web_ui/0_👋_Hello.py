@@ -1,3 +1,5 @@
+import os
+import signal
 import streamlit as st
 
 from tgcf.web_ui.utils import hide_st, switch_theme
@@ -12,6 +14,26 @@ st.set_page_config(
 hide_st(st)
 switch_theme(st,CONFIG)
 st.write("# Welcome to tgcf 👋")
+
+# Check actual service status
+def get_service_status():
+    if CONFIG.pid != 0:
+        try:
+            os.kill(CONFIG.pid, signal.SIGCONT)
+            return "running"
+        except Exception:
+            return "stopped"
+    return "stopped"
+
+service_status = get_service_status()
+
+# Service status indicator
+if service_status == "running":
+    st.success(f"✅ tgcf is running (PID: {CONFIG.pid})")
+elif CONFIG.auto_run:
+    st.warning("⚠️ Auto-start is enabled but tgcf is not running")
+else:
+    st.info("ℹ️ tgcf is not running - Click the Run button to start")
 
 html = """
 <p align="center">

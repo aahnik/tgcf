@@ -89,6 +89,7 @@ class Config(BaseModel):
     mode: int = 0  # 0: live, 1:past
     live: LiveSettings = LiveSettings()
     past: PastSettings = PastSettings()
+    auto_run: bool = False  # Auto-start tgcf on web UI startup
 
     plugins: PluginConfig = PluginConfig()
     bot_messages = BotMessages()

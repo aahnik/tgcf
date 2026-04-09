@@ -8,6 +8,7 @@ import streamlit as st
 from tgcf.config import CONFIG, read_config, write_config
 from tgcf.web_ui.password import check_password
 from tgcf.web_ui.utils import hide_st, switch_theme
+from tgcf.web_ui.auto_start import auto_start_tgcf
 
 CONFIG = read_config()
 
@@ -36,6 +37,10 @@ if check_password(st):
     with st.expander("Configure Run"):
         CONFIG.show_forwarded_from = st.checkbox(
             "Show 'Forwarded from'", value=CONFIG.show_forwarded_from
+        )
+        CONFIG.auto_run = st.checkbox(
+            "Auto-start on service startup", value=CONFIG.auto_run,
+            help="Automatically start tgcf when the web UI starts, without needing to click the Run button"
         )
         mode = st.radio("Choose mode", ["live", "past"], index=CONFIG.mode)
         if mode == "past":
@@ -73,7 +78,7 @@ if check_password(st):
             CONFIG.pid = 0
             write_config(CONFIG)
             time.sleep(1)
-            st.experimental_rerun()
+            st.rerun()
 
         stop = st.button("Stop", type="primary")
         if stop:
@@ -100,7 +105,7 @@ if check_password(st):
         write_config(CONFIG)
         time.sleep(2)
 
-        st.experimental_rerun()
+        st.rerun()
 
     try:
         lines = st.slider(
