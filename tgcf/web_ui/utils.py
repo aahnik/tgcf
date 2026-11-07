@@ -82,3 +82,11 @@ def hide_st(st):
             </style>
             """
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+
+def rerun_st(st):
+    """Safely trigger a Streamlit rerun across modern (>=1.27) and legacy versions."""
+    if hasattr(st, "rerun"):
+        st.rerun()
+    elif hasattr(st, "experimental_rerun"):
+        st.experimental_rerun()

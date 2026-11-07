@@ -4,7 +4,7 @@ import streamlit as st
 
 from tgcf.config import CONFIG, Forward, read_config, write_config
 from tgcf.web_ui.password import check_password
-from tgcf.web_ui.utils import get_list, get_string, hide_st, switch_theme
+from tgcf.web_ui.utils import get_list, get_string, hide_st, rerun_st, switch_theme
 
 CONFIG = read_config()
 
@@ -106,8 +106,8 @@ if check_password(st):
                     if st.button(f"Remove connection **{label}**"):
                         del CONFIG.forwards[i]
                         write_config(CONFIG)
-                        st.experimental_rerun()
+                        rerun_st(st)
 
     if st.button("Save"):
         write_config(CONFIG)
-        st.experimental_rerun()
+        rerun_st(st)
