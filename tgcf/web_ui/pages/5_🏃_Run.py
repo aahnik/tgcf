@@ -7,7 +7,7 @@ import streamlit as st
 
 from tgcf.config import CONFIG, read_config, write_config
 from tgcf.web_ui.password import check_password
-from tgcf.web_ui.utils import hide_st, switch_theme
+from tgcf.web_ui.utils import hide_st, rerun_st, switch_theme
 
 CONFIG = read_config()
 
@@ -66,19 +66,20 @@ if check_password(st):
         )
         # check if process is running using pid
         try:
-            os.kill(CONFIG.pid, signal.SIGCONT)
+            os.kill(CONFIG.pid, 0)
         except Exception as err:
             st.code("The process has stopped.")
             st.code(err)
             CONFIG.pid = 0
             write_config(CONFIG)
             time.sleep(1)
-            st.experimental_rerun()
+            rerun_st(st)
 
         stop = st.button("Stop", type="primary")
         if stop:
             try:
-                os.kill(CONFIG.pid, signal.SIGSTOP)
+                sig = getattr(signal, "SIGTERM", signal.SIGINT)
+                os.kill(CONFIG.pid, sig)
             except Exception as err:
                 st.code(err)
 
@@ -100,20 +101,18 @@ if check_password(st):
         write_config(CONFIG)
         time.sleep(2)
 
-        st.experimental_rerun()
+        rerun_st(st)
 
     try:
         lines = st.slider(
             "Lines of logs to show", min_value=100, max_value=1000, step=100
         )
-        temp_logs = "logs_n_lines.txt"
-        os.system(f"rm {temp_logs}")
-        with open("logs.txt", "r") as file:
-            pass
-
-        os.system(f"tail -n {lines} logs.txt >> {temp_logs}")
-        with open(temp_logs, "r") as file:
-            st.code(file.read())
-    except FileNotFoundError as err:
-        st.write("No present logs found")
+        if os.path.exists("logs.txt"):
+            with open("logs.txt", "r", encoding="utf-8", errors="ignore") as file:
+                log_lines = file.readlines()
+                st.code("".join(log_lines[-lines:]))
+        else:
+            st.write("No present logs found")
+    except Exception as err:
+        st.write(f"Could not load logs: {err}")
     st.button("Load more logs")
